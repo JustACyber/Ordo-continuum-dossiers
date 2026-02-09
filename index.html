@@ -4,13 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ORDO CONTINUUM // CENTRAL COMMAND</title>
-    <!-- ЛОГОТИП (ГЛАЗ ОРДО) -->
-    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M15 15 L50 95 L85 15 Z' fill='%23141010' stroke='%23d4af37' stroke-width='5'/%3E%3Cpath d='M50 5 L50 95 M10 15 H90' stroke='%23d4af37' stroke-width='5'/%3E%3Cellipse cx='50' cy='40' rx='22' ry='14' fill='%23e0d8c0' stroke='%23d4af37' stroke-width='2'/%3E%3Ccircle cx='50' cy='40' r='9' fill='%2340e0d0'/%3E%3Ccircle cx='50' cy='40' r='4' fill='%23000'/%3E%3Ccircle cx='50' cy='15' r='5' fill='%2340e0d0' stroke='%23d4af37' stroke-width='2'/%3E%3C/svg%3E">
-    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
-    <script src="database.js"></script>
+    
+    <!-- Подключаем базу как МОДУЛЬ -->
+    <script type="module" src="database.js"></script>
     
     <style>
         :root {
@@ -20,7 +19,6 @@
             --text-dim: #8a7338;
             --accent-crimson: #8a0000;
             --border-color: #9d8033;
-            --scanline: rgba(0, 0, 0, 0.5);
             
             --font-headers: 'Cinzel', serif;
             --font-body: 'Cormorant Garamond', serif;
@@ -75,7 +73,7 @@
             padding: 0 20px; pointer-events: none;
         }
         .header-decor::before, .header-decor::after {
-            content: "▼"; font-size: 3rem; color: var(--accent-crimson); opacity: 0.5;
+            content: "✠"; font-size: 3rem; color: var(--accent-crimson); opacity: 0.5;
         }
 
         .main-title {
@@ -121,7 +119,6 @@
             box-shadow: 0 0 30px rgba(212, 175, 55, 0.2);
         }
 
-        /* Corner Ornaments */
         .card-corner {
             position: absolute; width: 15px; height: 15px;
             border-style: solid; border-color: var(--text-gold);
@@ -134,7 +131,6 @@
 
         .personnel-card:hover .card-corner { width: 30px; height: 30px; }
 
-        /* Image Area */
         .card-image-wrapper {
             flex: 1; overflow: hidden; position: relative;
             border-bottom: 2px solid var(--accent-crimson);
@@ -155,7 +151,6 @@
             align-items: center; justify-content: center; color: #333;
         }
 
-        /* Info Area */
         .card-info {
             height: 90px; background: #080808;
             display: flex; flex-direction: column; justify-content: center; align-items: center;
@@ -172,7 +167,6 @@
             letter-spacing: 1px; font-style: italic; margin-top: 5px;
         }
 
-        /* Delete Button */
         .delete-btn {
             position: absolute; top: 15px; right: 15px;
             width: 35px; height: 35px;
@@ -187,7 +181,6 @@
         .delete-btn:hover { background: var(--accent-crimson); color: #000; box-shadow: 0 0 15px var(--accent-crimson); }
         .personnel-card:hover .delete-btn { opacity: 1; }
 
-        /* NEW PROTOCOL CARD */
         .new-card {
             background: rgba(255, 255, 255, 0.01);
             border: 2px dashed var(--text-gold-dim);
@@ -205,7 +198,6 @@
         
         .new-text { color: var(--text-gold); letter-spacing: 4px; font-weight: bold; }
 
-        /* Footer */
         footer {
             height: 50px; border-top: 1px solid var(--text-dim);
             display: flex; justify-content: space-between; align-items: center;
@@ -220,48 +212,65 @@
 <header>
     <div class="header-decor"></div>
     <div class="main-title">ORDO CONTINUUM</div>
-    <div class="sub-title">PERSONNEL REGISTRY // TOP SECRET</div>
+    <div class="sub-title">PERSONNEL REGISTRY // CLOUD SYNC</div>
 </header>
 
 <main>
     <div class="grid-container" id="card-grid">
-        <!-- Grid populated by JS -->
+        <div style="color: #666; text-align:center; margin-top:50px;">ПОДКЛЮЧЕНИЕ К ОБЛАКУ...</div>
     </div>
 </main>
 
 <footer>
     <div id="system-clock">00:00:00 ULT</div>
     <div style="color: var(--accent-crimson);">CONNECTION SECURE</div>
-    <div>SYS.VER. 11.4</div>
+    <div>SYS.VER. 12.0 CLOUD</div>
 </footer>
 
-<script>
-    window.onload = function() {
-        if (typeof OrdoDB === 'undefined') {
-            alert("DB Error: database.js not found.");
-            return;
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js"; 
+    // Поскольку мы используем database.js как модуль, который сам всё импортирует,
+    // здесь нам нужно лишь дождаться его инициализации.
+    
+    // Но так как database.js подключается через src, он исполняется отдельно.
+    // Нам нужно убедиться, что window.OrdoDB доступен.
+    
+    const waitForDB = () => {
+        if (window.OrdoDB) {
+            initApp();
+        } else {
+            setTimeout(waitForDB, 100);
         }
-        OrdoDB.init();
-        renderGrid();
+    };
+
+    waitForDB();
+
+    async function initApp() {
+        await OrdoDB.init();
         
+        // Подписка на изменения в реальном времени
+        OrdoDB.subscribeAll((data) => {
+            renderGrid(data);
+        });
+        
+        // Часы
         setInterval(() => {
             const now = new Date();
             document.getElementById('system-clock').textContent = now.toISOString().split('T')[1].split('.')[0] + " ULT";
         }, 1000);
-    };
+    }
 
-    function renderGrid() {
+    function renderGrid(dbData) {
         const grid = document.getElementById('card-grid');
         grid.innerHTML = '';
-        const db = OrdoDB.getAll();
 
         // 1. Карточки
-        for (let key in db) {
-            const char = db[key];
+        for (let key in dbData) {
+            const char = dbData[key];
             const card = document.createElement('div');
             card.className = 'personnel-card';
             
-            // Клик для открытия (игнорируем клик по крестику)
+            // Клик для открытия
             card.onclick = function(e) {
                 if (e.target.closest('.delete-btn')) return;
                 window.location.href = `dossier.html?id=${char.id}`;
@@ -300,33 +309,29 @@
         grid.appendChild(newCard);
     }
 
-    function createNewProtocol() {
+    // Делаем функции глобальными, чтобы HTML onclick их видел
+    window.createNewProtocol = async function() {
         const name = prompt("ИНИЦИАЛИЗАЦИЯ НОВОГО ПРОТОКОЛА.\nВВЕДИТЕ ИДЕНТИФИКАТОР:");
         if (name && name.trim() !== "") {
-            const newId = OrdoDB.create(name);
-            if (newId) {
+            try {
+                const newId = await OrdoDB.create(name);
                 window.location.href = `dossier.html?id=${newId}`;
-            } else {
-                alert("Ошибка создания.");
+            } catch (e) {
+                alert("Ошибка соединения с базой: " + e.message);
             }
         }
-    }
+    };
 
-    function deleteProtocol(event, id, name) {
-        event.stopPropagation(); // Останавливаем всплытие, чтобы не открылась анкета
+    window.deleteProtocol = async function(event, id, name) {
+        event.stopPropagation();
         const confirmText = prompt(`УДАЛИТЬ ПРОТОКОЛ: ${name}?\nВведите "УДАЛИТЬ" для подтверждения.`);
         
         if (confirmText === "УДАЛИТЬ") {
-            const success = OrdoDB.delete(id);
-            if (success) {
-                renderGrid(); 
-            } else {
-                alert("Ошибка удаления.");
-            }
+            await OrdoDB.delete(id);
+            // renderGrid вызовется сам автоматически благодаря подписке subscribeAll
         }
-    }
+    };
 </script>
 
 </body>
-
 </html>
