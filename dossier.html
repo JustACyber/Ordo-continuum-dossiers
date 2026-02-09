@@ -12,6 +12,7 @@
     <script type="module" src="database.js"></script>
     
     <style>
+        /* ORIGIN STYLES PRESERVED */
         :root {
             --bg-color: #0f0b0b; --panel-bg: #141010; --text-main: #e0d8c0; --text-gold: #d4af37;
             --text-gold-dim: #8a7338; --accent-crimson: #660000; --accent-bright-red: #8a0000;
@@ -204,7 +205,7 @@
             font-style: italic; background: repeating-linear-gradient(45deg, rgba(0,0,0,0.3), rgba(0,0,0,0.3) 10px, rgba(212,175,55,0.02) 10px, rgba(212,175,55,0.02) 20px);
             font-family: var(--font-headers); letter-spacing: 3px; width: 100%; box-sizing: border-box;
         }
-
+        
         /* 4. SPELL SEPARATOR STYLE */
         .table-sep {
              background: rgba(212, 175, 55, 0.1); 
@@ -241,6 +242,7 @@
         .sys-modal { background: #100c0c; border: 2px solid #d4af37; padding: 30px; width: 500px; text-align: center; box-shadow: 0 0 50px rgba(0,0,0,0.8); }
         .sys-modal-title { font-family: var(--font-headers); font-size: 1.5rem; color: var(--text-gold); border-bottom: 1px solid var(--text-gold-dim); padding-bottom: 10px; margin-bottom: 20px; letter-spacing: 3px; }
         .sys-input { width: 100%; background: rgba(0,0,0,0.3); border: 1px solid var(--text-gold-dim); padding: 10px; color: white; font-family: var(--font-headers); font-size: 1.2rem; text-align: center; outline: none; margin-bottom: 20px; }
+        .sys-input:focus { border-color: var(--text-gold); box-shadow: 0 0 15px rgba(212, 175, 55, 0.2); }
         .sys-btn-group { display: flex; justify-content: space-around; gap: 20px; }
         .sys-btn { flex: 1; padding: 10px; background: transparent; border: 1px solid var(--text-gold-dim); color: var(--text-gold-dim); cursor: pointer; font-family: var(--font-headers); transition: 0.3s; font-size: 1rem; }
         .sys-btn:hover { background: var(--text-gold); color: black; box-shadow: 0 0 15px var(--text-gold); }
@@ -383,16 +385,7 @@
             <div id="tab-psi-chars" class="sub-panel active">
                 <div class="data-grid">
                     <div class="data-block"><h2>Параметры</h2><div class="stat-row"><span class="stat-label">Базовая:</span><select id="psi-base-attr" onchange="window.handleInputUpdate(this)"><option value="int">INT</option><option value="wis">WIS</option><option value="cha">CHA</option></select></div><div class="stat-row"><span class="stat-label">Кастинг:</span><select id="psi-caster-type" onchange="window.handleInputUpdate(this)"><option value="1">Полный (x1)</option><option value="0.5">Половинный (1/2)</option><option value="0.33">Третичный (1/3)</option></select></div><div class="stat-row"><span class="stat-label">Класс (2-8):</span><input type="number" id="psi-class-lvl" onchange="window.handleInputUpdate(this)"></div><div class="stat-row"><span class="stat-label">Тип:</span><select id="psi-type-select" onchange="window.handleInputUpdate(this)"><option value="learned">Учёная</option><option value="intuitive">Интуитивная</option></select></div><div class="stat-row"><span class="stat-label">Мод. Очков:</span><input type="number" id="psi-mod-input" onchange="window.handleInputUpdate(this)"></div></div>
-                    <div class="data-block">
-                        <!-- 3. OUTPUT TABLE -->
-                        <h2>Вывод</h2>
-                        <div class="stat-row"><span class="stat-label">Сложность:</span> <span class="stat-value warning-text" id="psi-dc-display">0</span></div>
-                        <div class="stat-row"><span class="stat-label">Мод. Класса:</span> <span class="stat-value" id="psi-class-mod">0</span></div>
-                        <div class="stat-row"><span class="stat-label">Заговоры:</span> <span class="stat-value" id="psi-cantrips">0</span></div>
-                        <div class="stat-row"><span class="stat-label">Заклинания:</span> <span class="stat-value" id="psi-spells-known">0</span></div>
-                        <div class="stat-row"><span class="stat-label">Пси-Очки:</span> <div style="display: inline-flex; align-items: center; gap: 5px;"><input type="number" id="psi-points-curr" class="warning-text" style="width: 50px;" onchange="window.handleInputUpdate(this)"> / <span class="stat-value warning-text" id="psi-points-max">0</span></div></div>
-                        <div class="bar-container"><div id="bar-psi" class="bar-fill bar-psi"></div></div>
-                    </div>
+                    <div class="data-block"><h2>Вывод</h2><div class="stat-row"><span class="stat-label">Сложность:</span> <span class="stat-value warning-text" id="psi-dc-display">0</span></div><div class="stat-row"><span class="stat-label">Пси-Очки:</span> <div style="display: inline-flex; align-items: center; gap: 5px;"><input type="number" id="psi-points-curr" class="warning-text" style="width: 50px;" onchange="window.handleInputUpdate(this)"> / <span class="stat-value warning-text" id="psi-points-max">0</span></div></div><div class="bar-container"><div id="bar-psi" class="bar-fill bar-psi"></div></div></div>
                 </div>
             </div>
             <div id="tab-psi-spells" class="sub-panel"><div class="data-block" style="width: 100%;"><h2>Матрица <button class="add-btn" onclick="window.addItemToGlobal('spells')">[+]</button></h2><table class="imperial-table"><thead><tr><th style="width: 20%;">Название</th><th>Время</th><th>Дистанция</th><th>Конц.</th><th>Длительность</th><th>Стоимость</th><th></th></tr></thead><tbody id="list-spells"></tbody></table></div></div>
@@ -758,19 +751,6 @@
         const mod = Math.floor(((d.stats[base]||10)-10)/2);
         const pb = 2+Math.floor(((d.meta.level||1)-1)/4);
         document.getElementById('psi-dc-display').innerText = 8 + pb + mod + (d.psionics.class_lvl-2);
-        
-        // NEW: Class Mod
-        document.getElementById('psi-class-mod').innerText = "+" + (d.psionics.class_lvl - 2);
-        
-        // NEW: Cantrips (Always PB)
-        document.getElementById('psi-cantrips').innerText = pb;
-        
-        // NEW: Spells Known
-        let known = 0;
-        if (type === 'learned') known = (d.meta.level||1) + mod;
-        else known = Math.floor((d.meta.level||1)/2) + mod;
-        if (known < 1) known = 1; // Minimum 1 spell usually
-        document.getElementById('psi-spells-known').innerText = known;
     }
     
     function calcUniversalSave() { const d=activeCharData; if(!d) return; const m=Math.floor(((d.stats[d.universalis.save_attr]||10)-10)/2); const pb=2+Math.floor(((d.meta.level||1)-1)/4); document.getElementById('uni-save-result').innerText=(d.universalis.save_base||10)+m+pb; }
@@ -788,31 +768,15 @@
         document.getElementById('bar-psi').style.width = Math.min(100, ((d.psionics.points_curr||0)/psiMax)*100)+"%";
     }
 
-    window.showPanel = (id) => { 
-        if(lockStates[id]) return;
-        // HIDE ALL
-        document.querySelectorAll('.content-panel').forEach(p=>p.classList.remove('active'));
-        document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
-        document.getElementById('access-denied').style.display='none';
-        
-        // SHOW TARGET
-        document.getElementById(id).classList.add('active');
-        const activeBtn = document.querySelector(`.nav-btn[onclick*="${id}"]`);
-        if(activeBtn) activeBtn.classList.add('active');
-    };
+    window.showPanel = (id) => { if(lockStates[id]) return; document.querySelectorAll('.content-panel').forEach(p=>p.classList.remove('active')); document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active')); document.getElementById('access-denied').style.display='none'; document.getElementById(id).classList.add('active'); event.currentTarget.classList.add('active'); };
     window.showSubPanel = (id) => { document.querySelectorAll('.sub-panel').forEach(p=>p.classList.remove('active')); document.querySelectorAll('.sub-nav-btn').forEach(b=>b.classList.remove('active')); document.getElementById(id).classList.add('active'); event.currentTarget.classList.add('active'); };
     window.toggleLock = (id, cb) => {
         lockStates[id] = cb.checked; if(activeCharData.locks) activeCharData.locks[id]=cb.checked; triggerSave();
         const activeBtn = document.querySelector(`.nav-btn[onclick*="${id}"]`);
-        // Refresh view if we are on this tab
         if(activeBtn && activeBtn.classList.contains('active')) {
-             if(cb.checked) {
-                 document.querySelectorAll('.content-panel').forEach(p=>p.classList.remove('active'));
-                 document.getElementById('access-denied').style.display='flex';
-             } else {
-                 document.getElementById('access-denied').style.display='none';
-                 document.getElementById(id).classList.add('active');
-             }
+            document.querySelectorAll('.content-panel').forEach(p=>p.classList.remove('active'));
+            if(cb.checked) document.getElementById('access-denied').style.display='flex';
+            else document.getElementById(id).classList.add('active');
         }
     };
 </script>
