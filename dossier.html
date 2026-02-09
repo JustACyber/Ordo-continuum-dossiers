@@ -5,14 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ORDO CONTINUUM // SANCTUS RECORD</title>
     
-    <!-- 5. FAVICON (GOLDEN TRIANGLE LOGO) -->
+    <!-- FAVICON -->
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M50 15 L85 80 L15 80 Z' fill='none' stroke='%23d4af37' stroke-width='5'/%3E%3Ccircle cx='50' cy='55' r='20' fill='none' stroke='%238a0000' stroke-width='4'/%3E%3C/svg%3E">
     
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
     <script type="module" src="database.js"></script>
     
     <style>
-        /* ORIGIN STYLES PRESERVED */
         :root {
             --bg-color: #0f0b0b; --panel-bg: #141010; --text-main: #e0d8c0; --text-gold: #d4af37;
             --text-gold-dim: #8a7338; --accent-crimson: #660000; --accent-bright-red: #8a0000;
@@ -181,6 +180,7 @@
             background: var(--accent-crimson); border-color: var(--accent-crimson);
             box-shadow: 0 0 8px rgba(138, 0, 0, 0.8); 
         }
+        
         /* 1. STYLIZED CONCENTRATION CHECKBOX */
         .conc-checkbox {
             appearance: none; -webkit-appearance: none; width: 18px; height: 18px; 
@@ -195,7 +195,7 @@
         .char-img-container { border: 2px solid var(--text-gold-dim); padding: 5px; position: relative; background: rgba(0,0,0,0.3); box-shadow: inset 0 0 20px rgba(0,0,0,0.8); display: flex; justify-content: center; align-items: center; min-height: 400px; }
         .spell-name-btn { background: transparent; border: 1px solid var(--text-gold-dim); color: var(--text-main); padding: 5px 10px; font-family: var(--font-headers); cursor: pointer; width: 100%; text-align: left; transition: all 0.3s; }
         .spell-name-btn:hover { background: rgba(212, 175, 55, 0.1); border-color: var(--text-gold); }
-        .table-section-header { background: rgba(102, 0, 0, 0.2); color: var(--accent-crimson); font-weight: bold; text-align: center; padding: 10px; letter-spacing: 2px; border-bottom: 2px solid var(--accent-crimson); }
+        .table-section-header { background: rgba(102, 0, 0, 0.2); color: var(--accent-crimson); font-weight: bold; text-align: center; padding: 10px; letter-spacing: 2px; border-bottom: 2px solid var(--accent-crimson); font-family: var(--font-headers); }
         
         /* [NO DATA] STYLING */
         .empty-msg { 
@@ -204,7 +204,7 @@
             font-style: italic; background: repeating-linear-gradient(45deg, rgba(0,0,0,0.3), rgba(0,0,0,0.3) 10px, rgba(212,175,55,0.02) 10px, rgba(212,175,55,0.02) 20px);
             font-family: var(--font-headers); letter-spacing: 3px; width: 100%; box-sizing: border-box;
         }
-        
+
         /* 4. SPELL SEPARATOR STYLE */
         .table-sep {
              background: rgba(212, 175, 55, 0.1); 
@@ -241,7 +241,6 @@
         .sys-modal { background: #100c0c; border: 2px solid #d4af37; padding: 30px; width: 500px; text-align: center; box-shadow: 0 0 50px rgba(0,0,0,0.8); }
         .sys-modal-title { font-family: var(--font-headers); font-size: 1.5rem; color: var(--text-gold); border-bottom: 1px solid var(--text-gold-dim); padding-bottom: 10px; margin-bottom: 20px; letter-spacing: 3px; }
         .sys-input { width: 100%; background: rgba(0,0,0,0.3); border: 1px solid var(--text-gold-dim); padding: 10px; color: white; font-family: var(--font-headers); font-size: 1.2rem; text-align: center; outline: none; margin-bottom: 20px; }
-        .sys-input:focus { border-color: var(--text-gold); box-shadow: 0 0 15px rgba(212, 175, 55, 0.2); }
         .sys-btn-group { display: flex; justify-content: space-around; gap: 20px; }
         .sys-btn { flex: 1; padding: 10px; background: transparent; border: 1px solid var(--text-gold-dim); color: var(--text-gold-dim); cursor: pointer; font-family: var(--font-headers); transition: 0.3s; font-size: 1rem; }
         .sys-btn:hover { background: var(--text-gold); color: black; box-shadow: 0 0 15px var(--text-gold); }
@@ -268,13 +267,13 @@
 
 <div class="main-container">
     <aside>
-        <div class="nav-group"><button class="nav-btn active" onclick="showPanel('identity')">I. Identitas</button><input type="checkbox" class="lock-toggle" onchange="toggleLock('identity', this)"></div>
-        <div class="nav-group"><button class="nav-btn" onclick="showPanel('biometrics')">II. Corpus</button><input type="checkbox" class="lock-toggle" onchange="toggleLock('biometrics', this)"></div>
-        <div class="nav-group"><button class="nav-btn" onclick="showPanel('skills')">III. Artes</button><input type="checkbox" class="lock-toggle" onchange="toggleLock('skills', this)"></div>
-        <div class="nav-group"><button class="nav-btn" onclick="showPanel('equipment')">IV. Armamentum</button><input type="checkbox" class="lock-toggle" onchange="toggleLock('equipment', this)"></div>
-        <div class="nav-group"><button class="nav-btn" onclick="showPanel('psych')">V. Anima</button><input type="checkbox" class="lock-toggle" onchange="toggleLock('psych', this)"></div>
-        <div class="nav-group"><button class="nav-btn" onclick="showPanel('psionics')">VI. Psionica</button><input type="checkbox" class="lock-toggle" onchange="toggleLock('psionics', this)"></div>
-        <div class="nav-group"><button class="nav-btn" onclick="showPanel('universalis')">VII. Universalis</button><input type="checkbox" class="lock-toggle" onchange="toggleLock('universalis', this)"></div>
+        <div class="nav-group"><button class="nav-btn active" onclick="window.showPanel('identity')">I. Identitas</button><input type="checkbox" class="lock-toggle" onchange="window.toggleLock('identity', this)"></div>
+        <div class="nav-group"><button class="nav-btn" onclick="window.showPanel('biometrics')">II. Corpus</button><input type="checkbox" class="lock-toggle" onchange="window.toggleLock('biometrics', this)"></div>
+        <div class="nav-group"><button class="nav-btn" onclick="window.showPanel('skills')">III. Artes</button><input type="checkbox" class="lock-toggle" onchange="window.toggleLock('skills', this)"></div>
+        <div class="nav-group"><button class="nav-btn" onclick="window.showPanel('equipment')">IV. Armamentum</button><input type="checkbox" class="lock-toggle" onchange="window.toggleLock('equipment', this)"></div>
+        <div class="nav-group"><button class="nav-btn" onclick="window.showPanel('psych')">V. Anima</button><input type="checkbox" class="lock-toggle" onchange="window.toggleLock('psych', this)"></div>
+        <div class="nav-group"><button class="nav-btn" onclick="window.showPanel('psionics')">VI. Psionica</button><input type="checkbox" class="lock-toggle" onchange="window.toggleLock('psionics', this)"></div>
+        <div class="nav-group"><button class="nav-btn" onclick="window.showPanel('universalis')">VII. Universalis</button><input type="checkbox" class="lock-toggle" onchange="window.toggleLock('universalis', this)"></div>
     </aside>
 
     <main>
@@ -630,7 +629,26 @@
             }
             return; 
         }
-        arr.forEach((item, idx) => {
+        
+        // SORT SPELLS (CANTRIPS FIRST)
+        if (mode === 'spell') {
+            const cantrips = arr.filter(s => parseInt(s.cost) === 0);
+            const leveled = arr.filter(s => parseInt(s.cost) > 0);
+            
+            if(cantrips.length > 0) {
+                 const h = document.createElement('tr'); h.innerHTML = `<td colspan="7" class="table-sep">ЗАГОВОРЫ</td>`; el.appendChild(h);
+                 cantrips.forEach(item => appendRow(item, arr.indexOf(item)));
+            }
+            if(leveled.length > 0) {
+                 const h = document.createElement('tr'); h.innerHTML = `<td colspan="7" class="table-sep">ЗАКЛИНАНИЯ</td>`; el.appendChild(h);
+                 leveled.forEach(item => appendRow(item, arr.indexOf(item)));
+            }
+            return;
+        }
+
+        arr.forEach((item, idx) => appendRow(item, idx));
+
+        function appendRow(item, idx) {
             const div = document.createElement(mode==='spell'?'tr':'div');
             // 3. SORTING BUTTONS (ARROWS)
             const btns = `<button class="move-btn" onclick="window.moveItem('${id}',${idx},-1)">▲</button><button class="move-btn" onclick="window.moveItem('${id}',${idx},1)">▼</button><button class="del-btn" onclick="window.deleteItem(event, '${id}', ${idx})">[x]</button>`;
@@ -648,7 +666,7 @@
                 div.innerHTML = `<td><button class='spell-name-btn' onclick='window.openModal(activeCharData.psionics.spells[${idx}])'>${item.name}</button></td><td><input type='text' value='${item.time}' onchange='window.updateSpell(${idx}, "time", this.value)'></td><td><input type='text' value='${item.range}' onchange='window.updateSpell(${idx}, "range", this.value)'></td><td><input type='checkbox' class='conc-checkbox' ${item.conc?'checked':''} onchange='window.updateSpell(${idx}, "conc", this.checked)'></td><td><input type='text' value='${item.dur}' onchange='window.updateSpell(${idx}, "dur", this.value)'></td><td><input type='number' value='${item.cost}' onchange='window.updateSpell(${idx}, "cost", this.value)'></td><td style="white-space:nowrap">${btns}</td>`;
             }
             el.appendChild(div);
-        });
+        }
     }
 
     // --- GLOBALS ---
@@ -740,6 +758,19 @@
         const mod = Math.floor(((d.stats[base]||10)-10)/2);
         const pb = 2+Math.floor(((d.meta.level||1)-1)/4);
         document.getElementById('psi-dc-display').innerText = 8 + pb + mod + (d.psionics.class_lvl-2);
+        
+        // NEW: Class Mod
+        document.getElementById('psi-class-mod').innerText = "+" + (d.psionics.class_lvl - 2);
+        
+        // NEW: Cantrips (Always PB)
+        document.getElementById('psi-cantrips').innerText = pb;
+        
+        // NEW: Spells Known
+        let known = 0;
+        if (type === 'learned') known = (d.meta.level||1) + mod;
+        else known = Math.floor((d.meta.level||1)/2) + mod;
+        if (known < 1) known = 1; // Minimum 1 spell usually
+        document.getElementById('psi-spells-known').innerText = known;
     }
     
     function calcUniversalSave() { const d=activeCharData; if(!d) return; const m=Math.floor(((d.stats[d.universalis.save_attr]||10)-10)/2); const pb=2+Math.floor(((d.meta.level||1)-1)/4); document.getElementById('uni-save-result').innerText=(d.universalis.save_base||10)+m+pb; }
@@ -757,15 +788,31 @@
         document.getElementById('bar-psi').style.width = Math.min(100, ((d.psionics.points_curr||0)/psiMax)*100)+"%";
     }
 
-    window.showPanel = (id) => { if(lockStates[id]) return; document.querySelectorAll('.content-panel').forEach(p=>p.classList.remove('active')); document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active')); document.getElementById('access-denied').style.display='none'; document.getElementById(id).classList.add('active'); event.currentTarget.classList.add('active'); };
+    window.showPanel = (id) => { 
+        if(lockStates[id]) return;
+        // HIDE ALL
+        document.querySelectorAll('.content-panel').forEach(p=>p.classList.remove('active'));
+        document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+        document.getElementById('access-denied').style.display='none';
+        
+        // SHOW TARGET
+        document.getElementById(id).classList.add('active');
+        const activeBtn = document.querySelector(`.nav-btn[onclick*="${id}"]`);
+        if(activeBtn) activeBtn.classList.add('active');
+    };
     window.showSubPanel = (id) => { document.querySelectorAll('.sub-panel').forEach(p=>p.classList.remove('active')); document.querySelectorAll('.sub-nav-btn').forEach(b=>b.classList.remove('active')); document.getElementById(id).classList.add('active'); event.currentTarget.classList.add('active'); };
     window.toggleLock = (id, cb) => {
         lockStates[id] = cb.checked; if(activeCharData.locks) activeCharData.locks[id]=cb.checked; triggerSave();
         const activeBtn = document.querySelector(`.nav-btn[onclick*="${id}"]`);
+        // Refresh view if we are on this tab
         if(activeBtn && activeBtn.classList.contains('active')) {
-            document.querySelectorAll('.content-panel').forEach(p=>p.classList.remove('active'));
-            if(cb.checked) document.getElementById('access-denied').style.display='flex';
-            else document.getElementById(id).classList.add('active');
+             if(cb.checked) {
+                 document.querySelectorAll('.content-panel').forEach(p=>p.classList.remove('active'));
+                 document.getElementById('access-denied').style.display='flex';
+             } else {
+                 document.getElementById('access-denied').style.display='none';
+                 document.getElementById(id).classList.add('active');
+             }
         }
     };
 </script>
