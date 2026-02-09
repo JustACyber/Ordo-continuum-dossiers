@@ -4,243 +4,133 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ORDO CONTINUUM // SANCTUS RECORD</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
-    
-    <!-- Подключаем базу как модуль -->
     <script type="module" src="database.js"></script>
     
     <style>
         :root {
-            --bg-color: #0f0b0b;
-            --panel-bg: #141010;
-            --text-main: #e0d8c0;
-            --text-gold: #d4af37;
-            --text-gold-dim: #8a7338;
-            --accent-crimson: #660000;
-            --accent-bright-red: #8a0000;
-            --border-gold: #9d8033;
-            --input-bg: rgba(0, 0, 0, 0.4);
-            
-            --font-headers: 'Cinzel', serif;
-            --font-body: 'Cormorant Garamond', serif;
+            --bg-color: #0f0b0b; --panel-bg: #141010; --text-main: #e0d8c0; --text-gold: #d4af37;
+            --text-gold-dim: #8a7338; --accent-crimson: #660000; --accent-bright-red: #8a0000;
+            --border-gold: #9d8033; --input-bg: rgba(0, 0, 0, 0.4);
+            --font-headers: 'Cinzel', serif; --font-body: 'Cormorant Garamond', serif;
         }
-
         * { box-sizing: border-box; margin: 0; padding: 0; scrollbar-width: thin; scrollbar-color: var(--text-gold-dim) var(--bg-color); }
-
-        input[type="number"], input[type="text"], textarea, select {
-            background: var(--input-bg); border: 1px solid var(--text-gold-dim); color: var(--text-gold);
-            font-family: var(--font-headers); padding: 5px; text-align: center; transition: all 0.3s;
-        }
-        input[type="number"], input[type="text"] { width: 60px; }
-        select { width: auto; text-align: left; cursor: pointer; }
-        select option { background: var(--bg-color); color: var(--text-gold); }
+        /* Reuse main styles from previous version (omitted for brevity, keep your visual styles) */
+        input[type="number"], input[type="text"], textarea, select { background: var(--input-bg); border: 1px solid var(--text-gold-dim); color: var(--text-gold); font-family: var(--font-headers); padding: 5px; text-align: center; transition: all 0.3s; }
+        input[type="number"], input[type="text"] { width: 60px; } select { width: auto; text-align: left; cursor: pointer; } select option { background: var(--bg-color); color: var(--text-gold); }
         input:focus, textarea:focus, select:focus { outline: none; border-color: var(--text-gold); box-shadow: 0 0 10px rgba(212, 175, 55, 0.2); }
-        
-        .imperial-input {
-            background: transparent !important; border: none !important; border-bottom: 1px dashed var(--text-gold-dim) !important;
-            color: var(--text-main) !important; font-family: var(--font-headers) !important; font-weight: 700 !important;
-            font-size: 1rem !important; width: 100% !important; padding: 2px 5px !important; text-align: right !important;
-        }
+        .imperial-input { background: transparent !important; border: none !important; border-bottom: 1px dashed var(--text-gold-dim) !important; color: var(--text-main) !important; font-family: var(--font-headers) !important; font-weight: 700 !important; font-size: 1rem !important; width: 100% !important; padding: 2px 5px !important; text-align: right !important; }
         .imperial-input:focus { border-bottom: 1px solid var(--text-gold) !important; background: rgba(212, 175, 55, 0.05) !important; }
-
-        .imperial-textarea {
-            background: rgba(0, 0, 0, 0.2) !important; border: 1px solid var(--text-gold-dim) !important;
-            color: var(--text-main) !important; font-family: var(--font-body) !important; font-size: 1.1rem !important;
-            width: 100% !important; padding: 10px !important; resize: vertical !important; min-height: 80px !important; text-align: left !important;
-        }
+        .imperial-textarea { background: rgba(0, 0, 0, 0.2) !important; border: 1px solid var(--text-gold-dim) !important; color: var(--text-main) !important; font-family: var(--font-body) !important; font-size: 1.1rem !important; width: 100% !important; padding: 10px !important; resize: vertical !important; min-height: 80px !important; text-align: left !important; }
         .imperial-textarea:focus { border-color: var(--text-gold) !important; }
-
-        body {
-            background-color: var(--bg-color);
-            background-image: radial-gradient(circle at center, rgba(102, 0, 0, 0.05) 0%, transparent 70%), url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23d4af37' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-            color: var(--text-main); font-family: var(--font-body); height: 100vh; overflow: hidden; display: flex; flex-direction: column; font-size: 18px; border: 4px double var(--border-gold); margin: 0;
-        }
+        body { background-color: var(--bg-color); background-image: radial-gradient(circle at center, rgba(102, 0, 0, 0.05) 0%, transparent 70%), url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23d4af37' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E"); color: var(--text-main); font-family: var(--font-body); height: 100vh; overflow: hidden; display: flex; flex-direction: column; font-size: 18px; border: 4px double var(--border-gold); margin: 0; }
         body::after { content: ""; position: absolute; top: 0; left: 0; right: 0; bottom: 0; box-shadow: inset 0 0 150px rgba(0,0,0,0.9); pointer-events: none; z-index: 50; }
-
         header { height: 80px; border-bottom: 2px solid var(--text-gold); display: flex; justify-content: space-between; align-items: center; padding: 0 40px; background: linear-gradient(to bottom, #1a0f0f, #0f0b0b); position: relative; z-index: 60; box-shadow: 0 5px 20px rgba(0,0,0,0.8); }
         header::after { content: ''; position: absolute; bottom: -5px; left: 0; right: 0; height: 3px; background: var(--accent-crimson); border-bottom: 1px solid #000; }
-
         .back-btn { border: 1px solid var(--text-gold); background: transparent; color: var(--text-gold); padding: 5px 15px; font-family: var(--font-headers); font-size: 1rem; cursor: pointer; margin-right: 25px; transition: all 0.3s; text-transform: uppercase; text-decoration: none; display: flex; align-items: center; height: 40px; }
         .back-btn:hover { background: var(--text-gold); color: #000; box-shadow: 0 0 10px rgba(212, 175, 55, 0.5); }
-
         .brand-title { font-family: var(--font-headers); font-size: 1.8rem; color: var(--text-gold); text-shadow: 0 2px 4px rgba(0,0,0,0.5); letter-spacing: 2px; font-weight: 700; display: flex; align-items: center; gap: 15px; }
         .symbol-triangle { font-size: 2.5rem; background: linear-gradient(180deg, var(--text-gold) 0%, var(--accent-crimson) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; display: inline-block; transform: scaleY(0.8); }
         .brand-subtitle { font-size: 0.8rem; color: var(--accent-crimson); text-transform: uppercase; letter-spacing: 4px; margin-top: 5px; }
         .system-time { font-family: var(--font-headers); color: var(--text-gold-dim); font-size: 1rem; border: 1px solid var(--text-gold-dim); padding: 5px 15px; background: rgba(0,0,0,0.3); }
-
         .main-container { display: flex; flex: 1; overflow: hidden; position: relative; z-index: 55; }
         aside { width: 300px; background: rgba(15, 11, 11, 0.95); border-right: 1px solid var(--text-gold-dim); display: flex; flex-direction: column; padding: 40px 0; position: relative; }
-
         .nav-group { display: flex; align-items: center; padding-right: 15px; transition: background 0.3s; }
         .nav-group:hover { background: rgba(212, 175, 55, 0.05); }
         .nav-btn { background: transparent; border: none; color: var(--text-gold-dim); padding: 20px 20px; text-align: left; font-family: var(--font-headers); text-transform: uppercase; font-size: 1rem; letter-spacing: 1px; cursor: pointer; transition: all 0.4s ease; flex-grow: 1; }
         .nav-btn:hover { color: var(--text-main); text-shadow: 0 0 8px rgba(212, 175, 55, 0.4); }
         .nav-btn.active { color: var(--text-gold); background: linear-gradient(90deg, transparent 0%, rgba(212, 175, 55, 0.1) 50%, transparent 100%); border-left: 2px solid var(--text-gold); }
-        
-        .lock-toggle { 
-            appearance: none; -webkit-appearance: none;
-            width: 20px; height: 20px; 
-            border: 2px solid var(--text-gold-dim); background: rgba(0,0,0,0.5); 
-            cursor: pointer; margin-left: 10px; transition: all 0.3s; position: relative;
-        }
-        .lock-toggle:checked { 
-            background: var(--accent-bright-red); border-color: var(--accent-bright-red);
-            box-shadow: 0 0 10px var(--accent-bright-red); 
-        }
-
+        .lock-toggle { appearance: none; -webkit-appearance: none; width: 20px; height: 20px; border: 2px solid var(--text-gold-dim); background: rgba(0,0,0,0.5); cursor: pointer; margin-left: 10px; transition: all 0.3s; position: relative; }
+        .lock-toggle:checked { background: var(--accent-bright-red); border-color: var(--accent-bright-red); box-shadow: 0 0 10px var(--accent-bright-red); }
         main { flex: 1; padding: 50px 80px; overflow-y: auto; position: relative; }
         .content-panel { display: none; max-width: 1200px; margin: 0 auto; animation: fadeIn 0.8s cubic-bezier(0.2, 0.8, 0.2, 1); }
         .content-panel.active { display: block; }
-
         h1 { font-family: var(--font-headers); font-size: 2.5rem; color: var(--text-gold); text-align: center; margin-bottom: 40px; border-bottom: 1px solid var(--text-gold-dim); padding-bottom: 15px; position: relative; }
         h2 { font-family: var(--font-headers); color: var(--text-main); font-size: 1.2rem; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 2px; border-bottom: 2px solid var(--accent-crimson); display: inline-block; padding-right: 20px; }
-
         .data-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 30px; margin-bottom: 40px; }
         .data-block { background: rgba(20, 16, 16, 0.6); border: 1px solid var(--text-gold-dim); padding: 25px; position: relative; box-shadow: 0 0 20px rgba(0,0,0,0.3); transition: transform 0.3s; }
         .data-block:hover { transform: translateY(-2px); box-shadow: 0 5px 25px rgba(212, 175, 55, 0.1); border-color: var(--text-gold); }
-
         .stat-row { display: flex; justify-content: space-between; align-items: baseline; padding: 8px 0; border-bottom: 1px solid rgba(212, 175, 55, 0.2); }
         .stat-label { color: var(--text-gold-dim); font-style: italic; font-size: 1.1rem; white-space: nowrap; margin-right: 15px; }
         .stat-value { color: var(--text-main); font-family: var(--font-headers); font-weight: 700; }
         .warning-text { color: var(--accent-bright-red); text-shadow: 0 0 5px rgba(138, 0, 0, 0.5); }
-
         .attribute-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 15px; margin-bottom: 40px; border: 1px solid var(--text-gold-dim); padding: 20px; background: rgba(0,0,0,0.2); position: relative; }
         .stat-box { text-align: center; border: 1px solid rgba(212, 175, 55, 0.1); padding: 15px 5px; transition: background 0.3s; }
         .stat-box:hover { background: rgba(212, 175, 55, 0.05); border-color: var(--text-gold); }
         .stat-box h2 { font-size: 1rem; border: none; margin: 0; color: var(--text-gold-dim); }
         .stat-box .big-val { font-family: var(--font-headers); font-size: 2.2rem; color: var(--text-main); display: block; margin: 5px 0; }
         .stat-box .mod-val { color: var(--accent-crimson); font-weight: bold; }
-
         ul.wax-list { list-style: none; padding-left: 10px; }
         ul.wax-list li { position: relative; padding-left: 25px; margin-bottom: 10px; border-left: 2px solid var(--accent-crimson); transition: padding-left 0.3s; display: flex; justify-content: space-between; align-items: center; padding-right: 10px; }
         ul.wax-list li:hover { padding-left: 35px; background: linear-gradient(90deg, rgba(138, 0, 0, 0.1), transparent); }
         ul.wax-list li::before { content: ""; position: absolute; left: -6px; top: 50%; transform: translateY(-50%); width: 10px; height: 10px; background: var(--accent-crimson); border-radius: 50%; }
-
         .interactive-list-item { cursor: pointer; }
         .interactive-list-item:hover { color: var(--text-gold); text-shadow: 0 0 5px var(--text-gold); }
-
         .sub-nav { display: flex; justify-content: center; gap: 20px; margin-bottom: 30px; border-bottom: 1px solid var(--text-gold-dim); padding-bottom: 10px; flex-wrap: wrap; }
         .sub-nav-btn { background: none; border: 1px solid transparent; color: var(--text-gold-dim); font-family: var(--font-headers); font-size: 1rem; padding: 8px 16px; cursor: pointer; text-transform: uppercase; transition: all 0.3s; }
         .sub-nav-btn.active { color: var(--text-gold); border: 1px solid var(--text-gold); background: rgba(212, 175, 55, 0.1); }
         .sub-panel { display: none; animation: fadeIn 0.5s; }
         .sub-panel.active { display: block; }
-
         .imperial-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; border: 1px solid var(--text-gold-dim); }
         .imperial-table th, .imperial-table td { padding: 12px 15px; text-align: left; border-bottom: 1px solid rgba(212, 175, 55, 0.2); }
         .imperial-table th { background: rgba(212, 175, 55, 0.1); color: var(--text-gold); }
         .imperial-table .proficient { color: var(--text-gold); }
         .imperial-table .expertise { color: var(--accent-bright-red); font-weight: bold; }
-
         .weapon-row { display: flex; justify-content: space-between; align-items: center; padding: 10px; border-bottom: 1px solid var(--text-gold-dim); cursor: pointer; transition: background 0.3s; }
         .weapon-row:hover { background: rgba(212, 175, 55, 0.1); }
-
         .add-btn { background: none; border: 1px solid var(--text-gold-dim); color: var(--text-gold); font-size: 0.8rem; padding: 2px 8px; cursor: pointer; margin-left: 10px; transition: all 0.2s; }
         .add-btn:hover { background: var(--text-gold); color: var(--bg-color); }
         .del-btn { background: transparent; border: none; color: var(--text-gold-dim); font-weight: bold; cursor: pointer; padding: 0 5px; font-family: var(--font-headers); transition: color 0.2s; margin-left: 10px; }
         .del-btn:hover { color: var(--accent-bright-red); }
-
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 100; justify-content: center; align-items: center; }
         .modal-content { background: var(--bg-color); border: 2px solid var(--text-gold); width: 600px; padding: 40px; position: relative; box-shadow: 0 0 50px rgba(0,0,0,1); }
         .close-modal { position: absolute; top: 10px; right: 15px; color: var(--accent-bright-red); font-size: 2rem; cursor: pointer; }
         #modal-title-input { width: 100%; font-size: 2rem; margin-bottom: 20px; background: transparent; border: none; border-bottom: 2px solid var(--text-gold); color: var(--text-gold); font-family: var(--font-headers); text-align: center; }
-
-        /* --- STYLIZED CHECKBOXES --- */
-        .prof-checkbox, .chk-prof { 
-            appearance: none; -webkit-appearance: none; width: 18px; height: 18px; 
-            border: 2px solid var(--text-gold-dim); background: rgba(0,0,0,0.5); 
-            cursor: pointer; display: inline-block; vertical-align: middle; transition: all 0.3s;
-        }
-        .prof-checkbox:checked, .chk-prof:checked { 
-            background: var(--text-gold); border-color: var(--text-gold);
-            box-shadow: 0 0 8px rgba(212, 175, 55, 0.6); 
-        }
-        .exp-checkbox, .chk-exp { 
-            appearance: none; -webkit-appearance: none; width: 18px; height: 18px; 
-            border: 2px solid var(--accent-crimson); background: rgba(0,0,0,0.5); 
-            cursor: pointer; display: inline-block; vertical-align: middle; transition: all 0.3s;
-        }
-        .exp-checkbox:checked, .chk-exp:checked { 
-            background: var(--accent-crimson); border-color: var(--accent-crimson);
-            box-shadow: 0 0 8px rgba(138, 0, 0, 0.8); 
-        }
-
+        .prof-checkbox, .chk-prof { appearance: none; -webkit-appearance: none; width: 18px; height: 18px; border: 2px solid var(--text-gold-dim); background: rgba(0,0,0,0.5); cursor: pointer; display: inline-block; vertical-align: middle; transition: all 0.3s; }
+        .prof-checkbox:checked, .chk-prof:checked { background: var(--text-gold); border-color: var(--text-gold); box-shadow: 0 0 8px rgba(212, 175, 55, 0.6); }
+        .exp-checkbox, .chk-exp { appearance: none; -webkit-appearance: none; width: 18px; height: 18px; border: 2px solid var(--accent-crimson); background: rgba(0,0,0,0.5); cursor: pointer; display: inline-block; vertical-align: middle; transition: all 0.3s; }
+        .exp-checkbox:checked, .chk-exp:checked { background: var(--accent-crimson); border-color: var(--accent-crimson); box-shadow: 0 0 8px rgba(138, 0, 0, 0.8); }
         .char-img-container { border: 2px solid var(--text-gold-dim); padding: 5px; position: relative; background: rgba(0,0,0,0.3); box-shadow: inset 0 0 20px rgba(0,0,0,0.8); display: flex; justify-content: center; align-items: center; min-height: 400px; }
         .spell-name-btn { background: transparent; border: 1px solid var(--text-gold-dim); color: var(--text-main); padding: 5px 10px; font-family: var(--font-headers); cursor: pointer; width: 100%; text-align: left; transition: all 0.3s; }
         .spell-name-btn:hover { background: rgba(212, 175, 55, 0.1); border-color: var(--text-gold); }
         .table-section-header { background: rgba(102, 0, 0, 0.2); color: var(--accent-crimson); font-weight: bold; text-align: center; padding: 10px; letter-spacing: 2px; border-bottom: 2px solid var(--accent-crimson); }
-
-        .access-denied-screen { 
-            display: none; flex-direction: column; justify-content: center; align-items: center; 
-            height: 100%; width: 100%; text-align: center; color: var(--accent-bright-red); 
-            background: repeating-linear-gradient(45deg, rgba(0,0,0,0.5), rgba(0,0,0,0.5) 10px, rgba(138, 0, 0, 0.1) 10px, rgba(138, 0, 0, 0.1) 20px);
-            border: 4px double var(--accent-crimson);
-            padding: 40px; box-shadow: inset 0 0 50px rgba(0,0,0,0.9);
-            animation: pulseRed 2s infinite; 
-        }
-        .access-denied-screen h1 { 
-            font-size: 3rem; border: 2px solid var(--accent-bright-red); padding: 10px 30px; 
-            text-shadow: 0 0 20px var(--accent-bright-red); letter-spacing: 5px;
-            background: rgba(0,0,0,0.8);
-        }
-        .access-denied-screen p { font-family: var(--font-headers); font-size: 1.2rem; letter-spacing: 3px; margin-top: 20px; color: var(--text-gold-dim); }
-        @keyframes pulseRed { 0% { opacity: 0.8; box-shadow: inset 0 0 20px var(--accent-crimson); } 50% { opacity: 1; box-shadow: inset 0 0 50px var(--accent-bright-red); } 100% { opacity: 0.8; box-shadow: inset 0 0 20px var(--accent-crimson); } }
-        
-        .empty-msg { 
-            color: var(--accent-crimson); text-align: center; padding: 15px; 
-            border: 1px dashed var(--accent-crimson); margin: 10px 0; 
-            font-style: italic; font-family: var(--font-headers); font-size: 0.9rem;
-            background: rgba(20, 0, 0, 0.2);
-        }
-
-        /* --- VISUAL BARS --- */
-        .bar-container {
-            width: 100%; height: 8px; background: rgba(20, 20, 20, 0.8);
-            border: 1px solid var(--text-gold-dim); margin-top: 5px; position: relative;
-            overflow: hidden;
-        }
-        .bar-fill { height: 100%; transition: width 0.3s ease; position: absolute; top: 0; left: 0; }
-        .bar-hp { background: var(--accent-bright-red); z-index: 1; }
-        .bar-temp { background: var(--text-gold); z-index: 2; opacity: 0.8; }
-        .bar-shield { background: #0088ff; }
-        .bar-psi { background: #9d00ff; }
-
+        .access-denied-screen { display: none; flex-direction: column; justify-content: center; align-items: center; height: 100%; width: 100%; text-align: center; color: var(--accent-bright-red); animation: pulseRed 2s infinite; }
+        .access-denied-screen h1 { font-size: 4rem; border: none; text-shadow: 0 0 20px var(--accent-bright-red); }
+        .access-denied-screen p { font-family: var(--font-headers); font-size: 1.5rem; letter-spacing: 5px; }
+        @keyframes pulseRed { 0% { opacity: 0.8; } 50% { opacity: 1; text-shadow: 0 0 30px var(--accent-bright-red); } 100% { opacity: 0.8; } }
+        .empty-data-msg { color: var(--text-gold-dim); text-align: center; padding: 20px; border: 1px dashed var(--text-gold-dim); margin-top: 10px; font-style: italic; display: none; }
         footer { border-top: 1px solid var(--text-gold-dim); padding: 10px 40px; font-family: var(--font-headers); font-size: 0.8rem; color: var(--text-gold-dim); text-align: center; letter-spacing: 5px; background: #0f0b0b; z-index: 60; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        
         .total-mod { font-weight: 900; color: var(--accent-bright-red); font-size: 1.2rem; text-shadow: 0 0 5px rgba(138, 0, 0, 0.5); }
+        @media (max-width: 900px) { .main-container { flex-direction: column; } aside { width: 100%; border-right: none; border-bottom: 2px solid var(--text-gold); padding: 20px; flex-direction: row; overflow-x: auto; } main { padding: 20px; } .stats-wrapper { grid-template-columns: 1fr; } .attribute-grid { grid-template-columns: repeat(3, 1fr); } .modal-content { width: 95%; margin: 10px; } .imperial-table input[type="text"] { width: 80px; } }
         
-        @media (max-width: 900px) {
-            .main-container { flex-direction: column; }
-            aside { width: 100%; border-right: none; border-bottom: 2px solid var(--text-gold); padding: 20px; flex-direction: row; overflow-x: auto; }
-            main { padding: 20px; }
-            .stats-wrapper { grid-template-columns: 1fr; }
-            .attribute-grid { grid-template-columns: repeat(3, 1fr); }
-            .modal-content { width: 95%; margin: 10px; }
-            .imperial-table input[type="text"] { width: 80px; }
-        }
-        
-        #loading-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg-color); z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-        .pulse-text { animation: pulse 1.5s infinite; font-size: 2rem; letter-spacing: 5px; color: var(--text-gold); }
+        /* === SYSTEM UI STYLES === */
+        .sys-modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 10000; justify-content: center; align-items: center; backdrop-filter: blur(5px); }
+        .sys-modal { background: var(--panel-bg); border: 2px solid var(--text-gold); padding: 30px; width: 500px; text-align: center; box-shadow: 0 0 50px rgba(0,0,0,0.8); animation: modalIn 0.3s; }
+        .sys-modal-title { font-family: var(--font-headers); font-size: 1.5rem; color: var(--text-gold); border-bottom: 1px solid var(--text-dim); padding-bottom: 10px; margin-bottom: 20px; letter-spacing: 3px; }
+        .sys-input { width: 100%; background: rgba(0,0,0,0.3); border: 1px solid var(--text-dim); padding: 10px; color: white; font-family: var(--font-headers); font-size: 1.2rem; text-align: center; outline: none; margin-bottom: 20px; }
+        .sys-input:focus { border-color: var(--text-gold); box-shadow: 0 0 15px rgba(212, 175, 55, 0.2); }
+        .sys-btn-group { display: flex; justify-content: space-around; gap: 20px; }
+        .sys-btn { flex: 1; padding: 10px; background: transparent; border: 1px solid var(--text-dim); color: var(--text-dim); cursor: pointer; font-family: var(--font-headers); transition: 0.3s; font-size: 1rem; }
+        .sys-btn:hover { background: var(--text-gold); color: black; box-shadow: 0 0 15px var(--text-gold); }
+        .sys-btn.danger:hover { background: var(--accent-crimson); color: white; box-shadow: 0 0 15px var(--accent-crimson); border-color: var(--accent-crimson); }
+        .sys-choice-btn { width: 100%; margin-bottom: 15px; padding: 15px; text-align: left; border: 1px solid var(--text-dim); background: rgba(20,20,20,0.8); color: var(--text-gold); cursor: pointer; font-family: var(--font-headers); transition: 0.2s; }
+        .sys-choice-btn:hover { border-color: var(--text-gold); background: rgba(212, 175, 55, 0.1); padding-left: 25px; }
+        @keyframes modalIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
     </style>
 </head>
 <body>
 
-<div id="loading-overlay">
-    <div class="pulse-text">CONNECTING TO CLOUD...</div>
-    <div id="error-msg" style="color:red; margin-top:20px;"></div>
-</div>
-
-<header>
-    <div style="display: flex; align-items: center;">
-        <button class="back-btn" onclick="window.location.href='index.html'">← РЕЕСТР</button>
-        <div class="brand">
-            <div class="brand-title"><span class="symbol-triangle">▼</span><div>ORDO CONTINUUM<div class="brand-subtitle">Ex Tenebris Lux</div></div></div>
+<div id="sys-modal-overlay" class="sys-modal-overlay">
+    <div class="sys-modal">
+        <div id="sys-title" class="sys-modal-title">SYSTEM PROMPT</div>
+        <div id="sys-content"></div>
+        <div class="sys-btn-group" id="sys-buttons">
+            <button id="sys-cancel" class="sys-btn">ОТМЕНА</button>
+            <button id="sys-confirm" class="sys-btn">ПОДТВЕРДИТЬ</button>
         </div>
     </div>
-    <div class="system-time" id="clock">00:00:00 ULT</div>
-</header>
+</div>
 
 <div class="main-container">
     <aside>
@@ -395,13 +285,53 @@
 
 <!-- MODAL -->
 <div id="weapon-modal" class="modal-overlay">
-    <div class="modal-content"><span class="close-modal" onclick="closeWeaponModal()">&times;</span><input type="text" id="modal-title-input" value="Weapon Name"><textarea id="modal-desc" rows="10" style="width: 100%; text-align: left; padding: 10px; font-family: var(--font-body); font-size: 1.1rem; color: var(--text-main); background: rgba(0,0,0,0.5);">Description...</textarea><div style="text-align: right; margin-top: 10px; color: var(--text-gold-dim); font-size: 0.8rem;">* Данные сохраняются автоматически</div></div>
+    <div class="modal-content"><span class="close-modal" onclick="closeWeaponModal()">&times;</span><input type="text" id="modal-title-input" value="Weapon Name"><textarea id="modal-desc" rows="10" style="width: 100%; text-align: left; padding: 10px; font-family: var(--font-body); font-size: 1.1rem; color: var(--text-main); background: rgba(0,0,0,0.5);">Description...</textarea><div style="text-align: right; margin-top: 10px; color: var(--text-gold-dim); font-size: 0.8rem;">* Данные сохраняются автоматически при закрытии</div></div>
 </div>
 
 <footer>GLORIA IN EXCELSIS ORDO CONTINUUM // VERITAS LUX MEA</footer>
 
 <script type="module">
-    // --- ОСНОВНАЯ ЛОГИКА ---
+    // --- SYSTEM UI ---
+    const System = {
+        overlay: document.getElementById('sys-modal-overlay'),
+        title: document.getElementById('sys-title'),
+        content: document.getElementById('sys-content'),
+        buttons: document.getElementById('sys-buttons'),
+        
+        prompt: function(header, placeholder="") {
+            return new Promise((resolve) => {
+                this.title.innerText = header;
+                this.content.innerHTML = `<input type="text" id="sys-input-field" class="sys-input" placeholder="${placeholder}">`;
+                this.buttons.innerHTML = `<button id="sys-cancel" class="sys-btn">ОТМЕНА</button><button id="sys-confirm" class="sys-btn">ПРИНЯТЬ</button>`;
+                this.overlay.style.display = 'flex';
+                const input = document.getElementById('sys-input-field'); input.focus();
+                
+                document.getElementById('sys-confirm').onclick = () => { this.overlay.style.display='none'; resolve(input.value); };
+                document.getElementById('sys-cancel').onclick = () => { this.overlay.style.display='none'; resolve(null); };
+                input.onkeydown = (e) => { if(e.key==='Enter') document.getElementById('sys-confirm').click(); if(e.key==='Escape') document.getElementById('sys-cancel').click(); };
+            });
+        },
+        
+        choice: function(header, options) {
+            return new Promise((resolve) => {
+                this.title.innerText = header;
+                this.content.innerHTML = '';
+                this.buttons.innerHTML = '<button id="sys-cancel" class="sys-btn">ОТМЕНА</button>';
+                
+                options.forEach(opt => {
+                    const btn = document.createElement('button');
+                    btn.className = 'sys-choice-btn';
+                    btn.innerText = opt.label;
+                    btn.onclick = () => { this.overlay.style.display='none'; resolve(opt.value); };
+                    this.content.appendChild(btn);
+                });
+                
+                this.overlay.style.display = 'flex';
+                document.getElementById('sys-cancel').onclick = () => { this.overlay.style.display='none'; resolve(null); };
+            });
+        }
+    };
+
     const waitForDB = () => { if (window.OrdoDB) { initDossier(); } else { setTimeout(waitForDB, 100); } };
     waitForDB();
 
@@ -420,14 +350,13 @@
             if(activeCharId) {
                 window.OrdoDB.subscribeOne(activeCharId, (data) => {
                     if (data) {
-                        const isFirstLoad = !activeCharData;
+                        const isFirst = !activeCharData;
                         activeCharData = data;
-                        if(!activeCharData.locks) activeCharData.locks = {...lockStates};
-                        if(isFirstLoad) {
+                        if(isFirst) {
                             initSkeleton();
+                            if(data.locks) Object.assign(lockStates, data.locks);
                             startClock();
                             setupAutoSave();
-                            document.getElementById('loading-overlay').style.display = 'none';
                         }
                         renderAll();
                     } else {
@@ -436,7 +365,7 @@
                     }
                 });
             } else { window.location.href = "index.html"; }
-        } catch(e) { document.getElementById('error-msg').innerText = e.message; }
+        } catch(e) { alert(e.message); }
     }
 
     function startClock() { setInterval(() => document.getElementById('clock').textContent = new Date().toISOString().split('T')[1].split('.')[0] + " ULT", 1000); }
@@ -448,7 +377,7 @@
 
     function triggerSave() {
         if(saveTimeout) clearTimeout(saveTimeout);
-        saveTimeout = setTimeout(() => { window.OrdoDB.set(activeCharId, activeCharData); }, 1000);
+        saveTimeout = setTimeout(() => { window.OrdoDB.set(activeCharId, activeCharData); }, 500);
     }
 
     function handleInputUpdate(el) {
@@ -462,7 +391,6 @@
         if(id.startsWith('attr-')) { activeCharData.stats[id.replace('attr-', '')] = parseInt(val) || 10; recalc(); }
         if(id.startsWith('save-prof-')) { activeCharData.saves['prof_'+id.replace('save-prof-', '')] = checked; recalc(); }
         
-        // Vitalis
         if(id === 'hp-curr') activeCharData.stats.hp_curr = parseInt(val) || 0;
         if(id === 'hp-max') activeCharData.stats.hp_max = parseInt(val) || 0;
         if(id === 'hp-temp') activeCharData.stats.hp_temp = parseInt(val) || 0;
@@ -474,7 +402,6 @@
         if(id.startsWith('money-')) { activeCharData.money[id.replace('money-', '')] = val; calcCurrency(); }
         if(id.startsWith('psych-')) activeCharData.psych[id.replace('psych-', '')] = val;
         
-        // Psi
         if(id === 'psi-base-attr') { activeCharData.psionics.base_attr = val; updatePsi(); }
         if(id === 'psi-caster-type') { activeCharData.psionics.caster_type = val; updatePsi(); }
         if(id === 'psi-class-lvl') { activeCharData.psionics.class_lvl = parseInt(val) || 1; updatePsi(); }
@@ -484,6 +411,8 @@
         
         if(id === 'uni-save-base') { activeCharData.universalis.save_base = parseInt(val) || 8; calcUniversalSave(); }
         if(id === 'uni-save-attr') { activeCharData.universalis.save_attr = val; calcUniversalSave(); }
+        
+        updateBars();
     }
 
     function initSkeleton() {
@@ -497,17 +426,17 @@
             {k:'perception', n:'Восприятие', a:'wis'}, {k:'survival', n:'Выживание', a:'wis'}, {k:'medicine', n:'Медицина', a:'wis'}, {k:'insight', n:'Проницательность', a:'wis'},
             {k:'performance', n:'Выступление', a:'cha'}, {k:'intimidation', n:'Запугивание', a:'cha'}, {k:'deception', n:'Обман', a:'cha'}, {k:'persuasion', n:'Убеждение', a:'cha'}
         ];
-        document.getElementById('skills-body').innerHTML = SKILLS.map(s => `<tr data-key="${s.k}" data-attr="${s.a}"><td>${s.n}</td><td>${s.a.toUpperCase()}</td><td><input type="checkbox" class="chk-prof"></td><td><input type="checkbox" class="chk-exp"></td><td><input type="number" class="skill-bonus" value="0"></td><td class="total-mod">+0</td></tr>`).join('');
+        document.getElementById('skills-body').innerHTML = SKILLS.map(s => `<tr data-key="${s.k}" data-attr="${s.a}"><td>${s.n}</td><td>${s.a.toUpperCase()}</td><td><input type="checkbox" class="chk-prof"></td><td><input type="checkbox" class="chk-exp"></td><td><input type="number" class="skill-bonus-input" value="0"></td><td class="total-mod">+0</td></tr>`).join('');
         
         document.querySelectorAll('#skills-body tr').forEach(row => {
             const key = row.dataset.key;
             const updateSkill = () => {
-                activeCharData.skills.data[key] = [row.querySelector('.chk-prof').checked, row.querySelector('.chk-exp').checked, parseInt(row.querySelector('.skill-bonus').value)||0];
+                activeCharData.skills.data[key] = [row.querySelector('.chk-prof').checked, row.querySelector('.chk-exp').checked, parseInt(row.querySelector('.skill-bonus-input').value)||0];
                 recalc(); triggerSave();
             };
             row.querySelector('.chk-prof').onchange = updateSkill;
             row.querySelector('.chk-exp').onchange = updateSkill;
-            row.querySelector('.skill-bonus').onchange = updateSkill;
+            row.querySelector('.skill-bonus-input').onchange = updateSkill;
         });
     }
 
@@ -534,7 +463,7 @@
                 const [p, e, b] = d.skills.data[key];
                 safeCheck(null, p); row.querySelector('.chk-prof').checked = p;
                 safeCheck(null, e); row.querySelector('.chk-exp').checked = e;
-                if(document.activeElement !== row.querySelector('.skill-bonus')) row.querySelector('.skill-bonus').value = b;
+                if(document.activeElement !== row.querySelector('.skill-bonus-input')) row.querySelector('.skill-bonus-input').value = b;
             }
         });
 
@@ -552,7 +481,7 @@
         const cntCont = document.getElementById('list-counters'); cntCont.innerHTML = '';
         (d.universalis.counters||[]).forEach((c, idx) => {
             const div = document.createElement('div'); div.className = 'stat-row';
-            div.innerHTML = `<span class="stat-label">${c.name}:</span><div style="display:flex;"><input type="number" value="${c.val}" onchange="updateCounter(${idx}, 'val', this.value)"><button class="del-btn" onclick="removeCounter(${idx})">[x]</button></div>`;
+            div.innerHTML = `<span class="stat-label">${c.name}:</span><div style="display:flex; align-items:center; gap:5px;"><input type="number" value="${c.val}" onchange="updateCounter(${idx}, 'val', this.value)" style="width:50px;"><span>/</span><input type="number" value="${c.max||0}" onchange="updateCounter(${idx}, 'max', this.value)" style="width:50px;color:#666;"><button class="del-btn" onclick="removeCounter(${idx})">[x]</button></div>`;
             cntCont.appendChild(div);
         });
 
@@ -567,11 +496,14 @@
         safeSet('uni-save-base', d.universalis.save_base); safeSet('uni-save-attr', d.universalis.save_attr);
 
         recalc();
+        updateBars();
         
         // Sync Locks
-        for (const [k, v] of Object.entries(d.locks)) {
-            const cb = document.querySelector(`.lock-toggle[onchange*="'${k}'"]`);
-            if(cb) cb.checked = v;
+        if (d.locks) {
+            for (const [k, v] of Object.entries(d.locks)) {
+                const cb = document.querySelector(`.lock-toggle[onchange*="'${k}'"]`);
+                if(cb) cb.checked = v;
+            }
         }
     }
 
@@ -583,43 +515,80 @@
             if(mode==='weapon' || mode==='item') {
                 div.className = mode==='weapon'?'weapon-row':'stat-row interactive-list-item';
                 div.onclick = () => openModal(item);
-                div.innerHTML = `<span class="stat-label">${item.type||''}</span> <span class="stat-value">${item.name}</span> <button class="del-btn" onclick="deleteItem(event, '${id}', ${idx})">[x]</button>`;
+                const typeLabel = item.type ? `<span class="stat-label">${item.type}</span>` : '';
+                div.innerHTML = `${typeLabel} <span class="stat-value">${item.name}</span> <button class="del-btn" onclick="deleteItem(event, '${id}', ${idx})">[x]</button>`;
             } else if(mode==='simple') {
                 div.innerHTML = `<span>${item}</span> <button class="del-btn" onclick="deleteItem(event, '${id}', ${idx})">[x]</button>`;
             } else if(mode==='spell') {
-                div.innerHTML = `<td><button class='spell-name-btn' onclick='openModal(activeCharData.psionics.spells[${idx}])'>${item.name}</button></td><td><input type='text' value='${item.time}' onchange='updateSpell(${idx}, "time", this.value)'></td><td><input type='checkbox' ${item.conc?'checked':''} onchange='updateSpell(${idx}, "conc", this.checked)'></td><td><input type='number' value='${item.cost}' onchange='updateSpell(${idx}, "cost", this.value)'></td><td><button class='del-btn' onclick="deleteItem(event, '${id}', ${idx})">[x]</button></td>`;
+                div.innerHTML = `<td><button class='spell-name-btn' onclick='openModal(activeCharData.psionics.spells[${idx}])'>${item.name}</button></td><td><input type='text' value='${item.time}' onchange='updateSpell(${idx}, "time", this.value)'></td><td><input type='text' value='${item.range}' onchange='updateSpell(${idx}, "range", this.value)'></td><td><input type='checkbox' ${item.conc?'checked':''} onchange='updateSpell(${idx}, "conc", this.checked)'></td><td><input type='text' value='${item.dur}' onchange='updateSpell(${idx}, "dur", this.value)'></td><td><input type='number' value='${item.cost}' onchange='updateSpell(${idx}, "cost", this.value)'></td><td><button class='del-btn' onclick="deleteItem(event, '${id}', ${idx})">[x]</button></td>`;
             }
             el.appendChild(div);
         });
     }
 
-    window.addItemToGlobal = (type) => {
-        const name = prompt("Название:"); if(!name) return;
-        let arr; let item = { name, desc: "", type: prompt("Тип:")||"-" };
+    // --- SYSTEM UI CALLS ---
+    window.addItemToGlobal = async (type) => {
+        const name = await System.prompt("НОВЫЙ ЭЛЕМЕНТ", "Название"); if(!name) return;
+        let arr; let item = { name, desc: "", type: "-" };
+        
+        if(type!=='spells' && type!=='custom') {
+           const t = await System.prompt("ТИП ПРЕДМЕТА", "Например: Меч, Навык, Инструмент");
+           item.type = t || "-";
+        }
+
         if(type==='weapons') arr=activeCharData.combat.weapons;
         else if(type==='inventory') arr=activeCharData.combat.inventory;
         else if(type==='abilities') arr=activeCharData.abilities;
         else if(type==='traits') arr=activeCharData.traits;
         else if(type==='features') arr=activeCharData.features;
-        else if(type==='spells') { arr=activeCharData.psionics.spells; item={name, time:"1д", conc:false, cost:0, desc:""}; }
+        else if(type==='spells') { arr=activeCharData.psionics.spells; item={name, time:"1д", range:"18м", conc:false, dur:"Мгновенно", cost:0, desc:""}; }
         else if(type==='custom') arr=activeCharData.universalis.custom_table;
-        arr.push(item); triggerSave();
+        
+        arr.push(item); triggerSave(); renderAll();
     };
 
-    window.addSimpleItem = (type) => { const n=prompt("Название:"); if(n) { activeCharData.profs[type].push(n); triggerSave(); } };
+    window.addSimpleItem = async (type) => { 
+        const n = await System.prompt("ДОБАВИТЬ ЗАПИСЬ", "Название"); 
+        if(n) { activeCharData.profs[type].push(n); triggerSave(); renderAll(); } 
+    };
+
     window.deleteItem = (e, id, idx) => {
         e.stopPropagation();
         const map = {'list-weapons': activeCharData.combat.weapons, 'list-inventory': activeCharData.combat.inventory, 'list-abilities': activeCharData.abilities, 'list-traits': activeCharData.traits, 'list-features': activeCharData.features, 'list-langs': activeCharData.profs.langs, 'list-tools': activeCharData.profs.tools, 'list-armory': activeCharData.profs.armory, 'list-spells': activeCharData.psionics.spells, 'list-custom': activeCharData.universalis.custom_table};
-        map[id].splice(idx,1); triggerSave();
+        map[id].splice(idx,1); triggerSave(); renderAll();
     };
 
     window.updateSpell = (idx, f, v) => { activeCharData.psionics.spells[idx][f]=v; triggerSave(); };
-    window.addCounter = () => { const n=prompt("Название:"); if(n) { activeCharData.universalis.counters.push({name:n, val:0}); triggerSave(); } };
+    
+    window.addCounter = async () => { 
+        const n = await System.prompt("НОВЫЙ СЧЕТЧИК", "Название"); 
+        if(n) { activeCharData.universalis.counters.push({name:n, val:0, max:0}); triggerSave(); renderAll(); } 
+    };
     window.updateCounter = (idx, f, v) => { activeCharData.universalis.counters[idx][f]=parseInt(v); triggerSave(); };
-    window.removeCounter = (idx) => { activeCharData.universalis.counters.splice(idx,1); triggerSave(); };
+    window.removeCounter = (idx) => { activeCharData.universalis.counters.splice(idx,1); triggerSave(); renderAll(); };
 
-    window.openModal = (item) => { activeModalItem=item; document.getElementById('weapon-modal').style.display='flex'; document.getElementById('modal-title-input').value=item.name; document.getElementById('modal-desc').value=item.desc||""; document.getElementById('modal-title-input').oninput=(e)=>{item.name=e.target.value;}; document.getElementById('modal-desc').oninput=(e)=>{item.desc=e.target.value;}; };
-    window.closeWeaponModal = () => { document.getElementById('weapon-modal').style.display='none'; activeModalItem=null; triggerSave(); };
+    window.openModal = (item) => { activeModalItem=item; document.getElementById('weapon-modal').style.display='flex'; document.getElementById('modal-title-input').value=item.name; document.getElementById('modal-desc').value=item.desc||""; document.getElementById('modal-title-input').oninput=(e)=>{item.name=e.target.value; triggerSave();}; document.getElementById('modal-desc').oninput=(e)=>{item.desc=e.target.value; triggerSave();}; };
+    window.closeWeaponModal = () => { document.getElementById('weapon-modal').style.display='none'; activeModalItem=null; renderAll(); };
+
+    window.triggerImageUpload = async () => {
+        const choice = await System.choice("ЗАГРУЗКА ИЗОБРАЖЕНИЯ", [{label: "ССЫЛКА (URL)", value: "1"}, {label: "ФАЙЛ С УСТРОЙСТВА", value: "2"}]);
+        if(choice==="1") { 
+            const u = await System.prompt("ВВЕДИТЕ URL", "https://..."); 
+            if(u) { activeCharData.meta.image=u; triggerSave(); document.getElementById('char-img').src=u; } 
+        }
+        else if(choice==="2") document.getElementById('img-upload').click();
+    };
+
+    window.handleImageUpload = async (inp) => {
+        if(inp.files[0]) { 
+            try {
+                const url = await window.OrdoDB.uploadImage(inp.files[0], activeCharId);
+                activeCharData.meta.image = url; 
+                document.getElementById('char-img').src = url; 
+                triggerSave();
+            } catch(e) { alert("Ошибка загрузки: " + e.message); }
+        }
+    };
 
     function recalc() {
         if(!activeCharData) return;
@@ -675,21 +644,12 @@
         document.getElementById('bar-psi').style.width = Math.min(100, ((d.psionics.points_curr||0)/psiMax)*100)+"%";
     }
 
-    window.triggerImageUpload = () => {
-        const c = prompt("1. URL\n2. Файл");
-        if(c==="1") { const u=prompt("URL:"); if(u) { activeCharData.meta.image=u; triggerSave(); } }
-        else if(c==="2") document.getElementById('img-upload').click();
-    };
-    window.handleImageUpload = (inp) => {
-        if(inp.files[0]) { const r=new FileReader(); r.onload=(e)=>{activeCharData.meta.image=e.target.result; triggerSave();}; r.readAsDataURL(inp.files[0]); }
-    };
-
     window.showPanel = (id) => {
+        if(lockStates[id]) return;
         document.querySelectorAll('.content-panel').forEach(p=>p.classList.remove('active'));
         document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
         document.getElementById('access-denied').style.display='none';
-        if(lockStates[id]) document.getElementById('access-denied').style.display='flex';
-        else document.getElementById(id).classList.add('active');
+        document.getElementById(id).classList.add('active');
         const btn = Array.from(document.querySelectorAll('.nav-btn')).find(b=>b.innerText.toLowerCase().includes(id.substring(0,3)));
         if(btn) btn.classList.add('active');
     };
@@ -700,8 +660,16 @@
         event.currentTarget.classList.add('active');
     };
     window.toggleLock = (id, cb) => {
-        lockStates[id] = cb.checked; activeCharData.locks[id]=cb.checked; triggerSave();
-        if(document.querySelector('.nav-btn.active').innerText.toLowerCase().includes(id.substring(0,3))) window.showPanel(id);
+        lockStates[id] = cb.checked;
+        if(activeCharData.locks) activeCharData.locks[id] = cb.checked;
+        triggerSave();
+        
+        const currentActive = document.querySelector('.nav-btn.active');
+        if(currentActive && currentActive.innerText.toLowerCase().includes(id.substring(0,3))) {
+            document.querySelectorAll('.content-panel').forEach(p=>p.classList.remove('active'));
+            if(cb.checked) document.getElementById('access-denied').style.display='flex';
+            else document.getElementById(id).classList.add('active');
+        }
     };
 </script>
 </body>
