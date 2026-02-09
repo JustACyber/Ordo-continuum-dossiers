@@ -427,7 +427,7 @@
 
     function startClock() { setInterval(() => document.getElementById('clock').textContent = new Date().toISOString().split('T')[1].split('.')[0] + " ULT", 1000); }
     function setupAutoSave() { document.body.addEventListener('input', (e)=>{if(!e.target.closest('.modal-content')){window.handleInputUpdate(e.target);triggerSave();}}); document.body.addEventListener('change', (e)=>{window.handleInputUpdate(e.target);triggerSave();}); }
-    function triggerSave() { if(saveTimeout) clearTimeout(saveTimeout); saveTimeout = setTimeout(() => { window.OrdoDB.set(activeCharId, activeCharData); }, 1000); }
+    function triggerSave() { if(saveTimeout) clearTimeout(saveTimeout); saveTimeout = setTimeout(() => { window.OrdoDB.set(activeCharId, activeCharData); }, 300); }
 
     // --- GLOBAL HANDLER FOR INPUTS ---
     window.handleInputUpdate = function(el) {
@@ -444,24 +444,25 @@
             return (max > 0 && v > max) ? max : v;
         };
 
-        if(id === 'hp_curr') {
+        // FIXED HP/SHIELD MAPPING (Hyphen -> Underscore)
+        if(id === 'hp-curr') {
              let v = parseInt(val)||0;
-             const max = parseInt(document.getElementById('hp_max').value)||0;
+             const max = parseInt(document.getElementById('hp-max').value)||0;
              if(max > 0 && v > max) { v = max; el.value = max; } // FORCE VISUAL UPDATE
              activeCharData.stats.hp_curr = v;
         }
-        if(id === 'hp_max') { 
+        if(id === 'hp-max') { 
             activeCharData.stats.hp_max = parseInt(val)||0; 
             if(activeCharData.stats.hp_curr > activeCharData.stats.hp_max) {
                  activeCharData.stats.hp_curr = activeCharData.stats.hp_max;
-                 document.getElementById('hp_curr').value = activeCharData.stats.hp_curr;
+                 document.getElementById('hp-curr').value = activeCharData.stats.hp_curr;
             }
         }
-        if(id === 'hp_temp') activeCharData.stats.hp_temp = parseInt(val)||0;
+        if(id === 'hp-temp') activeCharData.stats.hp_temp = parseInt(val)||0;
         
-        if(id === 'shield_curr') {
+        if(id === 'shield-curr') {
              let v = parseInt(val)||0;
-             const max = parseInt(document.getElementById('shield_max').value)||0;
+             const max = parseInt(document.getElementById('shield-max').value)||0;
              if(max > 0 && v > max) { v = max; el.value = max; }
              activeCharData.stats.shield_curr = v;
         }
@@ -489,7 +490,7 @@
         if(id === 'psi-points-curr') {
              let v = parseInt(val)||0;
              const max = parseInt(document.getElementById('psi-points-max').innerText)||0;
-             if(v > max) { v = max; el.value = max; }
+             if(max > 0 && v > max) { v = max; el.value = max; }
              activeCharData.psionics.points_curr = v;
         }
         
