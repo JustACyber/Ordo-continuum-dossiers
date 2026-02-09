@@ -4,172 +4,123 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ORDO CONTINUUM // SANCTUS RECORD</title>
-    
-    <!-- 1. FAVICON (ЗОЛОТОЙ ТРЕУГОЛЬНИК) -->
+    <!-- FAVICON (GOLDEN TRIANGLE) -->
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M50 15 L85 80 L15 80 Z' fill='none' stroke='%23d4af37' stroke-width='5'/%3E%3Ccircle cx='50' cy='55' r='20' fill='none' stroke='%238a0000' stroke-width='4'/%3E%3C/svg%3E">
-
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
-    
-    <!-- ПОДКЛЮЧЕНИЕ БАЗЫ -->
     <script type="module" src="database.js"></script>
     
     <style>
-        :root {
-            --bg-color: #0f0b0b; --panel-bg: #141010; --text-main: #e0d8c0; --text-gold: #d4af37;
-            --text-gold-dim: #8a7338; --accent-crimson: #660000; --accent-bright-red: #8a0000;
-            --border-gold: #9d8033; --input-bg: rgba(0, 0, 0, 0.4);
-            --font-headers: 'Cinzel', serif; --font-body: 'Cormorant Garamond', serif;
-        }
-
+        /* ORIGIN STYLES PRESERVED */
+        :root { --bg-color: #0f0b0b; --panel-bg: #141010; --text-main: #e0d8c0; --text-gold: #d4af37; --text-gold-dim: #8a7338; --accent-crimson: #660000; --accent-bright-red: #8a0000; --border-gold: #9d8033; --input-bg: rgba(0, 0, 0, 0.4); --font-headers: 'Cinzel', serif; --font-body: 'Cormorant Garamond', serif; }
         * { box-sizing: border-box; margin: 0; padding: 0; scrollbar-width: thin; scrollbar-color: var(--text-gold-dim) var(--bg-color); }
-
-        /* --- STYLES PRESERVED --- */
-        input[type="number"], input[type="text"], textarea, select {
-            background: var(--input-bg); border: 1px solid var(--text-gold-dim); color: var(--text-gold);
-            font-family: var(--font-headers); padding: 5px; text-align: center; transition: all 0.3s;
-        }
-        input[type="number"], input[type="text"] { width: 60px; }
-        select { width: auto; text-align: left; cursor: pointer; }
-        select option { background: var(--bg-color); color: var(--text-gold); }
+        input[type="number"], input[type="text"], textarea, select { background: var(--input-bg); border: 1px solid var(--text-gold-dim); color: var(--text-gold); font-family: var(--font-headers); padding: 5px; text-align: center; transition: all 0.3s; }
+        input[type="number"], input[type="text"] { width: 60px; } select { width: auto; text-align: left; cursor: pointer; } select option { background: var(--bg-color); color: var(--text-gold); }
         input:focus, textarea:focus, select:focus { outline: none; border-color: var(--text-gold); box-shadow: 0 0 10px rgba(212, 175, 55, 0.2); }
-        
-        .imperial-input {
-            background: transparent !important; border: none !important; border-bottom: 1px dashed var(--text-gold-dim) !important;
-            color: var(--text-main) !important; font-family: var(--font-headers) !important; font-weight: 700 !important;
-            font-size: 1rem !important; width: 100% !important; padding: 2px 5px !important; text-align: right !important;
-        }
+        .imperial-input { background: transparent !important; border: none !important; border-bottom: 1px dashed var(--text-gold-dim) !important; color: var(--text-main) !important; font-family: var(--font-headers) !important; font-weight: 700 !important; font-size: 1rem !important; width: 100% !important; padding: 2px 5px !important; text-align: right !important; }
         .imperial-input:focus { border-bottom: 1px solid var(--text-gold) !important; background: rgba(212, 175, 55, 0.05) !important; }
-
-        .imperial-textarea {
-            background: rgba(0, 0, 0, 0.2) !important; border: 1px solid var(--text-gold-dim) !important;
-            color: var(--text-main) !important; font-family: var(--font-body) !important; font-size: 1.1rem !important;
-            width: 100% !important; padding: 10px !important; resize: vertical !important; min-height: 80px !important; text-align: left !important;
-        }
+        .imperial-textarea { background: rgba(0, 0, 0, 0.2) !important; border: 1px solid var(--text-gold-dim) !important; color: var(--text-main) !important; font-family: var(--font-body) !important; font-size: 1.1rem !important; width: 100% !important; padding: 10px !important; resize: vertical !important; min-height: 80px !important; text-align: left !important; }
         .imperial-textarea:focus { border-color: var(--text-gold) !important; }
-
-        body {
-            background-color: var(--bg-color);
-            background-image: radial-gradient(circle at center, rgba(102, 0, 0, 0.05) 0%, transparent 70%), url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23d4af37' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-            color: var(--text-main); font-family: var(--font-body); height: 100vh; overflow: hidden; display: flex; flex-direction: column; font-size: 18px; border: 4px double var(--border-gold); margin: 0;
-        }
+        body { background-color: var(--bg-color); background-image: radial-gradient(circle at center, rgba(102, 0, 0, 0.05) 0%, transparent 70%), url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23d4af37' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E"); color: var(--text-main); font-family: var(--font-body); height: 100vh; overflow: hidden; display: flex; flex-direction: column; font-size: 18px; border: 4px double var(--border-gold); margin: 0; }
         body::after { content: ""; position: absolute; top: 0; left: 0; right: 0; bottom: 0; box-shadow: inset 0 0 150px rgba(0,0,0,0.9); pointer-events: none; z-index: 50; }
-
         header { height: 80px; border-bottom: 2px solid var(--text-gold); display: flex; justify-content: space-between; align-items: center; padding: 0 40px; background: linear-gradient(to bottom, #1a0f0f, #0f0b0b); position: relative; z-index: 60; box-shadow: 0 5px 20px rgba(0,0,0,0.8); }
         header::after { content: ''; position: absolute; bottom: -5px; left: 0; right: 0; height: 3px; background: var(--accent-crimson); border-bottom: 1px solid #000; }
-
-        /* 2. BACK BUTTON STYLE */
-        .back-btn {
-            border: 1px solid var(--text-gold); background: transparent; color: var(--text-gold);
-            padding: 5px 15px; font-family: var(--font-headers); font-size: 1rem; cursor: pointer;
-            margin-right: 25px; transition: all 0.3s; text-transform: uppercase; text-decoration: none;
-            display: flex; align-items: center; height: 40px;
-        }
+        .back-btn { border: 1px solid var(--text-gold); background: transparent; color: var(--text-gold); padding: 5px 15px; font-family: var(--font-headers); font-size: 1rem; cursor: pointer; margin-right: 25px; transition: all 0.3s; text-transform: uppercase; text-decoration: none; display: flex; align-items: center; height: 40px; }
         .back-btn:hover { background: var(--text-gold); color: #000; box-shadow: 0 0 10px rgba(212, 175, 55, 0.5); }
-
         .brand-title { font-family: var(--font-headers); font-size: 1.8rem; color: var(--text-gold); text-shadow: 0 2px 4px rgba(0,0,0,0.5); letter-spacing: 2px; font-weight: 700; display: flex; align-items: center; gap: 15px; }
         .symbol-triangle { font-size: 2.5rem; background: linear-gradient(180deg, var(--text-gold) 0%, var(--accent-crimson) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; display: inline-block; transform: scaleY(0.8); }
         .brand-subtitle { font-size: 0.8rem; color: var(--accent-crimson); text-transform: uppercase; letter-spacing: 4px; margin-top: 5px; }
         .system-time { font-family: var(--font-headers); color: var(--text-gold-dim); font-size: 1rem; border: 1px solid var(--text-gold-dim); padding: 5px 15px; background: rgba(0,0,0,0.3); }
-
         .main-container { display: flex; flex: 1; overflow: hidden; position: relative; z-index: 55; }
         aside { width: 300px; background: rgba(15, 11, 11, 0.95); border-right: 1px solid var(--text-gold-dim); display: flex; flex-direction: column; padding: 40px 0; position: relative; }
-
         .nav-group { display: flex; align-items: center; padding-right: 15px; transition: background 0.3s; }
         .nav-group:hover { background: rgba(212, 175, 55, 0.05); }
         .nav-btn { background: transparent; border: none; color: var(--text-gold-dim); padding: 20px 20px; text-align: left; font-family: var(--font-headers); text-transform: uppercase; font-size: 1rem; letter-spacing: 1px; cursor: pointer; transition: all 0.4s ease; flex-grow: 1; }
         .nav-btn:hover { color: var(--text-main); text-shadow: 0 0 8px rgba(212, 175, 55, 0.4); }
         .nav-btn.active { color: var(--text-gold); background: linear-gradient(90deg, transparent 0%, rgba(212, 175, 55, 0.1) 50%, transparent 100%); border-left: 2px solid var(--text-gold); }
-        .lock-btn { background: transparent; border: none; color: var(--text-gold-dim); cursor: pointer; font-size: 1.2rem; padding: 5px; transition: color 0.3s; }
-        .lock-btn:hover { color: var(--accent-bright-red); }
-        .lock-btn.locked { color: var(--accent-bright-red); text-shadow: 0 0 5px var(--accent-bright-red); }
-
+        /* STYLIZED LOCK TOGGLE */
+        .lock-toggle { appearance: none; -webkit-appearance: none; width: 20px; height: 20px; border: 2px solid var(--text-gold-dim); background: rgba(0,0,0,0.5); cursor: pointer; margin-left: 10px; transition: all 0.3s; position: relative; }
+        .lock-toggle:checked { background: var(--accent-bright-red); border-color: var(--accent-bright-red); box-shadow: 0 0 10px var(--accent-bright-red); }
         main { flex: 1; padding: 50px 80px; overflow-y: auto; position: relative; }
         .content-panel { display: none; max-width: 1200px; margin: 0 auto; animation: fadeIn 0.8s cubic-bezier(0.2, 0.8, 0.2, 1); }
         .content-panel.active { display: block; }
-
         h1 { font-family: var(--font-headers); font-size: 2.5rem; color: var(--text-gold); text-align: center; margin-bottom: 40px; border-bottom: 1px solid var(--text-gold-dim); padding-bottom: 15px; position: relative; }
         h2 { font-family: var(--font-headers); color: var(--text-main); font-size: 1.2rem; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 2px; border-bottom: 2px solid var(--accent-crimson); display: inline-block; padding-right: 20px; }
-
         .data-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 30px; margin-bottom: 40px; }
         .data-block { background: rgba(20, 16, 16, 0.6); border: 1px solid var(--text-gold-dim); padding: 25px; position: relative; box-shadow: 0 0 20px rgba(0,0,0,0.3); transition: transform 0.3s; }
         .data-block:hover { transform: translateY(-2px); box-shadow: 0 5px 25px rgba(212, 175, 55, 0.1); border-color: var(--text-gold); }
-
         .stat-row { display: flex; justify-content: space-between; align-items: baseline; padding: 8px 0; border-bottom: 1px solid rgba(212, 175, 55, 0.2); }
         .stat-label { color: var(--text-gold-dim); font-style: italic; font-size: 1.1rem; white-space: nowrap; margin-right: 15px; }
         .stat-value { color: var(--text-main); font-family: var(--font-headers); font-weight: 700; }
         .warning-text { color: var(--accent-bright-red); text-shadow: 0 0 5px rgba(138, 0, 0, 0.5); }
-
         .attribute-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 15px; margin-bottom: 40px; border: 1px solid var(--text-gold-dim); padding: 20px; background: rgba(0,0,0,0.2); position: relative; }
         .stat-box { text-align: center; border: 1px solid rgba(212, 175, 55, 0.1); padding: 15px 5px; transition: background 0.3s; }
         .stat-box:hover { background: rgba(212, 175, 55, 0.05); border-color: var(--text-gold); }
         .stat-box h2 { font-size: 1rem; border: none; margin: 0; color: var(--text-gold-dim); }
         .stat-box .big-val { font-family: var(--font-headers); font-size: 2.2rem; color: var(--text-main); display: block; margin: 5px 0; }
         .stat-box .mod-val { color: var(--accent-crimson); font-weight: bold; }
-
         ul.wax-list { list-style: none; padding-left: 10px; }
         ul.wax-list li { position: relative; padding-left: 25px; margin-bottom: 10px; border-left: 2px solid var(--accent-crimson); transition: padding-left 0.3s; display: flex; justify-content: space-between; align-items: center; padding-right: 10px; }
         ul.wax-list li:hover { padding-left: 35px; background: linear-gradient(90deg, rgba(138, 0, 0, 0.1), transparent); }
         ul.wax-list li::before { content: ""; position: absolute; left: -6px; top: 50%; transform: translateY(-50%); width: 10px; height: 10px; background: var(--accent-crimson); border-radius: 50%; }
-
-        .interactive-list-item { cursor: pointer; user-select: none; }
+        .interactive-list-item { cursor: pointer; }
         .interactive-list-item:hover { color: var(--text-gold); text-shadow: 0 0 5px var(--text-gold); }
-        /* DRAG STATE */
-        .interactive-list-item.dragging { opacity: 0.5; background: rgba(212, 175, 55, 0.2); border: 1px dashed var(--text-gold); transform: scale(1.02); }
-
         .sub-nav { display: flex; justify-content: center; gap: 20px; margin-bottom: 30px; border-bottom: 1px solid var(--text-gold-dim); padding-bottom: 10px; flex-wrap: wrap; }
         .sub-nav-btn { background: none; border: 1px solid transparent; color: var(--text-gold-dim); font-family: var(--font-headers); font-size: 1rem; padding: 8px 16px; cursor: pointer; text-transform: uppercase; transition: all 0.3s; }
         .sub-nav-btn.active { color: var(--text-gold); border: 1px solid var(--text-gold); background: rgba(212, 175, 55, 0.1); }
         .sub-panel { display: none; animation: fadeIn 0.5s; }
         .sub-panel.active { display: block; }
-
         .imperial-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; border: 1px solid var(--text-gold-dim); }
         .imperial-table th, .imperial-table td { padding: 12px 15px; text-align: left; border-bottom: 1px solid rgba(212, 175, 55, 0.2); }
         .imperial-table th { background: rgba(212, 175, 55, 0.1); color: var(--text-gold); }
         .imperial-table .proficient { color: var(--text-gold); }
         .imperial-table .expertise { color: var(--accent-bright-red); font-weight: bold; }
-
-        .weapon-row { display: flex; justify-content: space-between; align-items: center; padding: 10px; border-bottom: 1px solid var(--text-gold-dim); cursor: pointer; transition: background 0.3s; user-select: none; }
+        .weapon-row { display: flex; justify-content: space-between; align-items: center; padding: 10px; border-bottom: 1px solid var(--text-gold-dim); cursor: pointer; transition: background 0.3s; }
         .weapon-row:hover { background: rgba(212, 175, 55, 0.1); }
-        .weapon-row.dragging { opacity: 0.5; background: rgba(212, 175, 55, 0.2); border: 1px dashed var(--text-gold); }
-
         .add-btn { background: none; border: 1px solid var(--text-gold-dim); color: var(--text-gold); font-size: 0.8rem; padding: 2px 8px; cursor: pointer; margin-left: 10px; transition: all 0.2s; }
         .add-btn:hover { background: var(--text-gold); color: var(--bg-color); }
         .del-btn { background: transparent; border: none; color: var(--text-gold-dim); font-weight: bold; cursor: pointer; padding: 0 5px; font-family: var(--font-headers); transition: color 0.2s; margin-left: 10px; }
         .del-btn:hover { color: var(--accent-bright-red); }
-
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 100; justify-content: center; align-items: center; }
         .modal-content { background: var(--bg-color); border: 2px solid var(--text-gold); width: 600px; padding: 40px; position: relative; box-shadow: 0 0 50px rgba(0,0,0,1); }
         .close-modal { position: absolute; top: 10px; right: 15px; color: var(--accent-bright-red); font-size: 2rem; cursor: pointer; }
         #modal-title-input { width: 100%; font-size: 2rem; margin-bottom: 20px; background: transparent; border: none; border-bottom: 2px solid var(--text-gold); color: var(--text-gold); font-family: var(--font-headers); text-align: center; }
-
-        .prof-checkbox { appearance: none; width: 15px; height: 15px; border: 1px solid var(--text-gold-dim); background: transparent; cursor: pointer; display: inline-block; vertical-align: middle; }
-        .prof-checkbox:checked { background: var(--text-gold); box-shadow: 0 0 5px var(--text-gold); }
-        .exp-checkbox { appearance: none; width: 15px; height: 15px; border: 1px solid var(--accent-crimson); background: transparent; cursor: pointer; display: inline-block; vertical-align: middle; }
-        .exp-checkbox:checked { background: var(--accent-crimson); box-shadow: 0 0 5px var(--accent-crimson); }
-
+        
+        /* STYLIZED CHECKBOXES FOR SKILLS */
+        .prof-checkbox, .chk-prof { appearance: none; -webkit-appearance: none; width: 18px; height: 18px; border: 2px solid var(--text-gold-dim); background: rgba(0,0,0,0.5); cursor: pointer; display: inline-block; vertical-align: middle; transition: all 0.3s; }
+        .prof-checkbox:checked, .chk-prof:checked { background: var(--text-gold); border-color: var(--text-gold); box-shadow: 0 0 8px rgba(212, 175, 55, 0.6); }
+        .exp-checkbox, .chk-exp { appearance: none; -webkit-appearance: none; width: 18px; height: 18px; border: 2px solid var(--accent-crimson); background: rgba(0,0,0,0.5); cursor: pointer; display: inline-block; vertical-align: middle; transition: all 0.3s; }
+        .exp-checkbox:checked, .chk-exp:checked { background: var(--accent-crimson); border-color: var(--accent-crimson); box-shadow: 0 0 8px rgba(138, 0, 0, 0.8); }
+        
         .char-img-container { border: 2px solid var(--text-gold-dim); padding: 5px; position: relative; background: rgba(0,0,0,0.3); box-shadow: inset 0 0 20px rgba(0,0,0,0.8); display: flex; justify-content: center; align-items: center; min-height: 400px; }
         .spell-name-btn { background: transparent; border: 1px solid var(--text-gold-dim); color: var(--text-main); padding: 5px 10px; font-family: var(--font-headers); cursor: pointer; width: 100%; text-align: left; transition: all 0.3s; }
         .spell-name-btn:hover { background: rgba(212, 175, 55, 0.1); border-color: var(--text-gold); }
         .table-section-header { background: rgba(102, 0, 0, 0.2); color: var(--accent-crimson); font-weight: bold; text-align: center; padding: 10px; letter-spacing: 2px; border-bottom: 2px solid var(--accent-crimson); }
-
+        
+        /* ACCESS DENIED SCREEN */
         .access-denied-screen { display: none; flex-direction: column; justify-content: center; align-items: center; height: 100%; width: 100%; text-align: center; color: var(--accent-bright-red); animation: pulseRed 2s infinite; }
         .access-denied-screen h1 { font-size: 4rem; border: none; text-shadow: 0 0 20px var(--accent-bright-red); }
         .access-denied-screen p { font-family: var(--font-headers); font-size: 1.5rem; letter-spacing: 5px; }
         @keyframes pulseRed { 0% { opacity: 0.8; } 50% { opacity: 1; text-shadow: 0 0 30px var(--accent-bright-red); } 100% { opacity: 0.8; } }
-        .empty-data-msg { color: var(--text-gold-dim); text-align: center; padding: 20px; border: 1px dashed var(--text-gold-dim); margin-top: 10px; font-style: italic; display: none; }
-
+        
+        /* STYLIZED EMPTY MESSAGE */
+        .empty-msg { color: var(--text-gold-dim); text-align: center; padding: 20px; border: 1px dashed var(--text-gold-dim); margin-top: 10px; font-style: italic; background: rgba(20, 16, 16, 0.3); font-family: var(--font-headers); }
+        
         footer { border-top: 1px solid var(--text-gold-dim); padding: 10px 40px; font-family: var(--font-headers); font-size: 0.8rem; color: var(--text-gold-dim); text-align: center; letter-spacing: 5px; background: #0f0b0b; z-index: 60; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         
-        .total-mod {
-            font-weight: 900;
-            color: var(--accent-bright-red);
-            font-size: 1.2rem;
-            text-align: center;
-        }
+        /* BARS VISUALS */
+        .bar-container { width: 100%; height: 8px; background: rgba(20, 20, 20, 0.8); border: 1px solid var(--text-gold-dim); margin-top: 5px; position: relative; overflow: hidden; }
+        .bar-fill { height: 100%; transition: width 0.3s ease; position: absolute; top: 0; left: 0; }
+        .bar-hp { background: var(--accent-bright-red); z-index: 1; }
+        .bar-temp { background: var(--text-gold); z-index: 2; opacity: 0.8; }
+        .bar-shield { background: #0088ff; }
+        .bar-psi { background: #9d00ff; }
         
-        #loading-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg-color); z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-        .pulse-text { animation: pulse 1.5s infinite; font-size: 2rem; letter-spacing: 5px; color: var(--text-gold); }
+        .total-mod { font-weight: 900; color: var(--accent-bright-red); font-size: 1.2rem; text-shadow: 0 0 5px rgba(138, 0, 0, 0.5); }
+        @media (max-width: 900px) { .main-container { flex-direction: column; } aside { width: 100%; border-right: none; border-bottom: 2px solid var(--text-gold); padding: 20px; flex-direction: row; overflow-x: auto; } main { padding: 20px; } .stats-wrapper { grid-template-columns: 1fr; } .attribute-grid { grid-template-columns: repeat(3, 1fr); } .modal-content { width: 95%; margin: 10px; } .imperial-table input[type="text"] { width: 80px; } }
+        
+        #loading-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg-color); z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--text-gold); }
+        .pulse-text { animation: pulse 1.5s infinite; font-size: 2rem; letter-spacing: 5px; }
     </style>
 </head>
 <body>
@@ -181,120 +132,100 @@
 
 <header>
     <div style="display: flex; align-items: center;">
-        <!-- 2. BUTTON BACK -->
         <button class="back-btn" onclick="window.location.href='index.html'">← В РЕЕСТР</button>
         <div class="brand">
-            <div class="brand-title">
-                <span class="symbol-triangle">▼</span>
-                <div>
-                    ORDO CONTINUUM
-                    <div class="brand-subtitle">Ex Tenebris Lux</div>
-                </div>
-            </div>
+            <div class="brand-title"><span class="symbol-triangle">▼</span><div>ORDO CONTINUUM<div class="brand-subtitle">Ex Tenebris Lux</div></div></div>
         </div>
     </div>
     <div class="system-time" id="clock">00:00:00 ULT</div>
 </header>
 
 <div class="main-container">
-    <!-- ASIDE & MAIN STRUCTURE PRESERVED FROM YOUR UPLOAD -->
     <aside>
-        <div class="nav-group">
-            <button class="nav-btn active" onclick="showPanel('identity')">I. Identitas</button>
-            <button class="lock-btn" onclick="toggleLock('identity', this)">🔓</button>
-        </div>
-        <div class="nav-group">
-            <button class="nav-btn" onclick="showPanel('biometrics')">II. Corpus</button>
-            <button class="lock-btn" onclick="toggleLock('biometrics', this)">🔓</button>
-        </div>
-        <div class="nav-group">
-            <button class="nav-btn" onclick="showPanel('skills')">III. Artes</button>
-            <button class="lock-btn" onclick="toggleLock('skills', this)">🔓</button>
-        </div>
-        <div class="nav-group">
-            <button class="nav-btn" onclick="showPanel('equipment')">IV. Armamentum</button>
-            <button class="lock-btn" onclick="toggleLock('equipment', this)">🔓</button>
-        </div>
-        <div class="nav-group">
-            <button class="nav-btn" onclick="showPanel('psych')">V. Anima</button>
-            <button class="lock-btn" onclick="toggleLock('psych', this)">🔓</button>
-        </div>
-        <div class="nav-group">
-            <button class="nav-btn" onclick="showPanel('psionics')">VI. Psionica</button>
-            <button class="lock-btn" onclick="toggleLock('psionics', this)">🔓</button>
-        </div>
-        <div class="nav-group">
-            <button class="nav-btn" onclick="showPanel('universalis')">VII. Universalis</button>
-            <button class="lock-btn" onclick="toggleLock('universalis', this)">🔓</button>
-        </div>
+        <div class="nav-group"><button class="nav-btn active" onclick="showPanel('identity')">I. Identitas</button><input type="checkbox" class="lock-toggle" onchange="toggleLock('identity', this)"></div>
+        <div class="nav-group"><button class="nav-btn" onclick="showPanel('biometrics')">II. Corpus</button><input type="checkbox" class="lock-toggle" onchange="toggleLock('biometrics', this)"></div>
+        <div class="nav-group"><button class="nav-btn" onclick="showPanel('skills')">III. Artes</button><input type="checkbox" class="lock-toggle" onchange="toggleLock('skills', this)"></div>
+        <div class="nav-group"><button class="nav-btn" onclick="showPanel('equipment')">IV. Armamentum</button><input type="checkbox" class="lock-toggle" onchange="toggleLock('equipment', this)"></div>
+        <div class="nav-group"><button class="nav-btn" onclick="showPanel('psych')">V. Anima</button><input type="checkbox" class="lock-toggle" onchange="toggleLock('psych', this)"></div>
+        <div class="nav-group"><button class="nav-btn" onclick="showPanel('psionics')">VI. Psionica</button><input type="checkbox" class="lock-toggle" onchange="toggleLock('psionics', this)"></div>
+        <div class="nav-group"><button class="nav-btn" onclick="showPanel('universalis')">VII. Universalis</button><input type="checkbox" class="lock-toggle" onchange="toggleLock('universalis', this)"></div>
     </aside>
 
     <main>
-        <div id="access-denied" class="access-denied-screen">
-            <h1>⛔</h1>
-            <h1>ДОСТУП ЗАКРЫТ</h1>
-            <p>UNAUTHORIZED ACCESS ATTEMPT LOGGED</p>
-            <p style="font-size: 0.8rem; margin-top: 20px;">Ordo Continuum Security Protocol</p>
-        </div>
+        <div id="access-denied" class="access-denied-screen"><h1>⛔</h1><h1>ДОСТУП ЗАКРЫТ</h1><p>УРОВЕНЬ ДОПУСКА НЕДОСТАТОЧЕН</p></div>
 
+        <!-- 1. IDENTITY -->
         <div id="identity" class="content-panel active">
-            <!-- Content preserved -->
             <h1>Sanctus Dossier</h1>
             <div class="data-grid">
                 <div class="data-block" style="grid-row: span 2;">
-                    <h2>Imago / Облик</h2>
+                    <h2>Imago</h2>
                     <div class="char-img-container">
                         <img id="char-img" src="" style="max-width: 100%; max-height: 400px; display: block;">
                         <input type="file" id="img-upload" style="display:none" accept="image/*" onchange="handleImageUpload(this)">
-                        <button class="add-btn" style="position: absolute; bottom: 10px; right: 10px; background: rgba(0,0,0,0.8); border: 1px solid var(--text-gold);" onclick="triggerImageUpload()">[↻]</button>
+                        <button class="add-btn" style="position: absolute; bottom: 10px; right: 10px; background: rgba(0,0,0,0.8);" onclick="triggerImageUpload()">[↻]</button>
                     </div>
                 </div>
                 <div class="data-block">
                     <h2>Registrum Primus</h2>
-                    <div class="stat-row"><span class="stat-label">Имя нареченное:</span> <input type="text" class="imperial-input" id="meta-name"></div>
-                    <div class="stat-row"><span class="stat-label">Происхождение:</span> <input type="text" class="imperial-input" id="meta-race"></div>
-                    <div class="stat-row"><span class="stat-label">Летоисчисление:</span> <input type="text" class="imperial-input" id="meta-age"></div>
+                    <div class="stat-row"><span class="stat-label">Имя:</span> <input type="text" class="imperial-input" id="meta-name"></div>
+                    <div class="stat-row"><span class="stat-label">Вид:</span> <input type="text" class="imperial-input" id="meta-race"></div>
+                    <div class="stat-row"><span class="stat-label">Подвид:</span> <input type="text" class="imperial-input" id="meta-subrace"></div>
+                    <div class="stat-row"><span class="stat-label">Возраст:</span> <input type="text" class="imperial-input" id="meta-age"></div>
                     <div class="stat-row"><span class="stat-label">Ранг:</span> <input type="text" class="imperial-input" id="meta-rank"></div>
-                    <div class="stat-row"><span class="stat-label">Призвание:</span> <input type="text" class="imperial-input" id="meta-class"></div>
-                    <div class="stat-row"><span class="stat-label">Доктрина:</span> <input type="text" class="imperial-input" id="meta-archetype"></div>
-                    <div style="margin-top: 20px; border-top: 1px solid var(--text-gold-dim); padding-top: 10px;">
-                        <div class="stat-row"><span class="stat-label" style="color: var(--text-gold);">Уровень Доступа:</span><input type="number" id="level-input" min="1" max="20" onchange="recalc()"></div>
-                        <div class="stat-row"><span class="stat-label">Бонус Мастерства:</span><span class="stat-value" id="pb-display" style="color: var(--accent-bright-red);">+2</span></div>
+                    <div class="stat-row"><span class="stat-label">Класс:</span> <input type="text" class="imperial-input" id="meta-class"></div>
+                    <div class="stat-row"><span class="stat-label">Архетип:</span> <input type="text" class="imperial-input" id="meta-archetype"></div>
+                    <div style="margin-top: 20px; padding-top: 10px; border-top: 1px solid var(--text-gold-dim);">
+                        <div class="stat-row"><span class="stat-label" style="color: var(--text-gold);">Уровень:</span><input type="number" id="level-input" min="1" max="20" onchange="recalc()"></div>
+                        <div class="stat-row"><span class="stat-label">Мастерство:</span><span class="stat-value" id="pb-display" style="color: var(--accent-bright-red);">+2</span></div>
                     </div>
                 </div>
-                <div class="data-block" style="border-color: var(--accent-crimson); background: linear-gradient(rgba(102, 0, 0, 0.1), transparent);">
+                <div class="data-block" style="border-color: var(--accent-crimson);">
                     <h2 style="color: var(--accent-crimson);">Nota Bene</h2>
                     <ul class="wax-list">
-                        <li><span>Должность:</span> <input type="text" class="imperial-input" id="meta-job" style="width: 50% !important; text-align: left !important;"></li>
-                        <li><span>Допуск:</span> <input type="text" class="imperial-input" id="meta-clearance" style="width: 50% !important; text-align: left !important;"></li>
-                        <li><span>Связь:</span> <input type="text" class="imperial-input" id="meta-comm" style="width: 50% !important; text-align: left !important;"></li>
+                        <li><span>Должность:</span> <input type="text" class="imperial-input" id="meta-job"></li>
+                        <li><span>Допуск:</span> <input type="text" class="imperial-input" id="meta-clearance"></li>
+                        <li><span>Связь:</span> <input type="text" class="imperial-input" id="meta-comm"></li>
                     </ul>
                 </div>
             </div>
         </div>
 
+        <!-- 2. BIOMETRICS (RESTORED HP/SHIELD/TEMP LOGIC) -->
         <div id="biometrics" class="content-panel">
             <h1>Parametri Corporis</h1>
             <div class="data-block" style="margin-bottom: 20px;">
-                <h2>Vitalis Status</h2>
                 <div style="display: flex; justify-content: space-around; flex-wrap: wrap; gap: 20px;">
                     <div style="text-align: center;">
                         <div class="stat-label">Хиты (Текущ / Макс)</div>
                         <div style="display: flex; align-items: center; gap: 5px; justify-content: center;">
-                            <input type="number" id="hp-curr" class="warning-text" style="width: 80px;"> / <input type="number" id="hp-max" style="width: 80px;">
+                            <input type="number" id="hp-curr" class="warning-text" style="width: 80px;"> / 
+                            <input type="number" id="hp-max" style="width: 80px;">
+                        </div>
+                        <div style="margin-top:5px; font-size:0.9rem;">
+                            <span class="stat-label" style="font-size:0.8rem;">Временные:</span>
+                            <input type="number" id="hp-temp" style="width:60px; border-color: var(--accent-crimson);">
+                        </div>
+                        <div class="bar-container">
+                            <div id="bar-hp" class="bar-fill bar-hp"></div>
+                            <div id="bar-temp" class="bar-fill bar-temp"></div>
                         </div>
                     </div>
                     <div style="text-align: center;">
-                        <div class="stat-label">Класс Брони (AC)</div>
+                        <div class="stat-label">Класс Брони</div>
                         <input type="number" id="ac-val" style="font-size: 1.5rem; color: var(--text-main);">
-                    </div>
-                    <div style="text-align: center;">
-                        <div class="stat-label">Мобильность</div>
-                        <div style="display: flex; align-items: center; gap: 10px;">
-                            <input type="number" id="speed-mod" value="0" onchange="updateSpeed()">
-                            <span id="speed-display" class="stat-value">9 м</span>
+                        <div style="margin-top:5px; font-size:0.9rem;">
+                            <span class="stat-label" style="font-size:0.8rem;">Щиты (Тек/Макс):</span>
+                            <div style="display:flex; gap:5px; justify-content:center;">
+                                <input type="number" id="shield-curr" style="width:50px; border-color: #0088ff;"> / 
+                                <input type="number" id="shield-max" style="width:50px; border-color: #0088ff;">
+                            </div>
+                        </div>
+                        <div class="bar-container">
+                            <div id="bar-shield" class="bar-fill bar-shield"></div>
                         </div>
                     </div>
+                    <div style="text-align: center;"><div class="stat-label">Мобильность</div><div style="display: flex; align-items: center; gap: 10px;"><input type="number" id="speed-mod" onchange="updateSpeed()"><span id="speed-display" class="stat-value">9 м</span></div></div>
                 </div>
             </div>
             <div class="stats-wrapper">
@@ -303,166 +234,80 @@
             </div>
         </div>
 
+        <!-- 3. SKILLS (RESTORED CHECKBOXES) -->
         <div id="skills" class="content-panel">
             <h1>Matrix Competentia</h1>
-            <div class="sub-nav">
-                <button class="sub-nav-btn active" onclick="showSubPanel('tab-skills')">I. Навыки</button>
-                <button class="sub-nav-btn" onclick="showSubPanel('tab-abilities')">II. Умения</button>
-                <button class="sub-nav-btn" onclick="showSubPanel('tab-traits')">III. Черты</button>
-                <button class="sub-nav-btn" onclick="showSubPanel('tab-features')">IV. Особенности</button>
-                <button class="sub-nav-btn" onclick="showSubPanel('tab-profs')">V. Владение</button>
-            </div>
-            <div id="tab-skills" class="sub-panel active"><div class="data-block" style="width: 100%;"><h2>Общий Реестр Навыков</h2><table class="imperial-table"><thead><tr><th>Название</th><th>Атр</th><th>Вл</th><th>Экс</th><th>Бон</th><th>Итог</th></tr></thead><tbody id="skills-body"></tbody></table></div></div>
+            <div class="sub-nav"><button class="sub-nav-btn active" onclick="showSubPanel('tab-skills')">I. Навыки</button><button class="sub-nav-btn" onclick="showSubPanel('tab-abilities')">II. Умения</button><button class="sub-nav-btn" onclick="showSubPanel('tab-traits')">III. Черты</button><button class="sub-nav-btn" onclick="showSubPanel('tab-features')">IV. Особенности</button><button class="sub-nav-btn" onclick="showSubPanel('tab-profs')">V. Владение</button></div>
+            <div id="tab-skills" class="sub-panel active"><div class="data-block" style="width: 100%;"><h2>Общий Реестр</h2><table class="imperial-table"><thead><tr><th>Название</th><th>Атр</th><th>Вл</th><th>Экс</th><th>Бон</th><th>Итог</th></tr></thead><tbody id="skills-body"></tbody></table></div></div>
             <div id="tab-abilities" class="sub-panel"><div class="data-block"><h2>Боевые Умения <button class="add-btn" onclick="addItemToGlobal('abilities')">[+]</button></h2><ul class="wax-list" id="list-abilities"></ul></div></div>
-            <div id="tab-traits" class="sub-panel"><div class="data-block"><h2>Личностные Черты <button class="add-btn" onclick="addItemToGlobal('traits')">[+]</button></h2><table class="imperial-table"><tbody id="list-traits"></tbody></table></div></div>
+            <div id="tab-traits" class="sub-panel"><div class="data-block"><h2>Черты <button class="add-btn" onclick="addItemToGlobal('traits')">[+]</button></h2><table class="imperial-table"><tbody id="list-traits"></tbody></table></div></div>
             <div id="tab-features" class="sub-panel"><div class="data-block"><h2>Особенности <button class="add-btn" onclick="addItemToGlobal('features')">[+]</button></h2><table class="imperial-table"><tbody id="list-features"></tbody></table></div></div>
-            <div id="tab-profs" class="sub-panel"><div class="data-grid"><div class="data-block"><h2>Языки <button class="add-btn" onclick="addSimpleItem('langs')">[+]</button></h2><ul class="wax-list" id="list-langs"></ul></div><div class="data-block"><h2>Инструменты <button class="add-btn" onclick="addSimpleItem('tools')">[+]</button></h2><ul class="wax-list" id="list-tools"></ul></div></div></div>
+            <div id="tab-profs" class="sub-panel"><div class="data-grid"><div class="data-block"><h2>Оружие/Доспехи <button class="add-btn" onclick="addSimpleItem('armory')">[+]</button></h2><ul class="wax-list" id="list-armory"></ul></div><div class="data-block"><h2>Инструменты <button class="add-btn" onclick="addSimpleItem('tools')">[+]</button></h2><ul class="wax-list" id="list-tools"></ul></div><div class="data-block"><h2>Языки <button class="add-btn" onclick="addSimpleItem('langs')">[+]</button></h2><ul class="wax-list" id="list-langs"></ul></div></div></div>
         </div>
 
+        <!-- 4. EQUIPMENT -->
         <div id="equipment" class="content-panel">
-            <h1>Armamentum Sacrum</h1>
+            <h1>Armamentum</h1>
             <div class="data-grid">
-                <div class="data-block"><h2>Оружие Возмездия <button class="add-btn" onclick="addItemToGlobal('weapons')">[+]</button></h2><div id="list-weapons"></div></div>
+                <div class="data-block"><h2>Оружие <button class="add-btn" onclick="addItemToGlobal('weapons')">[+]</button></h2><div id="list-weapons"></div></div>
                 <div class="data-block"><h2>Инвентарь <button class="add-btn" onclick="addItemToGlobal('inventory')">[+]</button></h2><div id="list-inventory"></div></div>
                 <div class="data-block"><h2>Финансы</h2><table class="imperial-table"><tr><td>Юниты (U)</td><td><input type="number" id="money-u" onchange="calcCurrency()"></td></tr><tr><td>К-Юниты (kG)</td><td><input type="number" id="money-k" onchange="calcCurrency()"></td></tr><tr><td>М-Юниты (MG)</td><td><input type="number" id="money-m" onchange="calcCurrency()"></td></tr><tr><td>Г-Юниты (GG)</td><td><input type="number" id="money-g" onchange="calcCurrency()"></td></tr></table><div class="stat-box" style="margin-top: 10px; border-color: var(--text-gold);"><h2>Конвертация (kG)</h2><span class="big-val" id="total-kg" style="color: var(--text-gold);">0.00 kG</span></div></div>
             </div>
         </div>
 
+        <!-- 5. PSYCH -->
         <div id="psych" class="content-panel">
-            <h1>Profilus Anima</h1>
+            <h1>Anima</h1>
             <div class="data-grid">
                 <div class="data-block"><h2>Антропометрия</h2><div class="stat-row"><span class="stat-label">Размер:</span> <input type="text" class="imperial-input" id="psych-size"></div><div class="stat-row"><span class="stat-label">Возраст:</span> <input type="text" class="imperial-input" id="psych-age"></div><div class="stat-row"><span class="stat-label">Рост:</span> <input type="text" class="imperial-input" id="psych-height"></div><div class="stat-row"><span class="stat-label">Вес:</span> <input type="text" class="imperial-input" id="psych-weight"></div></div>
-                <div class="data-block"><h2>Характеристика Личности</h2><div style="margin-bottom: 10px;"><span class="stat-label">Черта:</span><textarea class="imperial-textarea" id="psych-trait"></textarea></div><div style="margin-bottom: 10px;"><span class="stat-label">Идеал:</span><textarea class="imperial-textarea" id="psych-ideal"></textarea></div><div style="margin-bottom: 10px;"><span class="stat-label">Привязанность:</span><textarea class="imperial-textarea" id="psych-bond"></textarea></div><div><span class="stat-label">Слабость:</span><textarea class="imperial-textarea" id="psych-flaw"></textarea></div></div>
-                <div class="data-block" style="border-color: var(--accent-bright-red);"><h2 style="color: var(--accent-bright-red);">Анализ Психики</h2><textarea class="imperial-textarea" style="height: 150px; border-color: var(--accent-crimson);" id="psych-analysis"></textarea></div>
+                <div class="data-block"><h2>Личность</h2><div style="margin-bottom: 10px;"><span class="stat-label">Черта:</span><textarea class="imperial-textarea" id="psych-trait"></textarea></div><div style="margin-bottom: 10px;"><span class="stat-label">Идеал:</span><textarea class="imperial-textarea" id="psych-ideal"></textarea></div><div style="margin-bottom: 10px;"><span class="stat-label">Привязанность:</span><textarea class="imperial-textarea" id="psych-bond"></textarea></div><div><span class="stat-label">Слабость:</span><textarea class="imperial-textarea" id="psych-flaw"></textarea></div></div>
+                <div class="data-block" style="border-color: var(--accent-bright-red);"><h2 style="color: var(--accent-bright-red);">Анализ</h2><textarea class="imperial-textarea" style="height: 150px; border-color: var(--accent-crimson);" id="psych-analysis"></textarea></div>
             </div>
         </div>
 
+        <!-- 6. PSIONICS (RESTORED RESTRICTIONS) -->
         <div id="psionics" class="content-panel">
-            <h1>Psionica & Mysterium</h1>
+            <h1>Psionica</h1>
             <div class="sub-nav"><button class="sub-nav-btn active" onclick="showSubPanel('tab-psi-chars')">I. Характеристики</button><button class="sub-nav-btn" onclick="showSubPanel('tab-psi-spells')">II. Заклинания</button></div>
             <div id="tab-psi-chars" class="sub-panel active">
                 <div class="data-grid">
-                    <div class="data-block"><h2>Базовые параметры</h2><div class="stat-row"><span class="stat-label">Базовая хар-ка:</span><select id="psi-base-attr" onchange="updatePsi()"><option value="int">INT</option><option value="wis">WIS</option><option value="cha">CHA</option></select></div><div class="stat-row"><span class="stat-label">Тип кастера:</span><select id="psi-caster-type" onchange="updatePsi()"><option value="1">Полный (x1)</option><option value="0.5">Половинный (1/2)</option><option value="0.33">Третичный (1/3)</option></select></div><div class="stat-row"><span class="stat-label">Класс Псионики:</span><input type="number" id="psi-class-lvl" onchange="updatePsi()"></div><div class="stat-row"><span class="stat-label">Тип Псионики:</span><select id="psi-type-select" onchange="updatePsi()"><option value="learned">Учёная</option><option value="intuitive">Интуитивная</option></select></div><div class="stat-row"><span class="stat-label">Мод. Пси-Очков:</span><input type="number" id="psi-mod-input" onchange="updatePsi()"></div></div>
-                    <div class="data-block"><h2>Вывод</h2><div class="stat-row"><span class="stat-label">Сложность спасброска:</span> <span class="stat-value warning-text" id="psi-dc-display">12</span></div><div class="stat-row"><span class="stat-label">Пси-Очки:</span> <div style="display: inline-flex; align-items: center; gap: 5px;"><input type="number" id="psi-points-curr" class="warning-text" style="width: 50px;"> / <span class="stat-value warning-text" id="psi-points-max">12</span></div></div></div>
+                    <div class="data-block"><h2>Параметры</h2><div class="stat-row"><span class="stat-label">Базовая:</span><select id="psi-base-attr" onchange="updatePsi()"><option value="int">INT</option><option value="wis">WIS</option><option value="cha">CHA</option></select></div><div class="stat-row"><span class="stat-label">Кастинг:</span><select id="psi-caster-type" onchange="updatePsi()"><option value="1">Полный (x1)</option><option value="0.5">Половинный (1/2)</option><option value="0.33">Третичный (1/3)</option></select></div><div class="stat-row"><span class="stat-label">Класс (2-8):</span><input type="number" id="psi-class-lvl" onchange="updatePsi()"></div><div class="stat-row"><span class="stat-label">Тип:</span><select id="psi-type-select" onchange="updatePsi()"><option value="learned">Учёная</option><option value="intuitive">Интуитивная</option></select></div><div class="stat-row"><span class="stat-label">Мод. Очков:</span><input type="number" id="psi-mod-input" onchange="updatePsi()"></div></div>
+                    <div class="data-block"><h2>Вывод</h2><div class="stat-row"><span class="stat-label">Сложность:</span> <span class="stat-value warning-text" id="psi-dc-display">0</span></div><div class="stat-row"><span class="stat-label">Пси-Очки:</span> <div style="display: inline-flex; align-items: center; gap: 5px;"><input type="number" id="psi-points-curr" class="warning-text" style="width: 50px;"> / <span class="stat-value warning-text" id="psi-points-max">0</span></div></div><div class="bar-container"><div id="bar-psi" class="bar-fill bar-psi"></div></div></div>
                 </div>
             </div>
-            <div id="tab-psi-spells" class="sub-panel"><div class="data-block" style="width: 100%;"><h2>Матрица Заклинаний <button class="add-btn" onclick="addItemToGlobal('spells')">[+]</button></h2><table class="imperial-table"><thead><tr><th style="width: 20%;">Название</th><th>Время</th><th>Дистанция</th><th>Конц.</th><th>Длительность</th><th>Стоимость</th><th></th></tr></thead><tbody id="list-spells"></tbody></table></div></div>
+            <div id="tab-psi-spells" class="sub-panel"><div class="data-block" style="width: 100%;"><h2>Матрица <button class="add-btn" onclick="addItemToGlobal('spells')">[+]</button></h2><table class="imperial-table"><thead><tr><th style="width: 20%;">Название</th><th>Время</th><th>Дистанция</th><th>Конц.</th><th>Длительность</th><th>Стоимость</th><th></th></tr></thead><tbody id="list-spells"></tbody></table></div></div>
         </div>
 
+        <!-- 7. UNIVERSALIS -->
         <div id="universalis" class="content-panel">
-            <h1>Universalis: Moduli Additivi</h1>
+            <h1>Universalis</h1>
             <div class="data-grid">
-                <div class="data-block"><h2>Калькулятор Спасброска</h2><div class="stat-row"><span class="stat-label">Базовое число:</span><input type="number" id="uni-save-base" onchange="calcUniversalSave()"></div><div class="stat-row"><span class="stat-label">Характеристика:</span><select id="uni-save-attr" onchange="calcUniversalSave()"><option value="str">STR</option><option value="dex">DEX</option><option value="con">CON</option><option value="int">INT</option><option value="wis">WIS</option><option value="cha">CHA</option></select></div><div class="stat-box" style="margin-top: 15px;"><h3>Итог</h3><span class="big-val warning-text" id="uni-save-result">15</span></div></div>
-                <div class="data-block"><h2>Пользовательский Реестр <button class="add-btn" onclick="addItemToGlobal('custom')">[+]</button></h2><div id="list-custom"></div></div>
-                <div class="data-block"><h2>Счетчики и Ресурсы <button class="add-btn" onclick="addCounter()">[+]</button></h2><div id="list-counters"></div></div>
+                <div class="data-block"><h2>Спасбросок</h2><div class="stat-row"><span class="stat-label">База:</span><input type="number" id="uni-save-base" onchange="calcUniversalSave()"></div><div class="stat-row"><span class="stat-label">Атрибут:</span><select id="uni-save-attr" onchange="calcUniversalSave()"><option value="str">STR</option><option value="dex">DEX</option><option value="con">CON</option><option value="int">INT</option><option value="wis">WIS</option><option value="cha">CHA</option></select></div><div class="stat-box" style="margin-top: 15px;"><h3>Итог</h3><span class="big-val warning-text" id="uni-save-result">15</span></div></div>
+                <div class="data-block"><h2>Реестр <button class="add-btn" onclick="addItemToGlobal('custom')">[+]</button></h2><div id="list-custom"></div></div>
+                <div class="data-block"><h2>Счетчики <button class="add-btn" onclick="addCounter()">[+]</button></h2><div id="list-counters"></div></div>
             </div>
         </div>
     </main>
 </div>
 
-<!-- MODAL -->
-<div id="weapon-modal" class="modal-overlay">
-    <div class="modal-content">
-        <span class="close-modal" onclick="closeWeaponModal()">&times;</span>
-        <input type="text" id="modal-title-input" value="Weapon Name">
-        <textarea id="modal-desc" rows="10" style="width: 100%; text-align: left; padding: 10px; font-family: var(--font-body); font-size: 1.1rem; color: var(--text-main); background: rgba(0,0,0,0.5);">Description...</textarea>
-        <div style="text-align: right; margin-top: 10px; color: var(--text-gold-dim); font-size: 0.8rem;">* Данные сохраняются автоматически</div>
-    </div>
-</div>
+<!-- MODAL & SYSTEM UI -->
+<div id="sys-modal-overlay" class="sys-modal-overlay"><div class="sys-modal"><div id="sys-title" class="sys-modal-title">SYSTEM PROMPT</div><div id="sys-content"></div><div class="sys-btn-group" id="sys-buttons"></div></div></div>
+<div id="weapon-modal" class="modal-overlay"><div class="modal-content"><span class="close-modal" onclick="closeWeaponModal()">×</span><input type="text" id="modal-title-input"><textarea id="modal-desc" rows="10" style="width:100%"></textarea></div></div>
 
-<footer>GLORIA IN EXCELSIS ORDO CONTINUUM // VERITAS LUX MEA</footer>
+<footer>GLORIA IN EXCELSIS ORDO CONTINUUM</footer>
 
 <script type="module">
-    // --- 3. DRAG AND DROP LOGIC (LONG PRESS) ---
-    let dragSrcEl = null;
-    let dragTimer = null;
-    let isDragging = false;
-    let currentDragListId = null;
+    // --- SYSTEM UI ---
+    const System = {
+        overlay: document.getElementById('sys-modal-overlay'), title: document.getElementById('sys-title'), content: document.getElementById('sys-content'), buttons: document.getElementById('sys-buttons'),
+        prompt: function(h, p) { return new Promise(r => { this.title.innerText=h; this.content.innerHTML=`<input type="text" id="sys-inp" class="sys-input" placeholder="${p}">`; this.buttons.innerHTML=`<button id="no" class="sys-btn">ОТМЕНА</button><button id="yes" class="sys-btn">OK</button>`; this.overlay.style.display='flex'; document.getElementById('sys-inp').focus(); document.getElementById('yes').onclick=()=>{this.overlay.style.display='none';r(document.getElementById('sys-inp').value);}; document.getElementById('no').onclick=()=>{this.overlay.style.display='none';r(null);}; }); },
+        choice: function(h, opts) { return new Promise(r => { this.title.innerText=h; this.content.innerHTML=''; this.buttons.innerHTML='<button id="no" class="sys-btn">ОТМЕНА</button>'; opts.forEach(o=>{ const b=document.createElement('button'); b.className='sys-choice-btn'; b.innerText=o.label; b.onclick=()=>{this.overlay.style.display='none';r(o.value);}; this.content.appendChild(b); }); this.overlay.style.display='flex'; document.getElementById('no').onclick=()=>{this.overlay.style.display='none';r(null);}; }); }
+    };
 
-    function initSortable(listId, dataArray, renderCallback) {
-        const container = document.getElementById(listId);
-        if (!container) return;
-
-        // Use event delegation
-        container.onmousedown = (e) => handleDragStart(e, listId, dataArray, renderCallback);
-        container.ontouchstart = (e) => handleDragStart(e, listId, dataArray, renderCallback);
-    }
-
-    function handleDragStart(e, listId, dataArray, renderCallback) {
-        const item = e.target.closest('.interactive-list-item, .weapon-row, tr');
-        // Ignore inputs/buttons
-        if (!item || e.target.tagName === 'INPUT' || e.target.tagName === 'BUTTON' || e.target.tagName === 'TEXTAREA') return;
-
-        dragSrcEl = item;
-        currentDragListId = listId;
-
-        // Long press timer (500ms)
-        dragTimer = setTimeout(() => {
-            isDragging = true;
-            item.classList.add('dragging'); // Visual feedback
-            
-            // Allow native drag
-            item.draggable = true;
-            
-            // Manually trigger dragstart if not automatic
-            // Note: Programmatic dragstart is restricted in browsers. 
-            // We rely on the user moving mouse AFTER the visual cue.
-            
-            // Add listeners for movement
-            item.ondragstart = (ev) => {
-                ev.dataTransfer.effectAllowed = 'move';
-                // Find index
-                const idx = Array.from(item.parentNode.children).indexOf(item);
-                ev.dataTransfer.setData('text/plain', idx);
-            };
-
-            item.ondragover = (ev) => {
-                ev.preventDefault();
-                ev.dataTransfer.dropEffect = 'move';
-                return false;
-            };
-
-            item.ondrop = (ev) => {
-                ev.stopPropagation();
-                if (dragSrcEl !== item) {
-                    const oldIdx = parseInt(ev.dataTransfer.getData('text/plain'));
-                    const newIdx = Array.from(item.parentNode.children).indexOf(item);
-                    
-                    // Swap in Array
-                    const movedItem = dataArray[oldIdx];
-                    dataArray.splice(oldIdx, 1);
-                    dataArray.splice(newIdx, 0, movedItem);
-                    
-                    // Re-render & Save
-                    triggerSave();
-                    renderCallback(); 
-                }
-                return false;
-            };
-            
-            item.ondragend = () => {
-                 item.classList.remove('dragging');
-                 item.draggable = false;
-                 isDragging = false;
-                 // Cleanup
-            };
-
-        }, 500);
-
-        // Cancel on mouseup/move before time
-        const clearDrag = () => { clearTimeout(dragTimer); };
-        window.addEventListener('mouseup', clearDrag, {once:true});
-        window.addEventListener('mousemove', () => { if(!isDragging) clearDrag(); }, {once:true});
-    }
-
-    // --- CLOUD LOGIC ---
     const waitForDB = () => { if (window.OrdoDB) { initDossier(); } else { setTimeout(waitForDB, 100); } };
     waitForDB();
 
-    let activeCharData = null;
-    let activeCharId = null;
-    let saveTimeout = null;
-    let activeModalItem = null;
+    let activeCharData = null; let activeCharId = null; let saveTimeout = null; let activeModalItem = null;
     const lockStates = { identity: false, biometrics: false, skills: false, equipment: false, psych: false, psionics: false, universalis: false };
 
     async function initDossier() {
@@ -470,7 +315,6 @@
             await window.OrdoDB.init();
             const params = new URLSearchParams(window.location.search);
             activeCharId = params.get('id');
-
             if(activeCharId) {
                 document.getElementById('loading-overlay').style.display = 'none';
                 window.OrdoDB.subscribeOne(activeCharId, (data) => {
@@ -484,55 +328,47 @@
                             setupAutoSave();
                         }
                         renderAll();
-                    } else {
-                        alert("Персонаж не найден.");
-                        window.location.href = "index.html";
-                    }
+                    } else { alert("Не найдено."); window.location.href = "index.html"; }
                 });
             } else { window.location.href = "index.html"; }
         } catch(e) { document.getElementById('error-msg').innerText = e.message; }
     }
 
     function startClock() { setInterval(() => document.getElementById('clock').textContent = new Date().toISOString().split('T')[1].split('.')[0] + " ULT", 1000); }
-
-    function setupAutoSave() {
-        document.body.addEventListener('input', (e) => { if(!e.target.closest('.modal-content')) { handleInputUpdate(e.target); triggerSave(); } });
-        document.body.addEventListener('change', (e) => { handleInputUpdate(e.target); triggerSave(); });
-    }
-
-    function triggerSave() {
-        if(saveTimeout) clearTimeout(saveTimeout);
-        saveTimeout = setTimeout(() => { window.OrdoDB.set(activeCharId, activeCharData); }, 1000);
-    }
+    function setupAutoSave() { document.body.addEventListener('input', (e)=>{if(!e.target.closest('.modal-content')){handleInputUpdate(e.target);triggerSave();}}); document.body.addEventListener('change', (e)=>{handleInputUpdate(e.target);triggerSave();}); }
+    function triggerSave() { if(saveTimeout) clearTimeout(saveTimeout); saveTimeout = setTimeout(() => { window.OrdoDB.set(activeCharId, activeCharData); }, 1000); }
 
     function handleInputUpdate(el) {
         if(!activeCharData) return;
-        const id = el.id;
-        const val = el.value;
-        const checked = el.checked;
-
+        const id = el.id; const val = el.value; const chk = el.checked;
         if(id.startsWith('meta-')) activeCharData.meta[id.replace('meta-', '')] = val;
-        if(id === 'level-input') { activeCharData.meta.level = parseInt(val) || 1; recalc(); }
-        if(id.startsWith('attr-')) { activeCharData.stats[id.replace('attr-', '')] = parseInt(val) || 10; recalc(); }
-        if(id.startsWith('save-prof-')) { activeCharData.saves['prof_'+id.replace('save-prof-', '')] = checked; recalc(); }
+        if(id === 'level-input') { activeCharData.meta.level = parseInt(val)||1; recalc(); }
+        if(id.startsWith('attr-')) { activeCharData.stats[id.replace('attr-', '')] = parseInt(val)||10; recalc(); }
+        if(id.startsWith('save-prof-')) { activeCharData.saves['prof_'+id.replace('save-prof-', '')] = chk; recalc(); }
         
-        if(id === 'hp-curr') activeCharData.stats.hp_curr = parseInt(val) || 0;
-        if(id === 'hp-max') activeCharData.stats.hp_max = parseInt(val) || 0;
-        if(id === 'ac-val') activeCharData.stats.ac = parseInt(val) || 10;
-        if(id === 'speed-mod') { activeCharData.stats.speed_mod = parseInt(val) || 0; updateSpeed(); }
+        // BIO UPDATES (RESTORED NO MAX CAP)
+        if(id === 'hp-curr') activeCharData.stats.hp_curr = parseInt(val)||0;
+        if(id === 'hp-max') activeCharData.stats.hp_max = parseInt(val)||0;
+        if(id === 'hp-temp') activeCharData.stats.hp_temp = parseInt(val)||0;
+        if(id === 'shield-curr') activeCharData.stats.shield_curr = parseInt(val)||0;
+        if(id === 'shield-max') activeCharData.stats.shield_max = parseInt(val)||0;
+        if(id === 'ac-val') activeCharData.stats.ac = parseInt(val)||10;
+        if(id === 'speed-mod') { activeCharData.stats.speed_mod = parseInt(val)||0; updateSpeed(); }
         
         if(id.startsWith('money-')) { activeCharData.money[id.replace('money-', '')] = val; calcCurrency(); }
         if(id.startsWith('psych-')) activeCharData.psych[id.replace('psych-', '')] = val;
         
-        if(id === 'psi-base-attr') { activeCharData.psionics.base_attr = val; updatePsi(); }
-        if(id === 'psi-caster-type') { activeCharData.psionics.caster_type = val; updatePsi(); }
-        if(id === 'psi-class-lvl') { activeCharData.psionics.class_lvl = parseInt(val) || 1; updatePsi(); }
-        if(id === 'psi-type-select') activeCharData.psionics.type = val;
-        if(id === 'psi-mod-input') { activeCharData.psionics.mod_points = parseInt(val) || 0; updatePsi(); }
-        if(id === 'psi-points-curr') activeCharData.psionics.points_curr = parseInt(val) || 0;
+        if(id === 'psi-base-attr' || id === 'psi-caster-type' || id === 'psi-type-select' || id === 'psi-mod-input' || id === 'psi-class-lvl') {
+            if (id === 'psi-class-lvl') activeCharData.psionics.class_lvl = parseInt(val);
+            else if (id === 'psi-mod-input') activeCharData.psionics.mod_points = parseInt(val);
+            else activeCharData.psionics[id.replace('psi-','').replace('-select','')] = val;
+            updatePsi();
+        }
+        if(id === 'psi-points-curr') activeCharData.psionics.points_curr = parseInt(val);
         
-        if(id === 'uni-save-base') { activeCharData.universalis.save_base = parseInt(val) || 8; calcUniversalSave(); }
-        if(id === 'uni-save-attr') { activeCharData.universalis.save_attr = val; calcUniversalSave(); }
+        if(id.startsWith('uni-save')) { activeCharData.universalis[id.replace('uni-', '').replace('-','_')] = (id.includes('base')?parseInt(val):val); calcUniversalSave(); }
+        
+        updateBars();
     }
 
     function initSkeleton() {
@@ -541,97 +377,87 @@
         document.getElementById('saves-table').innerHTML = attrs.map(a => `<tr><td>${a.toUpperCase()}</td><td><input type="checkbox" class="prof-checkbox" id="save-prof-${a}"></td><td><span id="save-val-${a}" class="stat-value">+0</span></td></tr>`).join('');
         const SKILLS = [
             {k:'athletics', n:'Атлетика', a:'str'}, {k:'acrobatics', n:'Акробатика', a:'dex'}, {k:'sleight', n:'Ловкость рук', a:'dex'}, {k:'stealth', n:'Скрытность', a:'dex'},
-            {k:'history', n:'История', a:'int'}, {k:'investigation', n:'Расследование', a:'int'}, {k:'tech', n:'Техника', a:'int'}, {k:'programming', n:'Программирование', a:'int'},
-            {k:'fund_science', n:'Фун. Физика', a:'int'}, {k:'weapons', n:'Оружие', a:'int'}, {k:'nature', n:'Природа', a:'int'}, {k:'religion', n:'Религия', a:'int'},
+            {k:'history', n:'История', a:'int'}, {k:'investigation', n:'Расследование', a:'int'}, {k:'tech', n:'Техника', a:'int'}, {k:'programming', n:'Программирование', a:'int'}, {k:'fund_science', n:'Фун. Науки', a:'int'}, {k:'weapons', n:'Оружие', a:'int'},
+            {k:'nature', n:'Природа', a:'int'}, {k:'religion', n:'Религия', a:'int'},
             {k:'perception', n:'Восприятие', a:'wis'}, {k:'survival', n:'Выживание', a:'wis'}, {k:'medicine', n:'Медицина', a:'wis'}, {k:'insight', n:'Проницательность', a:'wis'},
             {k:'performance', n:'Выступление', a:'cha'}, {k:'intimidation', n:'Запугивание', a:'cha'}, {k:'deception', n:'Обман', a:'cha'}, {k:'persuasion', n:'Убеждение', a:'cha'}
         ];
         document.getElementById('skills-body').innerHTML = SKILLS.map(s => `<tr data-key="${s.k}" data-attr="${s.a}"><td>${s.n}</td><td>${s.a.toUpperCase()}</td><td><input type="checkbox" class="chk-prof"></td><td><input type="checkbox" class="chk-exp"></td><td><input type="number" class="skill-bonus-input" value="0"></td><td class="total-mod">+0</td></tr>`).join('');
         
         document.querySelectorAll('#skills-body tr').forEach(row => {
-            const key = row.dataset.key;
-            const updateSkill = () => {
-                activeCharData.skills.data[key] = [row.querySelector('.chk-prof').checked, row.querySelector('.chk-exp').checked, parseInt(row.querySelector('.skill-bonus-input').value)||0];
+            const k = row.dataset.key;
+            const up = () => {
+                activeCharData.skills.data[k] = [row.querySelector('.chk-prof').checked, row.querySelector('.chk-exp').checked, parseInt(row.querySelector('.skill-bonus-input').value)||0];
                 recalc(); triggerSave();
             };
-            row.querySelector('.chk-prof').onchange = updateSkill;
-            row.querySelector('.chk-exp').onchange = updateSkill;
-            row.querySelector('.skill-bonus-input').onchange = updateSkill;
+            row.querySelector('.chk-prof').onchange = up; row.querySelector('.chk-exp').onchange = up; row.querySelector('.skill-bonus-input').onchange = up;
         });
     }
 
     function renderAll() {
         const d = activeCharData;
-        const safeSet = (id, v) => { const e=document.getElementById(id); if(e && document.activeElement!==e) e.value=v; };
-        const safeCheck = (id, v) => { const e=document.getElementById(id); if(e) e.checked=v; };
+        const set = (id, v) => { const e=document.getElementById(id); if(e && document.activeElement!==e) e.value=v; };
+        const chk = (id, v) => { const e=document.getElementById(id); if(e) e.checked=v; };
 
-        safeSet('meta-name', d.meta.name); safeSet('meta-race', d.meta.race);
-        safeSet('meta-age', d.meta.age); safeSet('meta-rank', d.meta.rank); safeSet('meta-class', d.meta.class);
-        safeSet('meta-archetype', d.meta.archetype); safeSet('level-input', d.meta.level);
-        safeSet('meta-job', d.meta.job); safeSet('meta-clearance', d.meta.clearance); safeSet('meta-comm', d.meta.comm);
+        set('meta-name', d.meta.name); set('meta-race', d.meta.race); set('meta-subrace', d.meta.subrace);
+        set('meta-age', d.meta.age); set('meta-rank', d.meta.rank); set('meta-class', d.meta.class);
+        set('meta-archetype', d.meta.archetype); set('level-input', d.meta.level);
+        set('meta-job', d.meta.job); set('meta-clearance', d.meta.clearance); set('meta-comm', d.meta.comm);
         if(d.meta.image) document.getElementById('char-img').src = d.meta.image;
 
-        ['str','dex','con','int','wis','cha'].forEach(a => { safeSet(`attr-${a}`, d.stats[a]); safeCheck(`save-prof-${a}`, d.saves['prof_'+a]); });
+        ['str','dex','con','int','wis','cha'].forEach(a => { set(`attr-${a}`, d.stats[a]); chk(`save-prof-${a}`, d.saves['prof_'+a]); });
         
-        safeSet('hp-curr', d.stats.hp_curr); safeSet('hp-max', d.stats.hp_max);
-        safeSet('ac-val', d.stats.ac); safeSet('speed-mod', d.stats.speed_mod);
+        set('hp-curr', d.stats.hp_curr); set('hp-max', d.stats.hp_max); set('hp-temp', d.stats.hp_temp);
+        set('shield-curr', d.stats.shield_curr); set('shield-max', d.stats.shield_max);
+        set('ac-val', d.stats.ac); set('speed-mod', d.stats.speed_mod);
 
         document.querySelectorAll('#skills-body tr').forEach(row => {
-            const key = row.dataset.key;
-            if(d.skills.data[key]) {
-                const [p, e, b] = d.skills.data[key];
-                safeCheck(null, p); row.querySelector('.chk-prof').checked = p;
-                safeCheck(null, e); row.querySelector('.chk-exp').checked = e;
+            const k = row.dataset.key;
+            if(d.skills.data[k]) {
+                const [p,e,b] = d.skills.data[k];
+                chk(null, p); row.querySelector('.chk-prof').checked=p;
+                chk(null, e); row.querySelector('.chk-exp').checked=e;
                 if(document.activeElement !== row.querySelector('.skill-bonus-input')) row.querySelector('.skill-bonus-input').value = b;
             }
         });
 
-        // Initialize Sortables with Re-Render callbacks
         renderList('list-weapons', d.combat.weapons, 'weapon');
-        initSortable('list-weapons', d.combat.weapons, () => renderList('list-weapons', d.combat.weapons, 'weapon'));
-
         renderList('list-inventory', d.combat.inventory, 'item');
-        initSortable('list-inventory', d.combat.inventory, () => renderList('list-inventory', d.combat.inventory, 'item'));
-
         renderList('list-abilities', d.abilities, 'item');
-        initSortable('list-abilities', d.abilities, () => renderList('list-abilities', d.abilities, 'item'));
-        
-        renderList('list-traits', d.traits, 'table');
-        renderList('list-features', d.features, 'table');
+        renderList('list-traits', d.traits, 'item');
+        renderList('list-features', d.features, 'item');
         renderList('list-langs', d.profs.langs, 'simple');
         renderList('list-tools', d.profs.tools, 'simple');
         renderList('list-armory', d.profs.armory, 'simple');
-        
         renderList('list-spells', d.psionics.spells, 'spell');
-        initSortable('list-spells', d.psionics.spells, () => renderList('list-spells', d.psionics.spells, 'spell'));
-
         renderList('list-custom', d.universalis.custom_table, 'weapon');
 
-        const cntCont = document.getElementById('list-counters'); cntCont.innerHTML = '';
-        (d.universalis.counters||[]).forEach((c, idx) => {
+        const cc = document.getElementById('list-counters'); cc.innerHTML = '';
+        (d.universalis.counters||[]).forEach((c, i) => {
             const div = document.createElement('div'); div.className = 'stat-row';
-            div.innerHTML = `<span class="stat-label">${c.name}:</span><div style="display:flex;"><input type="number" value="${c.val}" onchange="updateCounter(${idx}, 'val', this.value)"><button class="del-btn" onclick="removeCounter(${idx})">[x]</button></div>`;
-            cntCont.appendChild(div);
+            div.innerHTML = `<span class="stat-label">${c.name}:</span><div style="display:flex;align-items:center;gap:5px;"><input type="number" value="${c.val}" onchange="updateCounter(${i},'val',this.value)" style="width:50px;"><span>/</span><input type="number" value="${c.max||0}" onchange="updateCounter(${i},'max',this.value)" style="width:50px;color:#666;"><button class="del-btn" onclick="removeCounter(${i})">[x]</button></div>`;
+            cc.appendChild(div);
         });
 
-        safeSet('money-u', d.money.u); safeSet('money-k', d.money.k); safeSet('money-m', d.money.m); safeSet('money-g', d.money.g);
-        safeSet('psych-size', d.psych.size); safeSet('psych-age', d.psych.age); safeSet('psych-height', d.psych.height); safeSet('psych-weight', d.psych.weight);
-        safeSet('psych-trait', d.psych.trait); safeSet('psych-ideal', d.psych.ideal); safeSet('psych-bond', d.psych.bond); safeSet('psych-flaw', d.psych.flaw); safeSet('psych-analysis', d.psych.analysis);
+        set('money-u', d.money.u); set('money-k', d.money.k); set('money-m', d.money.m); set('money-g', d.money.g);
+        set('psych-size', d.psych.size); set('psych-age', d.psych.age); set('psych-height', d.psych.height); set('psych-weight', d.psych.weight);
+        set('psych-trait', d.psych.trait); set('psych-ideal', d.psych.ideal); set('psych-bond', d.psych.bond); set('psych-flaw', d.psych.flaw); set('psych-analysis', d.psych.analysis);
         
-        safeSet('psi-base-attr', d.psionics.base_attr); safeSet('psi-caster-type', d.psionics.caster_type);
-        safeSet('psi-class-lvl', d.psionics.class_lvl); safeSet('psi-type-select', d.psionics.type);
-        safeSet('psi-mod-input', d.psionics.mod_points); safeSet('psi-points-curr', d.psionics.points_curr);
+        set('psi-base-attr', d.psionics.base_attr); set('psi-caster-type', d.psionics.caster_type);
+        set('psi-class-lvl', d.psionics.class_lvl); set('psi-type-select', d.psionics.type);
+        set('psi-mod-input', d.psionics.mod_points); set('psi-points-curr', d.psionics.points_curr);
         
-        safeSet('uni-save-base', d.universalis.save_base); safeSet('uni-save-attr', d.universalis.save_attr);
+        set('uni-save-base', d.universalis.save_base); set('uni-save-attr', d.universalis.save_attr);
 
-        recalc();
+        recalc(); updateBars();
         
-        // Sync Locks
-        if (d.locks) {
-            for (const [k, v] of Object.entries(d.locks)) {
-                const cb = document.querySelector(`.lock-toggle[onchange*="'${k}'"]`);
-                if(cb) cb.checked = v;
-            }
+        // Restore Locks
+        if(d.locks) for(const [k,v] of Object.entries(d.locks)) {
+            const cb = document.querySelector(`.lock-toggle[onchange*="'${k}'"]`);
+            if(cb) cb.checked=v;
+            // Also trigger visual hide if active
+            const btn = document.querySelector(`.nav-btn.active`);
+            if(btn && btn.getAttribute('onclick').includes(k) && v) document.getElementById('access-denied').style.display = 'flex';
         }
     }
 
@@ -640,35 +466,25 @@
         if(!arr || arr.length === 0) { el.innerHTML = '<div class="empty-msg">[НЕТ ДАННЫХ]</div>'; return; }
         arr.forEach((item, idx) => {
             const div = document.createElement(mode==='spell'?'tr':'div');
-            // Add ID for sortable finding
-            div.dataset.index = idx;
-
             if(mode==='weapon' || mode==='item') {
                 div.className = mode==='weapon'?'weapon-row':'stat-row interactive-list-item';
-                div.onclick = (e) => { if(!isDragging) openModal(item); };
-                const typeLabel = item.type ? `<span class="stat-label">${item.type}</span>` : '';
-                div.innerHTML = `${typeLabel} <span class="stat-value">${item.name}</span> <button class="del-btn" onclick="deleteItem(event, '${id}', ${idx})">[x]</button>`;
+                div.onclick = () => openModal(item);
+                const tL = item.type ? `<span class="stat-label">${item.type}</span>` : '';
+                div.innerHTML = `${tL} <span class="stat-value">${item.name}</span> <button class="del-btn" onclick="deleteItem(event, '${id}', ${idx})">[x]</button>`;
             } else if(mode==='simple') {
                 div.innerHTML = `<span>${item}</span> <button class="del-btn" onclick="deleteItem(event, '${id}', ${idx})">[x]</button>`;
-            } else if(mode==='table') {
-                div.innerHTML = `<td>${item.name}</td><td>${item.type}</td><td><button class="del-btn" onclick="deleteItem(event, '${id}', ${idx})">[x]</button></td>`;
             } else if(mode==='spell') {
-                div.innerHTML = `<td><button class='spell-name-btn' onclick='if(!isDragging) openModal(activeCharData.psionics.spells[${idx}])'>${item.name}</button></td><td><input type='text' value='${item.time}' onchange='updateSpell(${idx}, "time", this.value)'></td><td><input type='text' value='${item.range}' onchange='updateSpell(${idx}, "range", this.value)'></td><td><input type='checkbox' ${item.conc?'checked':''} onchange='updateSpell(${idx}, "conc", this.checked)'></td><td><input type='text' value='${item.dur}' onchange='updateSpell(${idx}, "dur", this.value)'></td><td><input type='number' value='${item.cost}' onchange='updateSpell(${idx}, "cost", this.value)'></td><td><button class='del-btn' onclick="deleteItem(event, '${id}', ${idx})">[x]</button></td>`;
+                div.innerHTML = `<td><button class='spell-name-btn' onclick='openModal(activeCharData.psionics.spells[${idx}])'>${item.name}</button></td><td><input type='text' value='${item.time}' onchange='updateSpell(${idx}, "time", this.value)'></td><td><input type='text' value='${item.range}' onchange='updateSpell(${idx}, "range", this.value)'></td><td><input type='checkbox' ${item.conc?'checked':''} onchange='updateSpell(${idx}, "conc", this.checked)'></td><td><input type='text' value='${item.dur}' onchange='updateSpell(${idx}, "dur", this.value)'></td><td><input type='number' value='${item.cost}' onchange='updateSpell(${idx}, "cost", this.value)'></td><td><button class='del-btn' onclick="deleteItem(event, '${id}', ${idx})">[x]</button></td>`;
             }
             el.appendChild(div);
         });
     }
 
-    // --- SYSTEM UI CALLS ---
-    window.addItemToGlobal = (type) => {
-        const name = prompt("Название:"); if(!name) return;
+    window.addItemToGlobal = async (type) => {
+        const name = await System.prompt("НОВЫЙ ЭЛЕМЕНТ", "Название"); if(!name) return;
         let arr; let item = { name, desc: "", type: "-" };
+        if(type!=='spells' && type!=='custom') item.type = await System.prompt("ТИП ПРЕДМЕТА", "Тип") || "-";
         
-        if(type!=='spells' && type!=='custom') {
-           const t = prompt("Тип (например: Меч, Навык, Инструмент):");
-           item.type = t || "-";
-        }
-
         if(type==='weapons') arr=activeCharData.combat.weapons;
         else if(type==='inventory') arr=activeCharData.combat.inventory;
         else if(type==='abilities') arr=activeCharData.abilities;
@@ -676,15 +492,10 @@
         else if(type==='features') arr=activeCharData.features;
         else if(type==='spells') { arr=activeCharData.psionics.spells; item={name, time:"1д", range:"18м", conc:false, dur:"Мгновенно", cost:0, desc:""}; }
         else if(type==='custom') arr=activeCharData.universalis.custom_table;
-        
         arr.push(item); triggerSave(); renderAll();
     };
 
-    window.addSimpleItem = (type) => { 
-        const n = prompt("Название:"); 
-        if(n) { activeCharData.profs[type].push(n); triggerSave(); renderAll(); } 
-    };
-
+    window.addSimpleItem = async (type) => { const n = await System.prompt("ДОБАВИТЬ", "Название"); if(n) { activeCharData.profs[type].push(n); triggerSave(); renderAll(); } };
     window.deleteItem = (e, id, idx) => {
         e.stopPropagation();
         const map = {'list-weapons': activeCharData.combat.weapons, 'list-inventory': activeCharData.combat.inventory, 'list-abilities': activeCharData.abilities, 'list-traits': activeCharData.traits, 'list-features': activeCharData.features, 'list-langs': activeCharData.profs.langs, 'list-tools': activeCharData.profs.tools, 'list-armory': activeCharData.profs.armory, 'list-spells': activeCharData.psionics.spells, 'list-custom': activeCharData.universalis.custom_table};
@@ -692,47 +503,19 @@
     };
 
     window.updateSpell = (idx, f, v) => { activeCharData.psionics.spells[idx][f]=v; triggerSave(); };
-    
-    window.addCounter = () => { 
-        const n = prompt("Название:"); 
-        if(n) { activeCharData.universalis.counters.push({name:n, val:0, max:0}); triggerSave(); renderAll(); } 
-    };
+    window.addCounter = async () => { const n = await System.prompt("НОВЫЙ СЧЕТЧИК", "Название"); if(n) { activeCharData.universalis.counters.push({name:n, val:0, max:0}); triggerSave(); renderAll(); } };
     window.updateCounter = (idx, f, v) => { activeCharData.universalis.counters[idx][f]=parseInt(v); triggerSave(); };
     window.removeCounter = (idx) => { activeCharData.universalis.counters.splice(idx,1); triggerSave(); renderAll(); };
 
-    window.openModal = (item) => { 
-        if(isDragging) return;
-        activeModalItem=item; 
-        document.getElementById('weapon-modal').style.display='flex'; 
-        document.getElementById('modal-title-input').value=item.name; 
-        document.getElementById('modal-desc').value=item.desc||""; 
-        document.getElementById('modal-title-input').oninput=(e)=>{item.name=e.target.value; triggerSave();}; 
-        document.getElementById('modal-desc').oninput=(e)=>{item.desc=e.target.value; triggerSave();}; 
-    };
+    window.openModal = (item) => { activeModalItem=item; document.getElementById('weapon-modal').style.display='flex'; document.getElementById('modal-title-input').value=item.name; document.getElementById('modal-desc').value=item.desc||""; document.getElementById('modal-title-input').oninput=(e)=>{item.name=e.target.value; triggerSave();}; document.getElementById('modal-desc').oninput=(e)=>{item.desc=e.target.value; triggerSave();}; };
     window.closeWeaponModal = () => { document.getElementById('weapon-modal').style.display='none'; activeModalItem=null; renderAll(); };
 
-    window.triggerImageUpload = () => {
-        const choice = prompt("1. URL\n2. Файл");
-        if(choice==="1") { 
-            const u = prompt("URL:"); 
-            if(u) { activeCharData.meta.image=u; triggerSave(); document.getElementById('char-img').src=u; } 
-        }
+    window.triggerImageUpload = async () => {
+        const choice = await System.choice("ЗАГРУЗКА", [{label:"URL", value:"1"},{label:"Файл", value:"2"}]);
+        if(choice==="1") { const u = await System.prompt("URL", "https://..."); if(u) { activeCharData.meta.image=u; triggerSave(); document.getElementById('char-img').src=u; } }
         else if(choice==="2") document.getElementById('img-upload').click();
     };
-
-    window.handleImageUpload = (inp) => {
-        if(inp.files[0]) { 
-            const r = new FileReader();
-            r.onload = (e) => {
-               // In a real cloud scenario with storage, we'd upload here. 
-               // For this simple restoration, we save Base64 to Firestore (beware size limits).
-               activeCharData.meta.image = e.target.result; 
-               document.getElementById('char-img').src = e.target.result; 
-               triggerSave();
-            };
-            r.readAsDataURL(inp.files[0]);
-        }
-    };
+    window.handleImageUpload = async (inp) => { if(inp.files[0]) { try { const u = await window.OrdoDB.uploadImage(inp.files[0], activeCharId); activeCharData.meta.image = u; document.getElementById('char-img').src = u; triggerSave(); } catch(e){ alert(e.message); } } };
 
     function recalc() {
         if(!activeCharData) return;
@@ -751,55 +534,55 @@
             let t = mods[a] + b; if(e) t += (pb*2); else if(p) t += pb;
             row.querySelector('.total-mod').innerText = (t>=0?"+":"")+t;
         });
-        updatePsi(); calcUniversalSave(); updateSpeed(); calcCurrency();
+        updatePsi(); calcUniversalSave(); updateSpeed(); calcCurrency(); updateBars();
     }
 
+    // --- RESTORED PSIONIC RULES ---
     function updatePsi() {
         const d = activeCharData; if(!d) return;
+        const base = d.psionics.base_attr; const type = d.psionics.type;
+        // Logic: Intuitive = WIS/CHA, Learned = INT
+        if (type === 'intuitive' && base === 'int') { alert("ОШИБКА: Интуитивная псионика не может использовать Интеллект."); d.psionics.base_attr='cha'; document.getElementById('psi-base-attr').value='cha'; }
+        if (type === 'learned' && base !== 'int') { alert("ОШИБКА: Ученая псионика требует Интеллект."); d.psionics.base_attr='int'; document.getElementById('psi-base-attr').value='int'; }
+        
+        // Logic: Max Class Level (Full=8, Half=7, Third=6)
+        const ct = parseFloat(d.psionics.caster_type);
+        const maxLvl = ct === 1 ? 8 : (ct === 0.5 ? 7 : 6);
+        let clsLvl = d.psionics.class_lvl;
+        if (clsLvl < 2) clsLvl = 2; if (clsLvl > maxLvl) clsLvl = maxLvl;
+        d.psionics.class_lvl = clsLvl; document.getElementById('psi-class-lvl').value = clsLvl;
+
         const m = Math.floor(((d.stats[d.psionics.base_attr]||10)-10)/2);
         const pb = 2+Math.floor(((d.meta.level||1)-1)/4);
-        document.getElementById('psi-dc-display').innerText = 8+pb+m+Math.max(0, (d.psionics.class_lvl||1)-2);
-        const pts = (parseFloat(d.psionics.caster_type)===1?6:(parseFloat(d.psionics.caster_type)===0.5?3:2)) + (d.psionics.mod_points||0);
+        document.getElementById('psi-dc-display').innerText = 8+pb+m+Math.max(0, clsLvl-2);
+        const pts = (ct===1?6:(ct===0.5?3:2)) + (d.psionics.mod_points||0);
         document.getElementById('psi-points-max').innerText = pts * (d.meta.level||1);
     }
-    function calcUniversalSave() {
-        const d = activeCharData; if(!d) return;
-        const m = Math.floor(((d.stats[d.universalis.save_attr]||10)-10)/2);
-        const pb = 2+Math.floor(((d.meta.level||1)-1)/4);
-        document.getElementById('uni-save-result').innerText = (d.universalis.save_base||10)+m+pb;
-    }
-    function updateSpeed() {
-        const d = activeCharData; if(!d) return;
-        document.getElementById('speed-display').innerText = (9+((d.stats.speed_mod||0)*1.5))+" м";
-    }
-    function calcCurrency() {
-        const d = activeCharData; if(!d) return;
-        const t = ((parseFloat(d.money.g)||0)*1000000)+((parseFloat(d.money.m)||0)*1000)+(parseFloat(d.money.k)||0)+((parseFloat(d.money.u)||0)/1000);
-        document.getElementById('total-kg').innerText = t.toLocaleString('ru-RU', {minimumFractionDigits: 2}) + " kG";
+    
+    function calcUniversalSave() { const d=activeCharData; if(!d) return; const m=Math.floor(((d.stats[d.universalis.save_attr]||10)-10)/2); const pb=2+Math.floor(((d.meta.level||1)-1)/4); document.getElementById('uni-save-result').innerText=(d.universalis.save_base||10)+m+pb; }
+    function updateSpeed() { const d=activeCharData; if(!d) return; document.getElementById('speed-display').innerText=(9+((d.stats.speed_mod||0)*1.5))+" м"; }
+    function calcCurrency() { const d=activeCharData; if(!d) return; const t=((parseFloat(d.money.g)||0)*1000000)+((parseFloat(d.money.m)||0)*1000)+(parseFloat(d.money.k)||0)+((parseFloat(d.money.u)||0)/1000); document.getElementById('total-kg').innerText=t.toLocaleString('ru-RU', {minimumFractionDigits: 2})+" kG"; }
+    function updateBars() {
+        const d=activeCharData; if(!d) return;
+        const hpPct = Math.min(100, ((d.stats.hp_curr||0)/(d.stats.hp_max||1))*100);
+        document.getElementById('bar-hp').style.width = hpPct+"%";
+        // Temp HP stacks (no max)
+        const tempPct = Math.min(100, ((d.stats.hp_temp||0)/(d.stats.hp_max||1))*100);
+        document.getElementById('bar-temp').style.width = tempPct+"%"; document.getElementById('bar-temp').style.left = hpPct+"%";
+        // Shields
+        const shPct = Math.min(100, ((d.stats.shield_curr||0)/(d.stats.shield_max||1))*100);
+        document.getElementById('bar-shield').style.width = shPct+"%";
+        // Psi
+        const psiMax = parseInt(document.getElementById('psi-points-max').innerText)||1;
+        document.getElementById('bar-psi').style.width = Math.min(100, ((d.psionics.points_curr||0)/psiMax)*100)+"%";
     }
 
-    window.showPanel = (id) => {
-        if(lockStates[id]) return;
-        document.querySelectorAll('.content-panel').forEach(p=>p.classList.remove('active'));
-        document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
-        document.getElementById('access-denied').style.display='none';
-        document.getElementById(id).classList.add('active');
-        const btn = Array.from(document.querySelectorAll('.nav-btn')).find(b=>b.innerText.toLowerCase().includes(id.substring(0,3)));
-        if(btn) btn.classList.add('active');
-    };
-    window.showSubPanel = (id) => {
-        document.querySelectorAll('.sub-panel').forEach(p=>p.classList.remove('active'));
-        document.querySelectorAll('.sub-nav-btn').forEach(b=>b.classList.remove('active'));
-        document.getElementById(id).classList.add('active');
-        event.currentTarget.classList.add('active');
-    };
+    window.showPanel = (id) => { if(lockStates[id]) return; document.querySelectorAll('.content-panel').forEach(p=>p.classList.remove('active')); document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active')); document.getElementById('access-denied').style.display='none'; document.getElementById(id).classList.add('active'); event.currentTarget.classList.add('active'); };
+    window.showSubPanel = (id) => { document.querySelectorAll('.sub-panel').forEach(p=>p.classList.remove('active')); document.querySelectorAll('.sub-nav-btn').forEach(b=>b.classList.remove('active')); document.getElementById(id).classList.add('active'); event.currentTarget.classList.add('active'); };
     window.toggleLock = (id, cb) => {
-        lockStates[id] = cb.checked;
-        if(activeCharData.locks) activeCharData.locks[id] = cb.checked;
-        triggerSave();
-        
-        const currentActive = document.querySelector('.nav-btn.active');
-        if(currentActive && currentActive.innerText.toLowerCase().includes(id.substring(0,3))) {
+        lockStates[id] = cb.checked; if(activeCharData.locks) activeCharData.locks[id]=cb.checked; triggerSave();
+        const activeBtn = document.querySelector(`.nav-btn[onclick*="${id}"]`);
+        if(activeBtn && activeBtn.classList.contains('active')) {
             document.querySelectorAll('.content-panel').forEach(p=>p.classList.remove('active'));
             if(cb.checked) document.getElementById('access-denied').style.display='flex';
             else document.getElementById(id).classList.add('active');
