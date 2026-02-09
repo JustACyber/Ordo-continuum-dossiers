@@ -4,66 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ORDO CONTINUUM // CENTRAL COMMAND</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
     
-    <!-- ПОДКЛЮЧЕНИЕ МОДУЛЯ БАЗЫ -->
     <script type="module" src="database.js"></script>
     
     <style>
         :root {
-            --bg-color: #080606;
-            --panel-bg: #100c0c;
-            --text-gold: #d4af37;
-            --text-dim: #8a7338;
-            --accent-crimson: #8a0000;
-            --border-color: #9d8033;
-            
-            --font-headers: 'Cinzel', serif;
-            --font-body: 'Cormorant Garamond', serif;
+            --bg-color: #080606; --panel-bg: #100c0c; --text-gold: #d4af37; --text-dim: #8a7338;
+            --accent-crimson: #8a0000; --border-color: #9d8033;
+            --font-headers: 'Cinzel', serif; --font-body: 'Cormorant Garamond', serif;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; }
+        body { background-color: var(--bg-color); color: var(--text-gold); font-family: var(--font-headers); height: 100vh; display: flex; flex-direction: column; overflow: hidden; border: 4px double var(--border-color); }
+        
+        /* Стили Реестра */
+        body::before { content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06)); background-size: 100% 2px, 3px 100%; z-index: 100; pointer-events: none; opacity: 0.6; }
+        body::after { content: ""; position: absolute; top: 0; left: 0; right: 0; bottom: 0; box-shadow: inset 0 0 100px rgba(0,0,0,0.9); z-index: 99; pointer-events: none; }
 
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-gold);
-            font-family: var(--font-headers);
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            border: 4px double var(--border-color);
-        }
-
-        /* Loading Overlay Style */
-        #loading-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--bg-color); z-index: 9999;
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-        }
-        .pulse-text { animation: pulse 1.5s infinite; font-size: 2rem; letter-spacing: 5px; }
-        .error-text { color: var(--accent-crimson); margin-top: 20px; font-family: sans-serif; font-size: 0.8rem; max-width: 600px; text-align: center; }
-        @keyframes pulse { 0% { opacity: 0.5; } 50% { opacity: 1; text-shadow: 0 0 20px var(--text-gold); } 100% { opacity: 0.5; } }
-
-        /* Effects */
-        body::before {
-            content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%),
-                        linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
-            background-size: 100% 2px, 3px 100%; z-index: 100; pointer-events: none; opacity: 0.6;
-        }
-        body::after {
-            content: ""; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-            box-shadow: inset 0 0 100px rgba(0,0,0,0.9); z-index: 99; pointer-events: none;
-        }
-
-        header {
-            height: 140px; display: flex; flex-direction: column; justify-content: center; align-items: center;
-            border-bottom: 2px solid var(--text-gold); background: radial-gradient(circle at center, #1a0f0f 0%, #000 100%);
-            position: relative; z-index: 10; box-shadow: 0 5px 30px rgba(0,0,0,0.8);
-        }
+        header { height: 140px; display: flex; flex-direction: column; justify-content: center; align-items: center; border-bottom: 2px solid var(--text-gold); background: radial-gradient(circle at center, #1a0f0f 0%, #000 100%); position: relative; z-index: 10; box-shadow: 0 5px 30px rgba(0,0,0,0.8); }
         .header-decor { position: absolute; width: 100%; height: 100%; top: 0; left: 0; display: flex; justify-content: space-between; align-items: center; padding: 0 20px; pointer-events: none; }
         .header-decor::before, .header-decor::after { content: "✠"; font-size: 3rem; color: var(--accent-crimson); opacity: 0.5; }
         .main-title { font-size: 3.5rem; letter-spacing: 8px; font-weight: 700; text-shadow: 0 0 15px rgba(212, 175, 55, 0.4); background: linear-gradient(180deg, #ffd700, #8a6e00); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
@@ -72,33 +31,23 @@
         main { flex: 1; padding: 60px; overflow-y: auto; position: relative; background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h40v40H0V0zm1 1h38v38H1V1z' fill='%23333' fill-opacity='0.1' fill-rule='evenodd'/%3E%3C/svg%3E"); }
         .grid-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 50px; width: 100%; max-width: 1600px; margin: 0 auto; }
 
-        .personnel-card {
-            background-color: rgba(14, 12, 12, 0.9); border: 1px solid var(--text-dim); height: 500px;
-            display: flex; flex-direction: column; position: relative; transition: 0.4s; cursor: pointer;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
-        }
+        .personnel-card { background-color: rgba(14, 12, 12, 0.9); border: 1px solid var(--text-dim); height: 500px; display: flex; flex-direction: column; position: relative; transition: 0.4s; cursor: pointer; box-shadow: 0 10px 30px rgba(0,0,0,0.8); }
         .personnel-card:hover { transform: translateY(-8px); border-color: var(--text-gold); box-shadow: 0 0 30px rgba(212, 175, 55, 0.2); }
         .card-corner { position: absolute; width: 15px; height: 15px; border-style: solid; border-color: var(--text-gold); transition: 0.3s; }
         .c-tl { top: -1px; left: -1px; border-width: 2px 0 0 2px; } .c-tr { top: -1px; right: -1px; border-width: 2px 2px 0 0; }
         .c-bl { bottom: -1px; left: -1px; border-width: 0 0 2px 2px; } .c-br { bottom: -1px; right: -1px; border-width: 0 2px 2px 0; }
         .personnel-card:hover .card-corner { width: 30px; height: 30px; }
-
         .card-image-wrapper { flex: 1; overflow: hidden; border-bottom: 2px solid var(--accent-crimson); background: #000; }
-        .card-image { width: 100%; height: 100%; object-fit: cover; filter: sepia(40%) contrast(120%) brightness(70%); transition: 0.5s; }
-        .personnel-card:hover .card-image { filter: sepia(0%) contrast(100%) brightness(100%); transform: scale(1.05); }
+        .card-image { width: 100%; height: 100%; object-fit: cover; filter: sepia(40%) brightness(70%); transition: 0.5s; }
+        .personnel-card:hover .card-image { filter: none; transform: scale(1.05); }
         .no-image-placeholder { width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #333; }
-        
         .card-info { height: 90px; background: #080808; display: flex; flex-direction: column; justify-content: center; align-items: center; border-top: 1px solid var(--text-gold-dim); }
         .char-name { font-size: 1.6rem; color: var(--text-gold); text-transform: uppercase; letter-spacing: 3px; text-shadow: 0 2px 5px rgba(0,0,0,0.8); }
         .char-rank { font-family: var(--font-body); font-size: 1rem; color: var(--accent-crimson); letter-spacing: 1px; font-style: italic; margin-top: 5px; }
 
-        .delete-btn {
-            position: absolute; top: 15px; right: 15px; width: 35px; height: 35px;
-            background: rgba(0,0,0,0.8); border: 1px solid var(--accent-crimson); color: var(--accent-crimson);
-            font-size: 1.5rem; display: flex; align-items: center; justify-content: center; opacity: 0; transition: 0.3s; z-index: 20;
-        }
-        .personnel-card:hover .delete-btn { opacity: 1; }
+        .delete-btn { position: absolute; top: 15px; right: 15px; width: 35px; height: 35px; background: rgba(0,0,0,0.8); border: 1px solid var(--accent-crimson); color: var(--accent-crimson); font-size: 1.5rem; display: flex; align-items: center; justify-content: center; opacity: 0; transition: 0.3s; z-index: 20; cursor: pointer; }
         .delete-btn:hover { background: var(--accent-crimson); color: #000; box-shadow: 0 0 15px var(--accent-crimson); }
+        .personnel-card:hover .delete-btn { opacity: 1; }
 
         .new-card { background: rgba(255, 255, 255, 0.01); border: 2px dashed var(--text-gold-dim); justify-content: center; align-items: center; }
         .new-card:hover { background: rgba(212, 175, 55, 0.05); border-color: var(--text-gold); border-style: solid; }
@@ -107,132 +56,131 @@
         .new-text { color: var(--text-gold); letter-spacing: 4px; font-weight: bold; }
 
         footer { height: 50px; border-top: 1px solid var(--text-dim); display: flex; justify-content: space-between; align-items: center; padding: 0 40px; background-color: #050505; z-index: 10; font-size: 0.8rem; letter-spacing: 2px; }
+        
+        #loading-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg-color); z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .pulse-text { animation: pulse 1.5s infinite; font-size: 2rem; letter-spacing: 5px; color: var(--text-gold); }
+        @keyframes pulse { 0% { opacity: 0.5; } 50% { opacity: 1; text-shadow: 0 0 20px var(--text-gold); } 100% { opacity: 0.5; } }
+        .error-msg { color: var(--accent-crimson); margin-top: 20px; }
+
+        /* --- SYSTEM MODALS (STYLED PROMPTS) --- */
+        .sys-modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 10000; justify-content: center; align-items: center; backdrop-filter: blur(5px); }
+        .sys-modal { background: var(--panel-bg); border: 2px solid var(--text-gold); padding: 30px; width: 500px; text-align: center; box-shadow: 0 0 50px rgba(0,0,0,0.8); animation: modalIn 0.3s; }
+        .sys-modal-title { font-family: var(--font-headers); font-size: 1.5rem; color: var(--text-gold); border-bottom: 1px solid var(--text-dim); padding-bottom: 10px; margin-bottom: 20px; letter-spacing: 3px; }
+        .sys-input { width: 100%; background: rgba(0,0,0,0.3); border: 1px solid var(--text-dim); padding: 10px; color: white; font-family: var(--font-headers); font-size: 1.2rem; text-align: center; outline: none; margin-bottom: 20px; }
+        .sys-input:focus { border-color: var(--text-gold); box-shadow: 0 0 15px rgba(212, 175, 55, 0.2); }
+        .sys-btn-group { display: flex; justify-content: space-around; gap: 20px; }
+        .sys-btn { flex: 1; padding: 10px; background: transparent; border: 1px solid var(--text-dim); color: var(--text-dim); cursor: pointer; font-family: var(--font-headers); transition: 0.3s; font-size: 1rem; }
+        .sys-btn:hover { background: var(--text-gold); color: black; box-shadow: 0 0 15px var(--text-gold); }
+        .sys-btn.danger:hover { background: var(--accent-crimson); color: white; box-shadow: 0 0 15px var(--accent-crimson); border-color: var(--accent-crimson); }
+        @keyframes modalIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
     </style>
 </head>
 <body>
 
-<div id="loading-overlay">
-    <div class="pulse-text">CONNECTING TO CLOUD...</div>
-    <div id="error-msg" class="error-text"></div>
+<!-- SYSTEM MODAL -->
+<div id="sys-modal-overlay" class="sys-modal-overlay">
+    <div class="sys-modal">
+        <div id="sys-title" class="sys-modal-title">SYSTEM PROMPT</div>
+        <div id="sys-content"></div>
+        <div class="sys-btn-group">
+            <button id="sys-cancel" class="sys-btn">ОТМЕНА</button>
+            <button id="sys-confirm" class="sys-btn">ПОДТВЕРДИТЬ</button>
+        </div>
+    </div>
 </div>
 
+<div id="loading-overlay"><div class="pulse-text">CONNECTING TO CLOUD...</div><div id="error-msg" class="error-msg"></div></div>
 <header>
     <div class="header-decor"></div>
     <div class="main-title">ORDO CONTINUUM</div>
     <div class="sub-title">PERSONNEL REGISTRY // CLOUD SYNC</div>
 </header>
-
-<main>
-    <div class="grid-container" id="card-grid"></div>
-</main>
-
-<footer>
-    <div id="system-clock">00:00:00 ULT</div>
-    <div style="color: var(--accent-crimson);">CONNECTION SECURE</div>
-    <div>SYS.VER. 13.0 CLOUD</div>
-</footer>
+<main><div class="grid-container" id="card-grid"></div></main>
+<footer><div id="system-clock">00:00:00 ULT</div><div style="color: var(--accent-crimson);">CONNECTION SECURE</div><div>SYS.VER. 15.1</div></footer>
 
 <script type="module">
-    // ГЛОБАЛЬНЫЕ ФУНКЦИИ (ДЛЯ HTML ONCLICK)
-    window.createNewProtocol = async function() {
-        const name = prompt("ИНИЦИАЛИЗАЦИЯ НОВОГО ПРОТОКОЛА.\nВВЕДИТЕ ИДЕНТИФИКАТОР:");
-        if (name && name.trim() !== "") {
-            try {
-                const newId = await window.OrdoDB.create(name);
-                window.location.href = `dossier.html?id=${newId}`;
-            } catch (e) {
-                alert("Ошибка: " + e.message);
-            }
+    // --- SYSTEM UI LOGIC ---
+    const System = {
+        overlay: document.getElementById('sys-modal-overlay'),
+        title: document.getElementById('sys-title'),
+        content: document.getElementById('sys-content'),
+        btnConfirm: document.getElementById('sys-confirm'),
+        btnCancel: document.getElementById('sys-cancel'),
+        
+        prompt: function(header, placeholder = "") {
+            return new Promise((resolve) => {
+                this.title.innerText = header;
+                this.content.innerHTML = `<input type="text" id="sys-input-field" class="sys-input" placeholder="${placeholder}">`;
+                this.btnConfirm.className = 'sys-btn'; this.btnConfirm.innerText = 'ПРИНЯТЬ';
+                this.overlay.style.display = 'flex';
+                const input = document.getElementById('sys-input-field');
+                input.focus();
+                
+                const confirm = () => { this.overlay.style.display = 'none'; resolve(input.value); cleanup(); };
+                const cancel = () => { this.overlay.style.display = 'none'; resolve(null); cleanup(); };
+                const cleanup = () => { this.btnConfirm.onclick = null; this.btnCancel.onclick = null; input.onkeydown = null; };
+
+                this.btnConfirm.onclick = confirm;
+                this.btnCancel.onclick = cancel;
+                input.onkeydown = (e) => { if(e.key === 'Enter') confirm(); if(e.key === 'Escape') cancel(); };
+            });
+        },
+
+        confirm: function(header, text) {
+            return new Promise((resolve) => {
+                this.title.innerText = header;
+                this.content.innerHTML = `<p style="margin-bottom:20px; color:#aaa; font-family:sans-serif;">${text}</p>`;
+                this.btnConfirm.className = 'sys-btn danger'; this.btnConfirm.innerText = 'УНИЧТОЖИТЬ';
+                this.overlay.style.display = 'flex';
+
+                const cleanup = () => { this.btnConfirm.onclick = null; this.btnCancel.onclick = null; };
+                this.btnConfirm.onclick = () => { this.overlay.style.display = 'none'; resolve(true); cleanup(); };
+                this.btnCancel.onclick = () => { this.overlay.style.display = 'none'; resolve(false); cleanup(); };
+            });
         }
     };
 
-    window.deleteProtocol = async function(event, id, name) {
-        event.stopPropagation();
-        const confirmation = prompt(`ВНИМАНИЕ! УДАЛЕНИЕ: ${name}.\nДЛЯ ПОДТВЕРЖДЕНИЯ ВВЕДИТЕ "УДАЛИТЬ":`);
-        if (confirmation === "УДАЛИТЬ") {
-            await window.OrdoDB.delete(id);
-        }
-    };
-
-    // ФУНКЦИЯ ОЖИДАНИЯ ЗАГРУЗКИ БАЗЫ
-    const waitForDB = () => {
-        if (window.OrdoDB) {
-            initApp();
-        } else {
-            // Пробуем снова через 100мс
-            setTimeout(waitForDB, 100);
-        }
-    };
-
-    // ЗАПУСК ПРИЛОЖЕНИЯ
+    const waitForDB = () => { if (window.OrdoDB) { initApp(); } else { setTimeout(waitForDB, 100); } };
+    
     async function initApp() {
         try {
             await window.OrdoDB.init();
-            
-            // Если успех - убираем загрузку
             document.getElementById('loading-overlay').style.display = 'none';
-            
-            // Подписываемся на обновления
-            window.OrdoDB.subscribeAll((data) => {
-                renderGrid(data);
-            });
-
-            // Часы
-            setInterval(() => {
-                const now = new Date();
-                document.getElementById('system-clock').textContent = now.toISOString().split('T')[1].split('.')[0] + " ULT";
-            }, 1000);
-
+            window.OrdoDB.subscribeAll(renderGrid);
+            setInterval(() => { document.getElementById('system-clock').textContent = new Date().toISOString().split('T')[1].split('.')[0] + " ULT"; }, 1000);
         } catch (e) {
-            document.getElementById('error-msg').innerText = 
-                "CRITICAL ERROR: " + e.message + "\n\nПроверьте: 1. Вставили ли вы Config в database.js? 2. Включили ли 'Anonymous Auth' в Firebase? 3. Создали ли Firestore Database?";
+            document.getElementById('error-msg').innerText = "CRITICAL ERROR: " + e.message;
         }
     }
 
     function renderGrid(dbData) {
-        const grid = document.getElementById('card-grid');
-        grid.innerHTML = '';
-
-        // 1. Cards
+        const grid = document.getElementById('card-grid'); grid.innerHTML = '';
         for (let key in dbData) {
             const char = dbData[key];
-            const card = document.createElement('div');
-            card.className = 'personnel-card';
-            
-            card.onclick = function(e) {
-                if (e.target.closest('.delete-btn')) return;
-                window.location.href = `dossier.html?id=${char.id}`;
-            };
-
-            const hasImg = char.meta.image && char.meta.image.trim() !== "";
-            const imgHtml = hasImg ? `<img src="${char.meta.image}" class="card-image">` : `<div class="no-image-placeholder"><span>NO IMAGE</span></div>`;
-
-            card.innerHTML = `
-                <div class="card-corner c-tl"></div><div class="card-corner c-tr"></div>
-                <div class="card-corner c-bl"></div><div class="card-corner c-br"></div>
-                
-                <div class="delete-btn" onclick="window.deleteProtocol(event, '${char.id}', '${char.meta.name}')">×</div>
-                
-                <div class="card-image-wrapper">${imgHtml}</div>
-                <div class="card-info">
-                    <div class="char-name">${char.meta.name}</div>
-                    <div class="char-rank">${char.meta.rank || 'Рекрут'}</div>
-                </div>
-            `;
+            const card = document.createElement('div'); card.className = 'personnel-card';
+            card.onclick = function(e) { if (!e.target.closest('.delete-btn')) window.location.href = `dossier.html?id=${char.id}`; };
+            const imgHtml = (char.meta.image && char.meta.image.trim()) ? `<img src="${char.meta.image}" class="card-image">` : `<div class="no-image-placeholder"><span>NO IMAGE</span></div>`;
+            card.innerHTML = `<div class="card-corner c-tl"></div><div class="card-corner c-tr"></div><div class="card-corner c-bl"></div><div class="card-corner c-br"></div><div class="delete-btn" onclick="window.deleteProtocol(event, '${char.id}', '${char.meta.name}')">×</div><div class="card-image-wrapper">${imgHtml}</div><div class="card-info"><div class="char-name">${char.meta.name}</div><div class="char-rank">${char.meta.rank || 'Рекрут'}</div></div>`;
             grid.appendChild(card);
         }
-
-        // 2. New Button
-        const newCard = document.createElement('div');
-        newCard.className = 'personnel-card new-card';
-        newCard.onclick = window.createNewProtocol;
-        newCard.innerHTML = `<div class="plus-icon">+</div><div class="new-text">НОВЫЙ ПРОТОКОЛ</div>`;
+        const newCard = document.createElement('div'); newCard.className = 'personnel-card new-card';
+        newCard.onclick = window.createNewProtocol; newCard.innerHTML = `<div class="plus-icon">+</div><div class="new-text">НОВЫЙ ПРОТОКОЛ</div>`;
         grid.appendChild(newCard);
     }
 
-    // Старт
+    window.createNewProtocol = async function() {
+        const name = await System.prompt("ИНИЦИАЛИЗАЦИЯ", "Введите идентификатор протокола");
+        if (name && name.trim()) {
+            try { const id = await window.OrdoDB.create(name); window.location.href = `dossier.html?id=${id}`; } catch(e) { alert("Ошибка: " + e.message); }
+        }
+    };
+    window.deleteProtocol = async function(e, id, name) {
+        e.stopPropagation();
+        const sure = await System.confirm("ПРОТОКОЛ УДАЛЕНИЯ", `Вы подтверждаете полное стирание данных объекта: ${name}?`);
+        if (sure) await window.OrdoDB.delete(id);
+    };
+
     waitForDB();
 </script>
-
 </body>
 </html>
