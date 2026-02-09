@@ -5,22 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ORDO CONTINUUM // SANCTUS RECORD</title>
     
-    <!-- 5. FAVICON (CORRECTED) -->
+    <!-- 5. FAVICON (GOLDEN TRIANGLE LOGO) -->
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M50 15 L85 80 L15 80 Z' fill='none' stroke='%23d4af37' stroke-width='5'/%3E%3Ccircle cx='50' cy='55' r='20' fill='none' stroke='%238a0000' stroke-width='4'/%3E%3C/svg%3E">
-
+    
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
     <script type="module" src="database.js"></script>
     
     <style>
-        /* CORE VARIABLES & RESET */
         :root {
             --bg-color: #0f0b0b; --panel-bg: #141010; --text-main: #e0d8c0; --text-gold: #d4af37;
             --text-gold-dim: #8a7338; --accent-crimson: #660000; --accent-bright-red: #8a0000;
             --border-gold: #9d8033; --input-bg: rgba(0, 0, 0, 0.4);
             --font-headers: 'Cinzel', serif; --font-body: 'Cormorant Garamond', serif;
         }
+
         * { box-sizing: border-box; margin: 0; padding: 0; scrollbar-width: thin; scrollbar-color: var(--text-gold-dim) var(--bg-color); }
-        
+
         /* INPUTS */
         input[type="number"], input[type="text"], textarea, select {
             background: var(--input-bg); border: 1px solid var(--text-gold-dim); color: var(--text-gold);
@@ -78,7 +78,7 @@
         .nav-btn:hover { color: var(--text-main); text-shadow: 0 0 8px rgba(212, 175, 55, 0.4); }
         .nav-btn.active { color: var(--text-gold); background: linear-gradient(90deg, transparent 0%, rgba(212, 175, 55, 0.1) 50%, transparent 100%); border-left: 2px solid var(--text-gold); }
         
-        /* 1. RESTORED STYLIZED LOCK TOGGLE */
+        /* 1. STYLIZED LOCK TOGGLE */
         .lock-toggle { 
             appearance: none; -webkit-appearance: none;
             width: 20px; height: 20px; 
@@ -90,7 +90,7 @@
             box-shadow: 0 0 10px var(--accent-bright-red); 
         }
 
-        /* 6. REDESIGNED ACCESS DENIED SCREEN (NO EMOJI) */
+        /* 6. REDESIGNED ACCESS DENIED SCREEN (STYLED, NO EMOJI) */
         .access-denied-screen { 
             display: none; flex-direction: column; justify-content: center; align-items: center; 
             height: 100%; width: 100%; text-align: center; color: var(--accent-bright-red); 
@@ -161,13 +161,13 @@
         .del-btn:hover { color: var(--accent-bright-red); }
         .move-btn:hover { color: var(--text-gold); }
 
-        /* 3. STYLIZED MODAL */
+        /* 3. STYLIZED MODAL (RESTORED) */
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 100; justify-content: center; align-items: center; backdrop-filter: blur(5px); }
         .modal-content { background: var(--panel-bg); border: 2px solid var(--text-gold); width: 600px; padding: 40px; position: relative; box-shadow: 0 0 50px rgba(0,0,0,0.9); }
         .close-modal { position: absolute; top: 10px; right: 15px; color: var(--accent-bright-red); font-size: 2rem; cursor: pointer; }
         #modal-title-input { width: 100%; font-size: 2rem; margin-bottom: 20px; background: transparent; border: none; border-bottom: 2px solid var(--text-gold); color: var(--text-gold); font-family: var(--font-headers); text-align: center; }
 
-        /* 2. STYLIZED CHECKBOXES FOR SKILLS */
+        /* 2. STYLIZED CHECKBOXES FOR SKILLS (RESTORED) */
         .prof-checkbox, .chk-prof { 
             appearance: none; -webkit-appearance: none; width: 18px; height: 18px; 
             border: 2px solid var(--text-gold-dim); background: rgba(0,0,0,0.5); 
@@ -191,11 +191,11 @@
         .spell-name-btn { background: transparent; border: 1px solid var(--text-gold-dim); color: var(--text-main); padding: 5px 10px; font-family: var(--font-headers); cursor: pointer; width: 100%; text-align: left; transition: all 0.3s; }
         .spell-name-btn:hover { background: rgba(212, 175, 55, 0.1); border-color: var(--text-gold); }
         .table-section-header { background: rgba(102, 0, 0, 0.2); color: var(--accent-crimson); font-weight: bold; text-align: center; padding: 10px; letter-spacing: 2px; border-bottom: 2px solid var(--accent-crimson); }
-        
-        /* 1. STYLIZED [NO DATA] */
+
+        /* 4. STYLIZED [NO DATA] */
         .empty-msg { 
             color: var(--text-gold-dim); text-align: center; padding: 20px; 
-            border: 1px dashed var(--text-gold-dim); margin-top: 10px; 
+            border: 1px dashed var(--text-gold-dim); margin: 10px 0; 
             font-style: italic; background: repeating-linear-gradient(45deg, rgba(0,0,0,0.2), rgba(0,0,0,0.2) 10px, rgba(212,175,55,0.05) 10px, rgba(212,175,55,0.05) 20px);
             font-family: var(--font-headers); letter-spacing: 2px;
         }
@@ -203,6 +203,7 @@
         footer { border-top: 1px solid var(--text-gold-dim); padding: 10px 40px; font-family: var(--font-headers); font-size: 0.8rem; color: var(--text-gold-dim); text-align: center; letter-spacing: 5px; background: #0f0b0b; z-index: 60; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         
+        /* VISUAL BARS */
         .bar-container { width: 100%; height: 8px; background: rgba(20, 20, 20, 0.8); border: 1px solid var(--text-gold-dim); margin-top: 5px; position: relative; overflow: hidden; }
         .bar-fill { height: 100%; transition: width 0.3s ease; position: absolute; top: 0; left: 0; }
         .bar-hp { background: var(--accent-bright-red); z-index: 1; }
@@ -213,8 +214,8 @@
         .total-mod { font-weight: 900; color: var(--accent-bright-red); font-size: 1.2rem; text-shadow: 0 0 5px rgba(138, 0, 0, 0.5); }
         .skill-bonus-input { width: 50px !important; color: var(--text-main); }
         
-        #loading-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg-color); z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-        .pulse-text { animation: pulse 1.5s infinite; font-size: 2rem; letter-spacing: 5px; color: var(--text-gold); }
+        #loading-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg-color); z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--text-gold); }
+        .pulse-text { animation: pulse 1.5s infinite; font-size: 2rem; letter-spacing: 5px; }
         .error-msg { color: red; margin-top: 20px; }
         @keyframes pulse { 0% { opacity: 0.5; } 50% { opacity: 1; text-shadow: 0 0 20px var(--text-gold); } 100% { opacity: 0.5; } }
 
@@ -223,6 +224,7 @@
         .sys-modal { background: #100c0c; border: 2px solid #d4af37; padding: 30px; width: 500px; text-align: center; box-shadow: 0 0 50px rgba(0,0,0,0.8); }
         .sys-modal-title { font-family: var(--font-headers); font-size: 1.5rem; color: var(--text-gold); border-bottom: 1px solid var(--text-gold-dim); padding-bottom: 10px; margin-bottom: 20px; letter-spacing: 3px; }
         .sys-input { width: 100%; background: rgba(0,0,0,0.3); border: 1px solid var(--text-gold-dim); padding: 10px; color: white; font-family: var(--font-headers); font-size: 1.2rem; text-align: center; outline: none; margin-bottom: 20px; }
+        .sys-input:focus { border-color: var(--text-gold); box-shadow: 0 0 15px rgba(212, 175, 55, 0.2); }
         .sys-btn-group { display: flex; justify-content: space-around; gap: 20px; }
         .sys-btn { flex: 1; padding: 10px; background: transparent; border: 1px solid var(--text-gold-dim); color: var(--text-gold-dim); cursor: pointer; font-family: var(--font-headers); transition: 0.3s; font-size: 1rem; }
         .sys-btn:hover { background: var(--text-gold); color: black; box-shadow: 0 0 15px var(--text-gold); }
@@ -234,10 +236,18 @@
 </head>
 <body>
 
-<div id="loading-overlay"><div class="pulse-text">CONNECTING TO CLOUD...</div><div id="error-msg" class="error-msg"></div></div>
+<div id="sys-modal-overlay" class="sys-modal-overlay">
+    <div class="sys-modal">
+        <div id="sys-title" class="sys-modal-title">SYSTEM PROMPT</div>
+        <div id="sys-content"></div>
+        <div class="sys-btn-group" id="sys-buttons">
+            <button id="sys-cancel" class="sys-btn">ОТМЕНА</button>
+            <button id="sys-confirm" class="sys-btn">ПОДТВЕРДИТЬ</button>
+        </div>
+    </div>
+</div>
 
-<!-- SYSTEM MODAL -->
-<div id="sys-modal-overlay" class="sys-modal-overlay"><div class="sys-modal"><div id="sys-title" class="sys-modal-title">SYSTEM PROMPT</div><div id="sys-content"></div><div class="sys-btn-group" id="sys-buttons"></div></div></div>
+<div id="loading-overlay"><div class="pulse-text">CONNECTING TO CLOUD...</div><div id="error-msg" class="error-msg"></div></div>
 
 <header>
     <div style="display: flex; align-items: center;">
@@ -263,36 +273,40 @@
     <main>
         <div id="access-denied" class="access-denied-screen"><h1>ДОСТУП ЗАПРЕЩЕН</h1><p>УРОВЕНЬ ДОПУСКА НЕДОСТАТОЧЕН</p></div>
 
-        <!-- 1. IDENTITY -->
+        <!-- IDENTITY -->
         <div id="identity" class="content-panel active">
             <h1>Sanctus Dossier</h1>
             <div class="data-grid">
                 <div class="data-block" style="grid-row: span 2;">
-                    <h2>Imago</h2>
+                    <h2>Imago / Облик</h2>
                     <div class="char-img-container"><img id="char-img" src="" style="max-width: 100%; max-height: 400px; display: block;"><input type="file" id="img-upload" style="display:none" accept="image/*" onchange="handleImageUpload(this)"><button class="add-btn" style="position: absolute; bottom: 10px; right: 10px; background: rgba(0,0,0,0.8); border: 1px solid var(--text-gold);" onclick="triggerImageUpload()">[↻]</button></div>
                 </div>
                 <div class="data-block">
                     <h2>Registrum Primus</h2>
-                    <div class="stat-row"><span class="stat-label">Имя:</span> <input type="text" class="imperial-input" id="meta-name"></div>
+                    <div class="stat-row"><span class="stat-label">Имя нареченное:</span> <input type="text" class="imperial-input" id="meta-name"></div>
                     <div class="stat-row"><span class="stat-label">Вид:</span> <input type="text" class="imperial-input" id="meta-race"></div>
                     <div class="stat-row"><span class="stat-label">Подвид:</span> <input type="text" class="imperial-input" id="meta-subrace"></div>
-                    <div class="stat-row"><span class="stat-label">Возраст:</span> <input type="text" class="imperial-input" id="meta-age"></div>
+                    <div class="stat-row"><span class="stat-label">Летоисчисление:</span> <input type="text" class="imperial-input" id="meta-age"></div>
                     <div class="stat-row"><span class="stat-label">Ранг:</span> <input type="text" class="imperial-input" id="meta-rank"></div>
                     <div class="stat-row"><span class="stat-label">Призвание:</span> <input type="text" class="imperial-input" id="meta-class"></div>
                     <div class="stat-row"><span class="stat-label">Доктрина:</span> <input type="text" class="imperial-input" id="meta-archetype"></div>
                     <div style="margin-top: 20px; border-top: 1px solid var(--text-gold-dim); padding-top: 10px;">
-                        <div class="stat-row"><span class="stat-label" style="color: var(--text-gold);">Уровень:</span><input type="number" id="level-input" min="1" max="20" onchange="recalc()"></div>
-                        <div class="stat-row"><span class="stat-label">Мастерство:</span><span class="stat-value" id="pb-display" style="color: var(--accent-bright-red);">+2</span></div>
+                        <div class="stat-row"><span class="stat-label" style="color: var(--text-gold);">Уровень Доступа:</span><input type="number" id="level-input" min="1" max="20" onchange="recalc()"></div>
+                        <div class="stat-row"><span class="stat-label">Бонус Мастерства:</span><span class="stat-value" id="pb-display" style="color: var(--accent-bright-red);">+2</span></div>
                     </div>
                 </div>
-                <div class="data-block">
-                    <h2>Nota Bene</h2>
-                    <ul class="wax-list"><li><span>Должность:</span><input type="text" class="imperial-input" id="meta-job"></li><li><span>Допуск:</span><input type="text" class="imperial-input" id="meta-clearance"></li><li><span>Связь:</span><input type="text" class="imperial-input" id="meta-comm"></li></ul>
+                <div class="data-block" style="border-color: var(--accent-crimson); background: linear-gradient(rgba(102, 0, 0, 0.1), transparent);">
+                    <h2 style="color: var(--accent-crimson);">Nota Bene</h2>
+                    <ul class="wax-list">
+                        <li><span>Должность:</span> <input type="text" class="imperial-input" id="meta-job" style="width: 50% !important; text-align: left !important;"></li>
+                        <li><span>Допуск:</span> <input type="text" class="imperial-input" id="meta-clearance" style="width: 50% !important; text-align: left !important;"></li>
+                        <li><span>Связь:</span> <input type="text" class="imperial-input" id="meta-comm" style="width: 50% !important; text-align: left !important;"></li>
+                    </ul>
                 </div>
             </div>
         </div>
 
-        <!-- 2. BIOMETRICS -->
+        <!-- BIOMETRICS -->
         <div id="biometrics" class="content-panel">
             <h1>Parametri Corporis</h1>
             <div class="data-block" style="margin-bottom: 20px;">
@@ -329,7 +343,7 @@
             </div>
         </div>
 
-        <!-- 3. SKILLS -->
+        <!-- SKILLS -->
         <div id="skills" class="content-panel">
             <h1>Matrix Competentia</h1>
             <div class="sub-nav"><button class="sub-nav-btn active" onclick="showSubPanel('tab-skills')">I. Навыки</button><button class="sub-nav-btn" onclick="showSubPanel('tab-abilities')">II. Умения</button><button class="sub-nav-btn" onclick="showSubPanel('tab-traits')">III. Черты</button><button class="sub-nav-btn" onclick="showSubPanel('tab-features')">IV. Особенности</button><button class="sub-nav-btn" onclick="showSubPanel('tab-profs')">V. Владение</button></div>
@@ -340,7 +354,7 @@
             <div id="tab-profs" class="sub-panel"><div class="data-grid"><div class="data-block"><h2>Оружие/Доспехи <button class="add-btn" onclick="addSimpleItem('armory')">[+]</button></h2><ul class="wax-list" id="list-armory"></ul></div><div class="data-block"><h2>Инструменты <button class="add-btn" onclick="addSimpleItem('tools')">[+]</button></h2><ul class="wax-list" id="list-tools"></ul></div><div class="data-block"><h2>Языки <button class="add-btn" onclick="addSimpleItem('langs')">[+]</button></h2><ul class="wax-list" id="list-langs"></ul></div></div></div>
         </div>
 
-        <!-- 4. EQUIPMENT -->
+        <!-- EQUIPMENT -->
         <div id="equipment" class="content-panel">
             <h1>Armamentum</h1>
             <div class="data-grid">
@@ -350,7 +364,7 @@
             </div>
         </div>
 
-        <!-- 5. PSYCH -->
+        <!-- PSYCH -->
         <div id="psych" class="content-panel">
             <h1>Anima</h1>
             <div class="data-grid">
@@ -360,7 +374,7 @@
             </div>
         </div>
 
-        <!-- 6. PSIONICS (FIXED LOGIC) -->
+        <!-- PSIONICS -->
         <div id="psionics" class="content-panel">
             <h1>Psionica</h1>
             <div class="sub-nav"><button class="sub-nav-btn active" onclick="showSubPanel('tab-psi-chars')">I. Характеристики</button><button class="sub-nav-btn" onclick="showSubPanel('tab-psi-spells')">II. Заклинания</button></div>
@@ -373,7 +387,7 @@
             <div id="tab-psi-spells" class="sub-panel"><div class="data-block" style="width: 100%;"><h2>Матрица <button class="add-btn" onclick="addItemToGlobal('spells')">[+]</button></h2><table class="imperial-table"><thead><tr><th style="width: 20%;">Название</th><th>Время</th><th>Дистанция</th><th>Конц.</th><th>Длительность</th><th>Стоимость</th><th></th></tr></thead><tbody id="list-spells"></tbody></table></div></div>
         </div>
 
-        <!-- 7. UNIVERSALIS -->
+        <!-- UNIVERSALIS -->
         <div id="universalis" class="content-panel">
             <h1>Universalis</h1>
             <div class="data-grid">
@@ -385,7 +399,7 @@
     </main>
 </div>
 
-<!-- STYLIZED MODAL & SYSTEM UI -->
+<!-- MODAL & SYSTEM UI -->
 <div id="sys-modal-overlay" class="sys-modal-overlay"><div class="sys-modal"><div id="sys-title" class="sys-modal-title">SYSTEM PROMPT</div><div id="sys-content"></div><div class="sys-btn-group" id="sys-buttons"></div></div></div>
 <div id="weapon-modal" class="modal-overlay"><div class="modal-content"><span class="close-modal" onclick="closeWeaponModal()">×</span><input type="text" id="modal-title-input"><textarea id="modal-desc" rows="10" style="width:100%"></textarea></div></div>
 
@@ -442,7 +456,7 @@
         if(id.startsWith('attr-')) { activeCharData.stats[id.replace('attr-', '')] = parseInt(val)||10; recalc(); }
         if(id.startsWith('save-prof-')) { activeCharData.saves['prof_'+id.replace('save-prof-', '')] = chk; recalc(); }
         
-        // Counter Logic: Current cannot exceed Max (except Temp)
+        // 2. COUNTER LOGIC (CLAMPED)
         const checkMax = (v, maxId) => {
             const max = parseInt(document.getElementById(maxId).value)||0;
             return (max > 0 && v > max) ? max : v;
@@ -567,6 +581,7 @@
         if(!arr || arr.length === 0) { el.innerHTML = '<div class="empty-msg">[НЕТ ДАННЫХ]</div>'; return; }
         arr.forEach((item, idx) => {
             const div = document.createElement(mode==='spell'?'tr':'div');
+            // 3. SORTING BUTTONS (ARROWS)
             const btns = `<button class="move-btn" onclick="moveItem('${id}',${idx},-1)">▲</button><button class="move-btn" onclick="moveItem('${id}',${idx},1)">▼</button><button class="del-btn" onclick="deleteItem(event, '${id}', ${idx})">[x]</button>`;
             
             if(mode==='weapon' || mode==='item') {
@@ -576,6 +591,8 @@
                 div.innerHTML = `${tL} <span class="stat-value">${item.name}</span> <div style="display:flex;align-items:center">${btns}</div>`;
             } else if(mode==='simple') {
                 div.innerHTML = `<span>${item}</span> <div>${btns}</div>`;
+            } else if(mode==='table') {
+                div.innerHTML = `<td>${item.name}</td><td>${item.type}</td><td><button class="del-btn" onclick="deleteItem(event, '${id}', ${idx})">[x]</button></td>`;
             } else if(mode==='spell') {
                 div.innerHTML = `<td><button class='spell-name-btn' onclick='openModal(activeCharData.psionics.spells[${idx}])'>${item.name}</button></td><td><input type='text' value='${item.time}' onchange='updateSpell(${idx}, "time", this.value)'></td><td><input type='text' value='${item.range}' onchange='updateSpell(${idx}, "range", this.value)'></td><td><input type='checkbox' ${item.conc?'checked':''} onchange='updateSpell(${idx}, "conc", this.checked)'></td><td><input type='text' value='${item.dur}' onchange='updateSpell(${idx}, "dur", this.value)'></td><td><input type='number' value='${item.cost}' onchange='updateSpell(${idx}, "cost", this.value)'></td><td style="white-space:nowrap">${btns}</td>`;
             }
@@ -584,6 +601,7 @@
     }
 
     // --- LOGIC ---
+    // 3. SORTING IMPLEMENTATION
     window.moveItem = (id, idx, dir) => {
         const map = {'list-weapons': activeCharData.combat.weapons, 'list-inventory': activeCharData.combat.inventory, 'list-abilities': activeCharData.abilities, 'list-traits': activeCharData.traits, 'list-features': activeCharData.features, 'list-langs': activeCharData.profs.langs, 'list-tools': activeCharData.profs.tools, 'list-armory': activeCharData.profs.armory, 'list-spells': activeCharData.psionics.spells, 'list-custom': activeCharData.universalis.custom_table, 'list-counters': activeCharData.universalis.counters};
         const arr = map[id];
@@ -641,7 +659,7 @@
         updatePsi(); calcUniversalSave(); updateSpeed(); calcCurrency(); updateBars();
     }
 
-    // --- FIXED PSIONICS LOGIC ---
+    // --- 1 & 6. FIXED PSIONICS LOGIC ---
     function updatePsi() {
         const d = activeCharData; if(!d) return;
         const base = d.psionics.base_attr; const type = d.psionics.type;
@@ -672,14 +690,25 @@
     function calcUniversalSave() { const d=activeCharData; if(!d) return; const m=Math.floor(((d.stats[d.universalis.save_attr]||10)-10)/2); const pb=2+Math.floor(((d.meta.level||1)-1)/4); document.getElementById('uni-save-result').innerText=(d.universalis.save_base||10)+m+pb; }
     function updateSpeed() { const d=activeCharData; if(!d) return; document.getElementById('speed-display').innerText=(9+((d.stats.speed_mod||0)*1.5))+" м"; }
     function calcCurrency() { const d=activeCharData; if(!d) return; const t=((parseFloat(d.money.g)||0)*1000000)+((parseFloat(d.money.m)||0)*1000)+(parseFloat(d.money.k)||0)+((parseFloat(d.money.u)||0)/1000); document.getElementById('total-kg').innerText=t.toLocaleString('ru-RU', {minimumFractionDigits: 2})+" kG"; }
+    
     function updateBars() {
         const d=activeCharData; if(!d) return;
+        // 2. COUNTERS VISUAL UPDATE
         const hpPct = Math.min(100, ((d.stats.hp_curr||0)/(d.stats.hp_max||1))*100);
         document.getElementById('bar-hp').style.width = hpPct+"%";
+        
+        // Temp HP visual (overlay logic)
         const tempPct = Math.min(100, ((d.stats.hp_temp||0)/(d.stats.hp_max||1))*100);
-        document.getElementById('bar-temp').style.width = tempPct+"%"; document.getElementById('bar-temp').style.left = hpPct+"%";
+        document.getElementById('bar-temp').style.width = tempPct+"%"; 
+        // Position it after current HP for stacked look? Or overlay? Standard is overlay or separate. 
+        // Let's place it at 0 left to signify it takes damage first.
+        document.getElementById('bar-temp').style.left = "0%";
+        document.getElementById('bar-temp').style.zIndex = "3"; // On top of HP
+        document.getElementById('bar-temp').style.opacity = "0.7"; 
+
         const shPct = Math.min(100, ((d.stats.shield_curr||0)/(d.stats.shield_max||1))*100);
         document.getElementById('bar-shield').style.width = shPct+"%";
+        
         const psiMax = parseInt(document.getElementById('psi-points-max').innerText)||1;
         document.getElementById('bar-psi').style.width = Math.min(100, ((d.psionics.points_curr||0)/psiMax)*100)+"%";
     }
