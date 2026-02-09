@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ORDO CONTINUUM // CENTRAL COMMAND</title>
+    <!-- ЛОГОТИП (ГЛАЗ ОРДО) -->
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M15 15 L50 95 L85 15 Z' fill='%23141010' stroke='%23d4af37' stroke-width='5'/%3E%3Cpath d='M50 5 L50 95 M10 15 H90' stroke='%23d4af37' stroke-width='5'/%3E%3Cellipse cx='50' cy='40' rx='22' ry='14' fill='%23e0d8c0' stroke='%23d4af37' stroke-width='2'/%3E%3Ccircle cx='50' cy='40' r='9' fill='%2340e0d0'/%3E%3Ccircle cx='50' cy='40' r='4' fill='%23000'/%3E%3Ccircle cx='50' cy='15' r='5' fill='%2340e0d0' stroke='%23d4af37' stroke-width='2'/%3E%3C/svg%3E">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <script src="database.js"></script>
+    
+    <style>
+        :root {
+            --bg-color: #080606;
+            --panel-bg: #100c0c;
+            --text-gold: #d4af37;
+            --text-dim: #8a7338;
+            --accent-crimson: #8a0000;
+            --border-color: #9d8033;
+            --scanline: rgba(0, 0, 0, 0.5);
+            
+            --font-headers: 'Cinzel', serif;
+            --font-body: 'Cormorant Garamond', serif;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-gold);
+            font-family: var(--font-headers);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            border: 4px double var(--border-color);
+        }
+
+        /* --- VISUAL EFFECTS --- */
+        body::before {
+            content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: 
+                linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%),
+                linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            background-size: 100% 2px, 3px 100%;
+            z-index: 100; pointer-events: none; opacity: 0.6;
+        }
+        
+        body::after {
+            content: ""; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            box-shadow: inset 0 0 100px rgba(0,0,0,0.9);
+            z-index: 99; pointer-events: none;
+        }
+
+        /* --- HEADER --- */
+        header {
+            height: 140px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border-bottom: 2px solid var(--text-gold);
+            background: radial-gradient(circle at center, #1a0f0f 0%, #000 100%);
+            position: relative;
+            z-index: 10;
+            box-shadow: 0 5px 30px rgba(0,0,0,0.8);
+        }
+
+        .header-decor {
+            position: absolute; width: 100%; height: 100%; top: 0; left: 0;
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 0 20px; pointer-events: none;
+        }
+        .header-decor::before, .header-decor::after {
+            content: "✠"; font-size: 3rem; color: var(--accent-crimson); opacity: 0.5;
+        }
+
+        .main-title {
+            font-size: 3.5rem; letter-spacing: 8px; font-weight: 700;
+            text-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
+            background: linear-gradient(180deg, #ffd700, #8a6e00);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+
+        .sub-title {
+            font-size: 0.9rem; color: var(--accent-crimson); letter-spacing: 6px;
+            margin-top: 5px; border-top: 1px solid var(--accent-crimson); padding-top: 5px;
+        }
+
+        /* --- MAIN GRID --- */
+        main {
+            flex: 1; padding: 60px; overflow-y: auto;
+            background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h40v40H0V0zm1 1h38v38H1V1z' fill='%23333' fill-opacity='0.1' fill-rule='evenodd'/%3E%3C/svg%3E");
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 50px;
+            width: 100%; max-width: 1600px; margin: 0 auto;
+        }
+
+        /* --- CARDS --- */
+        .personnel-card {
+            background-color: rgba(14, 12, 12, 0.9);
+            border: 1px solid var(--text-dim);
+            height: 500px;
+            display: flex; flex-direction: column;
+            position: relative;
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+        }
+
+        .personnel-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--text-gold);
+            box-shadow: 0 0 30px rgba(212, 175, 55, 0.2);
+        }
+
+        /* Corner Ornaments */
+        .card-corner {
+            position: absolute; width: 15px; height: 15px;
+            border-style: solid; border-color: var(--text-gold);
+            transition: all 0.3s;
+        }
+        .c-tl { top: -1px; left: -1px; border-width: 2px 0 0 2px; }
+        .c-tr { top: -1px; right: -1px; border-width: 2px 2px 0 0; }
+        .c-bl { bottom: -1px; left: -1px; border-width: 0 0 2px 2px; }
+        .c-br { bottom: -1px; right: -1px; border-width: 0 2px 2px 0; }
+
+        .personnel-card:hover .card-corner { width: 30px; height: 30px; }
+
+        /* Image Area */
+        .card-image-wrapper {
+            flex: 1; overflow: hidden; position: relative;
+            border-bottom: 2px solid var(--accent-crimson);
+            background: #000;
+        }
+        .card-image {
+            width: 100%; height: 100%; object-fit: cover;
+            filter: sepia(40%) contrast(120%) brightness(70%);
+            transition: 0.5s;
+        }
+        .personnel-card:hover .card-image {
+            filter: sepia(0%) contrast(100%) brightness(100%);
+            transform: scale(1.05);
+        }
+
+        .no-image-placeholder {
+            width: 100%; height: 100%; display: flex; flex-direction: column;
+            align-items: center; justify-content: center; color: #333;
+        }
+
+        /* Info Area */
+        .card-info {
+            height: 90px; background: #080808;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            border-top: 1px solid var(--text-gold-dim);
+            position: relative;
+        }
+        
+        .char-name {
+            font-size: 1.6rem; color: var(--text-gold); text-transform: uppercase; letter-spacing: 3px;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.8);
+        }
+        .char-rank {
+            font-family: var(--font-body); font-size: 1rem; color: var(--accent-crimson);
+            letter-spacing: 1px; font-style: italic; margin-top: 5px;
+        }
+
+        /* Delete Button */
+        .delete-btn {
+            position: absolute; top: 15px; right: 15px;
+            width: 35px; height: 35px;
+            background: rgba(0,0,0,0.8);
+            border: 1px solid var(--accent-crimson);
+            color: var(--accent-crimson);
+            font-size: 1.5rem; line-height: 1;
+            display: flex; align-items: center; justify-content: center;
+            opacity: 0; transition: 0.3s;
+            z-index: 20; cursor: pointer;
+        }
+        .delete-btn:hover { background: var(--accent-crimson); color: #000; box-shadow: 0 0 15px var(--accent-crimson); }
+        .personnel-card:hover .delete-btn { opacity: 1; }
+
+        /* NEW PROTOCOL CARD */
+        .new-card {
+            background: rgba(255, 255, 255, 0.01);
+            border: 2px dashed var(--text-gold-dim);
+            justify-content: center; align-items: center;
+        }
+        .new-card:hover {
+            background: rgba(212, 175, 55, 0.05);
+            border-color: var(--text-gold);
+            border-style: solid;
+        }
+        .plus-icon {
+            font-size: 5rem; color: var(--text-dim); margin-bottom: 20px; transition: 0.3s;
+        }
+        .personnel-card:hover .plus-icon { color: var(--text-gold); text-shadow: 0 0 20px var(--text-gold); transform: scale(1.1); }
+        
+        .new-text { color: var(--text-gold); letter-spacing: 4px; font-weight: bold; }
+
+        /* Footer */
+        footer {
+            height: 50px; border-top: 1px solid var(--text-dim);
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 0 40px; background-color: #050505; z-index: 10;
+            font-size: 0.8rem; letter-spacing: 2px;
+        }
+
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="header-decor"></div>
+    <div class="main-title">ORDO CONTINUUM</div>
+    <div class="sub-title">PERSONNEL REGISTRY // TOP SECRET</div>
+</header>
+
+<main>
+    <div class="grid-container" id="card-grid">
+        <!-- Grid populated by JS -->
+    </div>
+</main>
+
+<footer>
+    <div id="system-clock">00:00:00 ULT</div>
+    <div style="color: var(--accent-crimson);">CONNECTION SECURE</div>
+    <div>SYS.VER. 11.4</div>
+</footer>
+
+<script>
+    window.onload = function() {
+        if (typeof OrdoDB === 'undefined') {
+            alert("DB Error: database.js not found.");
+            return;
+        }
+        OrdoDB.init();
+        renderGrid();
+        
+        setInterval(() => {
+            const now = new Date();
+            document.getElementById('system-clock').textContent = now.toISOString().split('T')[1].split('.')[0] + " ULT";
+        }, 1000);
+    };
+
+    function renderGrid() {
+        const grid = document.getElementById('card-grid');
+        grid.innerHTML = '';
+        const db = OrdoDB.getAll();
+
+        // 1. Карточки
+        for (let key in db) {
+            const char = db[key];
+            const card = document.createElement('div');
+            card.className = 'personnel-card';
+            
+            // Клик для открытия (игнорируем клик по крестику)
+            card.onclick = function(e) {
+                if (e.target.closest('.delete-btn')) return;
+                window.location.href = `dossier.html?id=${char.id}`;
+            };
+
+            const hasImage = char.meta.image && char.meta.image.trim() !== "";
+            const imgHtml = hasImage 
+                ? `<img src="${char.meta.image}" class="card-image">`
+                : `<div class="no-image-placeholder"><span>NO IMAGE</span></div>`;
+
+            card.innerHTML = `
+                <div class="card-corner c-tl"></div><div class="card-corner c-tr"></div>
+                <div class="card-corner c-bl"></div><div class="card-corner c-br"></div>
+                
+                <div class="delete-btn" title="Удалить Протокол" onclick="deleteProtocol(event, '${char.id}', '${char.meta.name}')">×</div>
+                
+                <div class="card-image-wrapper">
+                    ${imgHtml}
+                </div>
+                <div class="card-info">
+                    <div class="char-name">${char.meta.name}</div>
+                    <div class="char-rank">${char.meta.rank || 'Рекрут'}</div>
+                </div>
+            `;
+            grid.appendChild(card);
+        }
+
+        // 2. Кнопка "Новый"
+        const newCard = document.createElement('div');
+        newCard.className = 'personnel-card new-card';
+        newCard.onclick = createNewProtocol;
+        newCard.innerHTML = `
+            <div class="plus-icon">+</div>
+            <div class="new-text">НОВЫЙ ПРОТОКОЛ</div>
+        `;
+        grid.appendChild(newCard);
+    }
+
+    function createNewProtocol() {
+        const name = prompt("ИНИЦИАЛИЗАЦИЯ НОВОГО ПРОТОКОЛА.\nВВЕДИТЕ ИДЕНТИФИКАТОР:");
+        if (name && name.trim() !== "") {
+            const newId = OrdoDB.create(name);
+            if (newId) {
+                window.location.href = `dossier.html?id=${newId}`;
+            } else {
+                alert("Ошибка создания.");
+            }
+        }
+    }
+
+    function deleteProtocol(event, id, name) {
+        event.stopPropagation(); // Останавливаем всплытие, чтобы не открылась анкета
+        const confirmText = prompt(`УДАЛИТЬ ПРОТОКОЛ: ${name}?\nВведите "УДАЛИТЬ" для подтверждения.`);
+        
+        if (confirmText === "УДАЛИТЬ") {
+            const success = OrdoDB.delete(id);
+            if (success) {
+                renderGrid(); 
+            } else {
+                alert("Ошибка удаления.");
+            }
+        }
+    }
+</script>
+
+</body>
+</html>
