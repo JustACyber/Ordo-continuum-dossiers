@@ -1,27 +1,35 @@
 /*jslint browser: true, devel: true, esversion: 6 */
-/*global window, console, prompt, alert, JSON */
+/*global window, console, prompt, alert, JSON, setTimeout */
 
 /**
  * ORDO CONTINUUM DATABASE CORE (CLOUD EDITION)
- * Версия: 12.0.0 (Firebase Firestore Integration)
- * Статус: Облачная синхронизация, поддержка раздельных файлов
+ * Версия: 13.0 (Fixed Loading Logic)
  */
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-import { getAuth, signInWithCustomToken, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-import { getFirestore, doc, setDoc, getDoc, deleteDoc, collection, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+import { getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+import { getFirestore, doc, setDoc, deleteDoc, collection, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
 // --- КОНФИГУРАЦИЯ ---
-// Когда будете выкладывать на GitHub, замените этот блок на свой конфиг от Firebase Console
-const firebaseConfig = {
-  apiKey: "AIzaSyB1gqid0rb9K-z0lKNTpyKiFpOKUl7ffrM",
-  authDomain: "ordo-continuum-dossiers.firebaseapp.com",
-  projectId: "ordo-continuum-dossiers",
-  storageBucket: "ordo-continuum-dossiers.firebasestorage.app",
-  messagingSenderId: "1017277527969",
-  appId: "1:1017277527969:web:1ab73e9a064c76015c3de0",
-  measurementId: "G-7CGN7MPC4G"
-};
+let firebaseConfig;
+let appId = 'ordo-continuum-v12';
+
+// Проверка среды (Canvas или GitHub)
+if (typeof window.__firebase_config !== 'undefined') {
+    firebaseConfig = JSON.parse(window.__firebase_config);
+    if (typeof window.__app_id !== 'undefined') appId = window.__app_id;
+} else {
+    // !!! ВСТАВЬТЕ СЮДА СВОЙ КОНФИГ ДЛЯ GITHUB !!!
+    firebaseConfig = {
+      apiKey: "AIzaSyB1gqid0rb9K-z0lKNTpyKiFpOKUl7ffrM",
+      authDomain: "ordo-continuum-dossiers.firebaseapp.com",
+      projectId: "ordo-continuum-dossiers",
+      storageBucket: "ordo-continuum-dossiers.firebasestorage.app",
+      messagingSenderId: "1017277527969",
+      appId: "1:1017277527969:web:1ab73e9a064c76015c3de0",
+      measurementId: "G-7CGN7MPC4G"
+    };
+}
 
 // Инициализация
 const app = initializeApp(firebaseConfig);
@@ -29,82 +37,64 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 let currentUser = null;
 
-// --- АВТОРИЗАЦИЯ ---
-async function initAuth() {
-    return new Promise((resolve) => {
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
-                currentUser = user;
-                console.log("SYSTEM: Connected to Cloud as", user.uid);
-                resolve(user);
-            } else {
-                // Если есть токен среды (Canvas)
-                if (typeof window.__initial_auth_token !== 'undefined' && window.__initial_auth_token) {
-                    signInWithCustomToken(auth, window.__initial_auth_token);
-                } else {
-                    signInAnonymously(auth).catch((error) => {
-                        console.error("Auth Failed:", error);
-                    });
-                }
-            }
-        });
-    });
-}
-
-// --- ПУТИ К ДАННЫМ ---
-// Все данные хранятся в одной общей публичной коллекции, чтобы все видели анкеты друг друга
-function getCollectionRef() {
+// Ссылка на коллекцию
+function getCollRef() {
     return collection(db, 'artifacts', appId, 'public', 'data', 'protocols');
 }
-function getDocRef(id) {
-    return doc(db, 'artifacts', appId, 'public', 'data', 'protocols', id);
-}
-
-// --- API ---
 
 const OrdoDB = {
+    // 1. Инициализация и вход
     init: async function() {
-        await initAuth();
+        return new Promise((resolve, reject) => {
+            onAuthStateChanged(auth, (user) => {
+                if (user) {
+                    currentUser = user;
+                    console.log("DB: Connected as " + user.uid);
+                    resolve(user);
+                } else {
+                    // Попытка анонимного входа
+                    if (typeof window.__initial_auth_token !== 'undefined' && window.__initial_auth_token) {
+                        signInWithCustomToken(auth, window.__initial_auth_token).catch(reject);
+                    } else {
+                        signInAnonymously(auth).catch(reject);
+                    }
+                }
+            }, reject);
+        });
     },
 
-    // Подписка на список всех анкет (для index.html)
+    // 2. Подписка на весь список (Index)
     subscribeAll: function(callback) {
         if (!currentUser) return;
-        const q = getCollectionRef();
-        return onSnapshot(q, (snapshot) => {
+        return onSnapshot(getCollRef(), (snapshot) => {
             const data = {};
-            snapshot.forEach((doc) => {
-                data[doc.id] = doc.data();
-            });
+            snapshot.forEach((doc) => { data[doc.id] = doc.data(); });
             callback(data);
+        }, (error) => {
+            console.error("Sync Error:", error);
+            alert("Ошибка синхронизации: " + error.message);
         });
     },
 
-    // Подписка на одну анкету (для dossier.html)
+    // 3. Подписка на один документ (Dossier)
     subscribeOne: function(id, callback) {
         if (!currentUser) return;
-        return onSnapshot(getDocRef(id), (doc) => {
-            if (doc.exists()) {
-                callback(doc.data());
-            } else {
-                callback(null);
-            }
+        const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'protocols', id);
+        return onSnapshot(docRef, (docSnap) => {
+            if (docSnap.exists()) callback(docSnap.data());
+            else callback(null);
         });
     },
 
-    // Создание (возвращает Promise)
+    // 4. Создание
     create: async function(name) {
-        if (!currentUser) throw new Error("No Connection");
+        if (!currentUser) throw new Error("Not authenticated");
         const id = name.toLowerCase().replace(/\s+/g, '_') + "_" + Math.floor(Math.random() * 10000);
         
         // ЧИСТЫЙ ШАБЛОН
         const newChar = {
             id: id,
-            meta: {
-                name: name, rank: "Рекрут", image: "", 
-                class: "", archetype: "", race: "", background: "",
-                level: 1, origin: "", age: "", job: "", clearance: "", comm: ""
-            },
+            meta: { name: name, rank: "Рекрут", image: "", level: 1 },
             stats: { str: 10, dex: 10, con: 10, int: 10, wis: 10, cha: 10, hp_curr: 0, hp_max: 0, ac: 10, speed_mod: 0 },
             saves: { prof_str: false, prof_dex: false, prof_con: false, prof_int: false, prof_wis: false, prof_cha: false },
             skills: { data: {}, bonuses: {} },
@@ -117,26 +107,24 @@ const OrdoDB = {
             universalis: { save_base: 8, save_attr: "int", custom_table: [], counters: [] }
         };
 
-        await setDoc(getDocRef(id), newChar);
+        await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'protocols', id), newChar);
         return id;
     },
 
-    // Сохранение изменений
+    // 5. Сохранение
     set: async function(id, data) {
         if (!currentUser) return;
-        // Firestore требует, чтобы данные были чистым объектом (без undefined)
-        // JSON.parse(JSON.stringify) удаляет undefined и функции
-        const cleanData = JSON.parse(JSON.stringify(data));
-        await setDoc(getDocRef(id), cleanData);
+        const cleanData = JSON.parse(JSON.stringify(data)); // Удаляем undefined
+        await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'protocols', id), cleanData);
     },
 
-    // Удаление
+    // 6. Удаление
     delete: async function(id) {
         if (!currentUser) return;
-        await deleteDoc(getDocRef(id));
+        await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'protocols', id));
         return true;
     }
 };
 
-// Делаем доступным глобально
+// ЭКСПОРТ В ГЛОБАЛЬНУЮ ОБЛАСТЬ (ВАЖНО ДЛЯ HTML)
 window.OrdoDB = OrdoDB;
