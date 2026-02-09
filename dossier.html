@@ -4,19 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ORDO CONTINUUM // SANCTUS RECORD</title>
+    
+    <!-- FAVICON: GOLDEN TRIANGLE -->
     <link rel="icon" href="data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h40v40H0V0zm1 1h38v38H1V1z' fill='%23333' fill-opacity='0.1' fill-rule='evenodd'/%3E%3C/svg%3E">
+    
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
     <script type="module" src="database.js"></script>
     
     <style>
-        :root {
-            --bg-color: #0f0b0b; --panel-bg: #141010; --text-main: #e0d8c0; --text-gold: #d4af37;
-            --text-gold-dim: #8a7338; --accent-crimson: #660000; --accent-bright-red: #8a0000;
-            --border-gold: #9d8033; --input-bg: rgba(0, 0, 0, 0.4);
-            --font-headers: 'Cinzel', serif; --font-body: 'Cormorant Garamond', serif;
-        }
+        /* REUSED STYLES START */
+        :root { --bg-color: #0f0b0b; --panel-bg: #141010; --text-main: #e0d8c0; --text-gold: #d4af37; --text-gold-dim: #8a7338; --accent-crimson: #660000; --accent-bright-red: #8a0000; --border-gold: #9d8033; --input-bg: rgba(0, 0, 0, 0.4); --font-headers: 'Cinzel', serif; --font-body: 'Cormorant Garamond', serif; }
         * { box-sizing: border-box; margin: 0; padding: 0; scrollbar-width: thin; scrollbar-color: var(--text-gold-dim) var(--bg-color); }
-        /* Reuse main styles from previous version (omitted for brevity, keep your visual styles) */
         input[type="number"], input[type="text"], textarea, select { background: var(--input-bg); border: 1px solid var(--text-gold-dim); color: var(--text-gold); font-family: var(--font-headers); padding: 5px; text-align: center; transition: all 0.3s; }
         input[type="number"], input[type="text"] { width: 60px; } select { width: auto; text-align: left; cursor: pointer; } select option { background: var(--bg-color); color: var(--text-gold); }
         input:focus, textarea:focus, select:focus { outline: none; border-color: var(--text-gold); box-shadow: 0 0 10px rgba(212, 175, 55, 0.2); }
@@ -107,17 +105,19 @@
         
         /* === SYSTEM UI STYLES === */
         .sys-modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 10000; justify-content: center; align-items: center; backdrop-filter: blur(5px); }
-        .sys-modal { background: var(--panel-bg); border: 2px solid var(--text-gold); padding: 30px; width: 500px; text-align: center; box-shadow: 0 0 50px rgba(0,0,0,0.8); animation: modalIn 0.3s; }
+        .sys-modal { background: #100c0c; border: 2px solid #d4af37; padding: 30px; width: 500px; text-align: center; box-shadow: 0 0 50px rgba(0,0,0,0.8); animation: modalIn 0.3s; }
         .sys-modal-title { font-family: var(--font-headers); font-size: 1.5rem; color: var(--text-gold); border-bottom: 1px solid var(--text-dim); padding-bottom: 10px; margin-bottom: 20px; letter-spacing: 3px; }
         .sys-input { width: 100%; background: rgba(0,0,0,0.3); border: 1px solid var(--text-dim); padding: 10px; color: white; font-family: var(--font-headers); font-size: 1.2rem; text-align: center; outline: none; margin-bottom: 20px; }
         .sys-input:focus { border-color: var(--text-gold); box-shadow: 0 0 15px rgba(212, 175, 55, 0.2); }
         .sys-btn-group { display: flex; justify-content: space-around; gap: 20px; }
         .sys-btn { flex: 1; padding: 10px; background: transparent; border: 1px solid var(--text-dim); color: var(--text-dim); cursor: pointer; font-family: var(--font-headers); transition: 0.3s; font-size: 1rem; }
         .sys-btn:hover { background: var(--text-gold); color: black; box-shadow: 0 0 15px var(--text-gold); }
-        .sys-btn.danger:hover { background: var(--accent-crimson); color: white; box-shadow: 0 0 15px var(--accent-crimson); border-color: var(--accent-crimson); }
-        .sys-choice-btn { width: 100%; margin-bottom: 15px; padding: 15px; text-align: left; border: 1px solid var(--text-dim); background: rgba(20,20,20,0.8); color: var(--text-gold); cursor: pointer; font-family: var(--font-headers); transition: 0.2s; }
+        .sys-choice-btn { width: 100%; margin-bottom: 15px; padding: 15px; text-align: left; border: 1px solid var(--text-gold-dim); background: rgba(20,20,20,0.8); color: var(--text-gold); cursor: pointer; font-family: var(--font-headers); transition: 0.2s; }
         .sys-choice-btn:hover { border-color: var(--text-gold); background: rgba(212, 175, 55, 0.1); padding-left: 25px; }
         @keyframes modalIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+        #loading-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg-color); z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .pulse-text { animation: pulse 1.5s infinite; font-size: 2rem; letter-spacing: 5px; color: var(--text-gold); }
     </style>
 </head>
 <body>
@@ -133,6 +133,18 @@
     </div>
 </div>
 
+<div id="loading-overlay"><div class="pulse-text">CONNECTING TO CLOUD...</div><div id="error-msg" class="error-msg"></div></div>
+
+<header>
+    <div style="display: flex; align-items: center;">
+        <button class="back-btn" onclick="window.location.href='index.html'">← РЕЕСТР</button>
+        <div class="brand">
+            <div class="brand-title"><span class="symbol-triangle">▼</span><div>ORDO CONTINUUM<div class="brand-subtitle">Ex Tenebris Lux</div></div></div>
+        </div>
+    </div>
+    <div class="system-time" id="clock">00:00:00 ULT</div>
+</header>
+
 <div class="main-container">
     <aside>
         <div class="nav-group"><button class="nav-btn active" onclick="showPanel('identity')">I. Identitas</button><input type="checkbox" class="lock-toggle" onchange="toggleLock('identity', this)"></div>
@@ -145,25 +157,20 @@
     </aside>
 
     <main>
-        <div id="access-denied" class="access-denied-screen"><h1>⛔ ДОСТУП ЗАКРЫТ</h1><p>УРОВЕНЬ ДОПУСКА НЕДОСТАТОЧЕН</p></div>
+        <div id="access-denied" class="access-denied-screen"><h1>⛔</h1><h1>ДОСТУП ЗАКРЫТ</h1><p>УРОВЕНЬ ДОПУСКА НЕДОСТАТОЧЕН</p></div>
 
-        <!-- PANEL 01: IDENTITY -->
+        <!-- IDENTITY -->
         <div id="identity" class="content-panel active">
             <h1>Sanctus Dossier</h1>
             <div class="data-grid">
                 <div class="data-block" style="grid-row: span 2;">
                     <h2>Imago / Облик</h2>
-                    <div class="char-img-container">
-                        <img id="char-img" src="" style="max-width: 100%; max-height: 400px; display: block;">
-                        <input type="file" id="img-upload" style="display:none" accept="image/*" onchange="handleImageUpload(this)">
-                        <button class="add-btn" style="position: absolute; bottom: 10px; right: 10px; background: rgba(0,0,0,0.8); border: 1px solid var(--text-gold);" onclick="triggerImageUpload()">[↻]</button>
-                    </div>
+                    <div class="char-img-container"><img id="char-img" src="" style="max-width: 100%; max-height: 400px; display: block;"><input type="file" id="img-upload" style="display:none" accept="image/*" onchange="handleImageUpload(this)"><button class="add-btn" style="position: absolute; bottom: 10px; right: 10px; background: rgba(0,0,0,0.8); border: 1px solid var(--text-gold);" onclick="triggerImageUpload()">[↻]</button></div>
                 </div>
                 <div class="data-block">
                     <h2>Registrum Primus</h2>
                     <div class="stat-row"><span class="stat-label">Имя нареченное:</span> <input type="text" class="imperial-input" id="meta-name"></div>
-                    <div class="stat-row"><span class="stat-label">Вид:</span> <input type="text" class="imperial-input" id="meta-race"></div>
-                    <div class="stat-row"><span class="stat-label">Подвид:</span> <input type="text" class="imperial-input" id="meta-subrace"></div>
+                    <div class="stat-row"><span class="stat-label">Происхождение:</span> <input type="text" class="imperial-input" id="meta-race"></div>
                     <div class="stat-row"><span class="stat-label">Летоисчисление:</span> <input type="text" class="imperial-input" id="meta-age"></div>
                     <div class="stat-row"><span class="stat-label">Ранг:</span> <input type="text" class="imperial-input" id="meta-rank"></div>
                     <div class="stat-row"><span class="stat-label">Призвание:</span> <input type="text" class="imperial-input" id="meta-class"></div>
@@ -184,7 +191,7 @@
             </div>
         </div>
 
-        <!-- PANEL 02: BIOMETRICS -->
+        <!-- BIOMETRICS -->
         <div id="biometrics" class="content-panel">
             <h1>Parametri Corporis</h1>
             <div class="data-block" style="margin-bottom: 20px;">
@@ -228,18 +235,18 @@
             </div>
         </div>
 
-        <!-- PANEL 03: ARTES -->
+        <!-- SKILLS -->
         <div id="skills" class="content-panel">
             <h1>Matrix Competentia</h1>
             <div class="sub-nav"><button class="sub-nav-btn active" onclick="showSubPanel('tab-skills')">I. Навыки</button><button class="sub-nav-btn" onclick="showSubPanel('tab-abilities')">II. Умения</button><button class="sub-nav-btn" onclick="showSubPanel('tab-traits')">III. Черты</button><button class="sub-nav-btn" onclick="showSubPanel('tab-features')">IV. Особенности</button><button class="sub-nav-btn" onclick="showSubPanel('tab-profs')">V. Владение</button></div>
             <div id="tab-skills" class="sub-panel active"><div class="data-block" style="width: 100%;"><h2>Общий Реестр Навыков</h2><table class="imperial-table"><thead><tr><th>Название</th><th>Атр.</th><th>Вл.</th><th>Комп.</th><th>Бонус</th><th>Итог</th></tr></thead><tbody id="skills-body"></tbody></table></div></div>
             <div id="tab-abilities" class="sub-panel"><div class="data-block"><h2>Боевые Умения <button class="add-btn" onclick="addItemToGlobal('abilities')">[+]</button></h2><ul class="wax-list" id="list-abilities"></ul></div></div>
-            <div id="tab-traits" class="sub-panel"><div class="data-block"><h2>Личностные Черты <button class="add-btn" onclick="addItemToGlobal('traits')">[+]</button></h2><div id="list-traits"></div></div></div>
-            <div id="tab-features" class="sub-panel"><div class="data-block"><h2>Особенности <button class="add-btn" onclick="addItemToGlobal('features')">[+]</button></h2><div id="list-features"></div></div></div>
+            <div id="tab-traits" class="sub-panel"><div class="data-block"><h2>Личностные Черты <button class="add-btn" onclick="addItemToGlobal('traits')">[+]</button></h2><table class="imperial-table"><tbody id="list-traits"></tbody></table></div></div>
+            <div id="tab-features" class="sub-panel"><div class="data-block"><h2>Особенности <button class="add-btn" onclick="addItemToGlobal('features')">[+]</button></h2><table class="imperial-table"><tbody id="list-features"></tbody></table></div></div>
             <div id="tab-profs" class="sub-panel"><div class="data-grid"><div class="data-block"><h2>Оружие и Доспехи <button class="add-btn" onclick="addSimpleItem('armory')">[+]</button></h2><ul class="wax-list" id="list-armory"></ul></div><div class="data-block"><h2>Инструменты <button class="add-btn" onclick="addSimpleItem('tools')">[+]</button></h2><ul class="wax-list" id="list-tools"></ul></div><div class="data-block"><h2>Языки <button class="add-btn" onclick="addSimpleItem('langs')">[+]</button></h2><ul class="wax-list" id="list-langs"></ul></div></div></div>
         </div>
 
-        <!-- PANEL 04: EQUIPMENT -->
+        <!-- EQUIPMENT -->
         <div id="equipment" class="content-panel">
             <h1>Armamentum Sacrum</h1>
             <div class="data-grid">
@@ -249,7 +256,7 @@
             </div>
         </div>
 
-        <!-- PANEL 05: PSYCH -->
+        <!-- PSYCH -->
         <div id="psych" class="content-panel">
             <h1>Profilus Anima</h1>
             <div class="data-grid">
@@ -259,7 +266,7 @@
             </div>
         </div>
 
-        <!-- PANEL 06: PSIONICS -->
+        <!-- PSIONICS -->
         <div id="psionics" class="content-panel">
             <h1>Psionica & Mysterium</h1>
             <div class="sub-nav"><button class="sub-nav-btn active" onclick="showSubPanel('tab-psi-chars')">I. Характеристики</button><button class="sub-nav-btn" onclick="showSubPanel('tab-psi-spells')">II. Заклинания</button></div>
@@ -272,7 +279,7 @@
             <div id="tab-psi-spells" class="sub-panel"><div class="data-block" style="width: 100%;"><h2>Матрица Заклинаний <button class="add-btn" onclick="addItemToGlobal('spells')">[+]</button></h2><table class="imperial-table"><thead><tr><th style="width: 20%;">Название</th><th>Время</th><th>Дистанция</th><th>Конц.</th><th>Длительность</th><th>Стоимость</th><th></th></tr></thead><tbody id="list-spells"></tbody></table></div></div>
         </div>
 
-        <!-- PANEL 07: UNIVERSALIS -->
+        <!-- UNIVERSALIS -->
         <div id="universalis" class="content-panel">
             <h1>Universalis: Moduli Additivi</h1>
             <div class="data-grid">
@@ -299,10 +306,10 @@
         content: document.getElementById('sys-content'),
         buttons: document.getElementById('sys-buttons'),
         
-        prompt: function(header, placeholder="") {
+        prompt: function(header, ph) {
             return new Promise((resolve) => {
                 this.title.innerText = header;
-                this.content.innerHTML = `<input type="text" id="sys-input-field" class="sys-input" placeholder="${placeholder}">`;
+                this.content.innerHTML = `<input type="text" id="sys-input-field" class="sys-input" placeholder="${ph}">`;
                 this.buttons.innerHTML = `<button id="sys-cancel" class="sys-btn">ОТМЕНА</button><button id="sys-confirm" class="sys-btn">ПРИНЯТЬ</button>`;
                 this.overlay.style.display = 'flex';
                 const input = document.getElementById('sys-input-field'); input.focus();
@@ -358,6 +365,7 @@
                             if(data.locks) Object.assign(lockStates, data.locks);
                             startClock();
                             setupAutoSave();
+                            document.getElementById('loading-overlay').style.display = 'none';
                         }
                         renderAll();
                     } else {
@@ -366,7 +374,7 @@
                     }
                 });
             } else { window.location.href = "index.html"; }
-        } catch(e) { alert(e.message); }
+        } catch(e) { document.getElementById('error-msg').innerText = e.message; }
     }
 
     function startClock() { setInterval(() => document.getElementById('clock').textContent = new Date().toISOString().split('T')[1].split('.')[0] + " ULT", 1000); }
@@ -392,6 +400,7 @@
         if(id.startsWith('attr-')) { activeCharData.stats[id.replace('attr-', '')] = parseInt(val) || 10; recalc(); }
         if(id.startsWith('save-prof-')) { activeCharData.saves['prof_'+id.replace('save-prof-', '')] = checked; recalc(); }
         
+        // Vitalis
         if(id === 'hp-curr') activeCharData.stats.hp_curr = parseInt(val) || 0;
         if(id === 'hp-max') activeCharData.stats.hp_max = parseInt(val) || 0;
         if(id === 'hp-temp') activeCharData.stats.hp_temp = parseInt(val) || 0;
@@ -403,6 +412,7 @@
         if(id.startsWith('money-')) { activeCharData.money[id.replace('money-', '')] = val; calcCurrency(); }
         if(id.startsWith('psych-')) activeCharData.psych[id.replace('psych-', '')] = val;
         
+        // Psi
         if(id === 'psi-base-attr') { activeCharData.psionics.base_attr = val; updatePsi(); }
         if(id === 'psi-caster-type') { activeCharData.psionics.caster_type = val; updatePsi(); }
         if(id === 'psi-class-lvl') { activeCharData.psionics.class_lvl = parseInt(val) || 1; updatePsi(); }
@@ -412,8 +422,6 @@
         
         if(id === 'uni-save-base') { activeCharData.universalis.save_base = parseInt(val) || 8; calcUniversalSave(); }
         if(id === 'uni-save-attr') { activeCharData.universalis.save_attr = val; calcUniversalSave(); }
-        
-        updateBars();
     }
 
     function initSkeleton() {
@@ -432,7 +440,8 @@
         document.querySelectorAll('#skills-body tr').forEach(row => {
             const key = row.dataset.key;
             const updateSkill = () => {
-                activeCharData.skills.data[key] = [row.querySelector('.chk-prof').checked, row.querySelector('.chk-exp').checked, parseInt(row.querySelector('.skill-bonus-input').value)||0];
+                activeCharData.skills[key] = row.querySelector('.chk-exp').checked ? 2 : (row.querySelector('.chk-prof').checked ? 1 : 0);
+                activeCharData.skills.bonuses[key] = parseInt(row.querySelector('.skill-bonus-input').value)||0;
                 recalc(); triggerSave();
             };
             row.querySelector('.chk-prof').onchange = updateSkill;
@@ -446,7 +455,7 @@
         const safeSet = (id, v) => { const e=document.getElementById(id); if(e && document.activeElement!==e) e.value=v; };
         const safeCheck = (id, v) => { const e=document.getElementById(id); if(e) e.checked=v; };
 
-        safeSet('meta-name', d.meta.name); safeSet('meta-race', d.meta.race); safeSet('meta-subrace', d.meta.subrace);
+        safeSet('meta-name', d.meta.name); safeSet('meta-race', d.meta.race);
         safeSet('meta-age', d.meta.age); safeSet('meta-rank', d.meta.rank); safeSet('meta-class', d.meta.class);
         safeSet('meta-archetype', d.meta.archetype); safeSet('level-input', d.meta.level);
         safeSet('meta-job', d.meta.job); safeSet('meta-clearance', d.meta.clearance); safeSet('meta-comm', d.meta.comm);
@@ -460,11 +469,13 @@
 
         document.querySelectorAll('#skills-body tr').forEach(row => {
             const key = row.dataset.key;
-            if(d.skills.data[key]) {
-                const [p, e, b] = d.skills.data[key];
-                safeCheck(null, p); row.querySelector('.chk-prof').checked = p;
-                safeCheck(null, e); row.querySelector('.chk-exp').checked = e;
-                if(document.activeElement !== row.querySelector('.skill-bonus-input')) row.querySelector('.skill-bonus-input').value = b;
+            if(d.skills[key] !== undefined) {
+                const val = d.skills[key];
+                row.querySelector('.chk-prof').checked = (val >= 1);
+                row.querySelector('.chk-exp').checked = (val === 2);
+                if(d.skills.bonuses && d.skills.bonuses[key] !== undefined && document.activeElement !== row.querySelector('.skill-bonus-input')) {
+                    row.querySelector('.skill-bonus-input').value = d.skills.bonuses[key];
+                }
             }
         });
 
@@ -497,7 +508,6 @@
         safeSet('uni-save-base', d.universalis.save_base); safeSet('uni-save-attr', d.universalis.save_attr);
 
         recalc();
-        updateBars();
         
         // Sync Locks
         if (d.locks) {
@@ -604,8 +614,9 @@
         });
         document.querySelectorAll('#skills-body tr').forEach(row => {
             const a = row.dataset.attr; const k = row.dataset.key;
-            const [p,e,b] = d.skills.data[k] || [false,false,0];
-            let t = mods[a] + b; if(e) t += (pb*2); else if(p) t += pb;
+            const val = d.skills[k] || 0;
+            const bonus = (d.skills.bonuses && d.skills.bonuses[k]) ? d.skills.bonuses[k] : 0;
+            let t = mods[a] + bonus; if(val===2) t += (pb*2); else if(val===1) t += pb;
             row.querySelector('.total-mod').innerText = (t>=0?"+":"")+t;
         });
         updatePsi(); calcUniversalSave(); updateSpeed(); calcCurrency(); updateBars();
@@ -672,7 +683,39 @@
             else document.getElementById(id).classList.add('active');
         }
     };
+    
+    // --- SYSTEM UI LOGIC (COPIED FROM INDEX) ---
+    const System = {
+        overlay: document.getElementById('sys-modal-overlay'),
+        title: document.getElementById('sys-title'),
+        content: document.getElementById('sys-content'),
+        buttons: document.getElementById('sys-buttons'),
+        prompt: function(header, ph) {
+            return new Promise((resolve) => {
+                this.title.innerText = header;
+                this.content.innerHTML = `<input type="text" id="sys-input-field" class="sys-input" placeholder="${ph}">`;
+                this.buttons.innerHTML = `<button id="sys-cancel" class="sys-btn">ОТМЕНА</button><button id="sys-confirm" class="sys-btn">ПРИНЯТЬ</button>`;
+                this.overlay.style.display = 'flex'; const input = document.getElementById('sys-input-field'); input.focus();
+                document.getElementById('sys-confirm').onclick = () => { this.overlay.style.display='none'; resolve(input.value); };
+                document.getElementById('sys-cancel').onclick = () => { this.overlay.style.display='none'; resolve(null); };
+                input.onkeydown = (e) => { if(e.key==='Enter') document.getElementById('sys-confirm').click(); if(e.key==='Escape') document.getElementById('sys-cancel').click(); };
+            });
+        },
+        choice: function(header, options) {
+            return new Promise((resolve) => {
+                this.title.innerText = header;
+                this.content.innerHTML = '';
+                this.buttons.innerHTML = '<button id="sys-cancel" class="sys-btn">ОТМЕНА</button>';
+                options.forEach(opt => {
+                    const btn = document.createElement('button'); btn.className = 'sys-choice-btn'; btn.innerText = opt.label;
+                    btn.onclick = () => { this.overlay.style.display='none'; resolve(opt.value); };
+                    this.content.appendChild(btn);
+                });
+                this.overlay.style.display = 'flex';
+                document.getElementById('sys-cancel').onclick = () => { this.overlay.style.display='none'; resolve(null); };
+            });
+        }
+    };
 </script>
 </body>
 </html>
-
